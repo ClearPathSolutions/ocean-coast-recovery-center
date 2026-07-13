@@ -31,6 +31,37 @@ export const site = {
 } as const;
 
 // ----------------------------------------------------------------------------
+// Third-party widgets & tracking (per-site values live here — single source)
+// ----------------------------------------------------------------------------
+// Clarion — chat widget, form capture, and blog embed.
+export const clarion = {
+  siteKey: "cpx_CBI9m6-UCDbYqCmcGx0KVVN0rHgRWhbO", // 👈 the only value that changes per site
+  api: "https://api.clarionlabs.ai",
+  widget: "https://www.clarionlabs.ai/widget.v1.js",
+  formsCapture: "https://www.clarionlabs.ai/forms-capture.v1.js",
+  blogEmbed: "https://www.clarionlabs.ai/blog-embed.v1.js",
+  // form_key values must already exist in the Clarion dashboard.
+  formKeys: {
+    contact: "contact",
+    insurance: "insurance_verification",
+  },
+  // Chat bubble styling — keep `color` in sync with the ocean-500 token in
+  // tailwind.config.ts so the widget never drifts from the site design.
+  brand: {
+    color: "#3fa6cd", // ocean-500 — primary brand blue
+    headerText: "#ffffff", // readable text on the brand color
+    title: "Chat with us",
+    position: "right" as const,
+    font: "var(--font-sans), system-ui, sans-serif", // Barlow, matching the page
+  },
+} as const;
+
+// Call tracking (tctm.co) — swaps/tracks phone numbers for attribution.
+export const callTracking = {
+  accountId: "264810", // 👈 tctm.co account ID for this site
+} as const;
+
+// ----------------------------------------------------------------------------
 // Primary navigation
 // ----------------------------------------------------------------------------
 export type NavChild = { label: string; href: string; desc?: string };

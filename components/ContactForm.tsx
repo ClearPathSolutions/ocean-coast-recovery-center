@@ -1,13 +1,29 @@
 "use client";
 
 import { useState } from "react";
-import { site } from "@/lib/site";
+import { site, clarion } from "@/lib/site";
 import { Phone, CheckCircle } from "@/components/icons";
 
-type Status = "idle" | "submitting" | "success" | "error";
+declare global {
+  interface Window {
+    ClarionForms?: {
+      submit: (payload: { form_key: string; data: Record<string, unknown> }) => Promise<void>;
+    };
+  }
+}
 
-export default function ContactForm({ compact = false }: { compact?: boolean }) {
+type Status = "idle" | "submitting" | "success" | "error";
+type Variant = "contact" | "insurance";
+
+export default function ContactForm({
+  compact = false,
+  variant = "contact",
+}: {
+  compact?: boolean;
+  variant?: Variant;
+}) {
   const [status, setStatus] = useState<Status>("idle");
+  const isInsurance = variant === "insurance";
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -15,6 +31,15 @@ export default function ContactForm({ compact = false }: { compact?: boolean }) 
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
     try {
+      // Best-effort Clarion capture — telemetry only. Its own try/catch so a
+      // Clarion outage never blocks the real lead reaching /api/lead below.
+      try {
+        await window.ClarionForms?.submit({
+          form_key: clarion.formKeys[variant],
+          data: { ...data, variant },
+        });
+      } catch {}
+
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -77,6 +102,34 @@ export default function ContactForm({ compact = false }: { compact?: boolean }) 
           <input id="email" name="email" type="email" required className={input} placeholder="you@email.com" />
         </div>
       </div>
+
+      {isInsurance && (
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="dob" className="mb-1.5 block text-sm font-medium text-navy">
+              Date of birth
+            </label>
+            <input id="dob" name="dob" type="date" required className={input} />
+          </div>
+          <div>
+            <label htmlFor="insurer" className="mb-1.5 block text-sm font-medium text-navy">
+              Insurance provider
+            </label>
+            <input id="insurer" name="insurer" required className={input} placeholder="Anthem, Aetna, Cigna…" />
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="who" className="mb-1.5 block text-sm font-medium text-navy">
+              Who needs help?
+            </label>
+            <select id="who" name="who" className={input} defaultValue="Myself">
+              <option value="Myself">Myself</option>
+              <option value="A loved one">A loved one</option>
+              <option value="A client / patient">A client / patient</option>
+            </select>
+          </div>
+        </div>
+      )}
+
       <div className="mt-4">
         <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-navy">
           How can we help? <span className="text-navy/40">(optional)</span>
@@ -105,7 +158,11 @@ export default function ContactForm({ compact = false }: { compact?: boolean }) 
         disabled={status === "submitting"}
         className="btn-primary mt-5 w-full disabled:opacity-60"
       >
-        {status === "submitting" ? "Sending…" : "Request My Confidential Callback"}
+        {status === "submitting"
+          ? "Sending…"
+          : isInsurance
+            ? "Verify My Benefits"
+            : "Request My Confidential Callback"}
       </button>
       <p className="mt-3 text-center text-xs text-navy/50">
         Your information is kept 100% confidential. By submitting, you agree to be contacted by

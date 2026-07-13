@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Barlow } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
-import { site } from "@/lib/site";
+import { site, clarion, callTracking } from "@/lib/site";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Clarion from "@/components/Clarion";
 
 const display = Fraunces({
   subsets: ["latin"],
@@ -92,6 +94,8 @@ const jsonLd = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
+      {/* Call tracking (tctm.co) — loads early to swap/track phone numbers */}
+      <Script src={`//${callTracking.accountId}.tctm.co/t.js`} strategy="beforeInteractive" />
       <body className="min-h-screen overflow-x-hidden">
         <script
           type="application/ld+json"
@@ -106,6 +110,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <main id="main">{children}</main>
         <Footer />
+
+        {/* Clarion — form capture (exposes window.ClarionForms) + chat widget */}
+        <Script
+          src={clarion.formsCapture}
+          strategy="afterInteractive"
+          data-site-key={clarion.siteKey}
+          data-api={clarion.api}
+        />
+        <Clarion />
       </body>
     </html>
   );

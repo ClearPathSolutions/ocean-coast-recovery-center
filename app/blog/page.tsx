@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import BlogIndex from "@/components/BlogIndex";
+import ClarionBlog from "@/components/ClarionBlog";
 import CallbackCTA from "@/components/CallbackCTA";
 import { getAllPosts, getCategories, coverFor } from "@/lib/blog";
 
@@ -25,8 +26,22 @@ export default function BlogPage() {
         crumbs={[{ label: "Home", href: "/" }, { label: "Blog" }]}
       />
 
+      {/* Existing hand-authored posts stay exactly as they are */}
       <section className="section-foam py-16 sm:py-20">
         <BlogIndex posts={posts} categories={categories} covers={covers} />
+      </section>
+
+      {/* Clarion's new posts render in their own section below — old and new coexist */}
+      <section className="bg-cream py-16 sm:py-20">
+        <div className="container-x">
+          <div className="max-w-2xl">
+            <span className="eyebrow">Fresh off the press</span>
+            <h2 className="mt-2 text-3xl font-semibold text-navy sm:text-4xl">More from our team</h2>
+          </div>
+          <div className="mt-10">
+            <ClarionBlog />
+          </div>
+        </div>
       </section>
 
       <CallbackCTA />

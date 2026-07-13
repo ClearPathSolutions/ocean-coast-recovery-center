@@ -99,7 +99,7 @@ export default function AdmissionsPage() {
                 <h3 className="font-display text-2xl font-semibold text-navy">Free Insurance Verification</h3>
                 <p className="mt-1 text-navy/60">Fill out the form and a treatment advisor will contact you right away.</p>
               </div>
-              <ContactForm />
+              <ContactForm variant="insurance" />
             </Reveal>
           </div>
         </div>
