@@ -6,10 +6,63 @@ import PageHero from "@/components/PageHero";
 import CallbackCTA from "@/components/CallbackCTA";
 import { site } from "@/lib/site";
 import { getAllPosts, getPost, coverFor, formatDate, relatedPosts } from "@/lib/blog";
+import { getClarionPosts, getClarionPost, estimateReadMinutes, CLARION_CATEGORY } from "@/lib/clarionBlog";
 import { Clock, ArrowRight, Phone, ArrowLeft } from "@/components/icons";
 
-export function generateStaticParams() {
-  return getAllPosts().map((p) => ({ slug: p.slug }));
+// Normalized shape both local and Clarion posts render through.
+type PostView = {
+  slug: string;
+  title: string;
+  category: string;
+  excerpt: string;
+  dateISO: string;
+  cover: string;
+  remoteCover: boolean;
+  readMinutes: number;
+  bodyHtml: string;
+  seo?: { title?: string; description?: string };
+};
+
+async function loadView(slug: string): Promise<PostView | null> {
+  const local = getPost(slug);
+  if (local) {
+    return {
+      slug: local.slug,
+      title: local.title,
+      category: local.category,
+      excerpt: local.excerpt,
+      dateISO: local.date,
+      cover: coverFor(local.slug),
+      remoteCover: false,
+      readMinutes: local.readMinutes,
+      bodyHtml: local.bodyHtml,
+    };
+  }
+  const cp = await getClarionPost(slug);
+  if (cp && cp.bodyHtml) {
+    return {
+      slug: cp.slug,
+      title: cp.title,
+      category: CLARION_CATEGORY,
+      excerpt: cp.excerpt,
+      dateISO: cp.publishedAt,
+      cover: cp.coverImageUrl || coverFor(cp.slug),
+      remoteCover: !!cp.coverImageUrl,
+      readMinutes: estimateReadMinutes(cp.bodyHtml),
+      bodyHtml: cp.bodyHtml,
+      seo: cp.seo,
+    };
+  }
+  return null;
+}
+
+export async function generateStaticParams() {
+  const localSlugs = getAllPosts().map((p) => p.slug);
+  const clarionSlugs = (await getClarionPosts()).map((p) => p.slug);
+  const seen = new Set<string>();
+  return [...localSlugs, ...clarionSlugs]
+    .filter((slug) => (seen.has(slug) ? false : (seen.add(slug), true)))
+    .map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -18,16 +71,18 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
-  if (!post) return {};
+  const view = await loadView(slug);
+  if (!view) return {};
   return {
-    title: post.title,
-    description: post.excerpt,
+    // Bare title — the root layout template appends "| {site.name}". Clarion's
+    // seo_meta.title already bakes in the site name, so use the plain title here.
+    title: view.title,
+    description: view.seo?.description ?? view.excerpt,
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title: view.seo?.title ?? view.title,
+      description: view.seo?.description ?? view.excerpt,
       type: "article",
-      images: [{ url: coverFor(post.slug) }],
+      images: [{ url: view.cover }],
     },
   };
 }
@@ -38,7 +93,7 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await loadView(slug);
   if (!post) notFound();
 
   const related = relatedPosts(post.slug, post.category);
@@ -47,7 +102,7 @@ export default async function BlogPostPage({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
-    datePublished: post.date,
+    datePublished: post.dateISO,
     description: post.excerpt,
     author: { "@type": "Organization", name: site.name },
     publisher: { "@type": "Organization", name: site.name },
@@ -58,7 +113,8 @@ export default async function BlogPostPage({
       <PageHero
         eyebrow={post.category}
         title={post.title}
-        image={coverFor(post.slug)}
+        image={post.cover}
+        unoptimizedImage={post.remoteCover}
         crumbs={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.category }]}
       />
 
@@ -66,7 +122,7 @@ export default async function BlogPostPage({
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_320px]">
           <div>
             <div className="flex items-center gap-4 border-b border-ocean-100 pb-6 text-sm text-navy/50">
-              <span>{formatDate(post.date)}</span>
+              <span>{formatDate(post.dateISO)}</span>
               <span className="flex items-center gap-1.5">
                 <Clock className="h-4 w-4" /> {post.readMinutes} min read
               </span>

@@ -11,6 +11,7 @@ export default function PageHero({
   image,
   crumbs = [],
   align = "left",
+  unoptimizedImage = false,
 }: {
   eyebrow?: string;
   title: string;
@@ -18,6 +19,7 @@ export default function PageHero({
   image: string;
   crumbs?: Crumb[];
   align?: "left" | "center";
+  unoptimizedImage?: boolean;
 }) {
   return (
     <section className="relative isolate overflow-hidden bg-navy-dark pt-[120px] lg:pt-[148px]">
@@ -26,6 +28,7 @@ export default function PageHero({
         alt=""
         fill
         priority
+        unoptimized={unoptimizedImage}
         sizes="100vw"
         className="object-cover"
       />

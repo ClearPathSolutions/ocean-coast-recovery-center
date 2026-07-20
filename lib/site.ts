@@ -39,7 +39,8 @@ export const clarion = {
   api: "https://api.clarionlabs.ai",
   widget: "https://www.clarionlabs.ai/widget.v1.js",
   formsCapture: "https://www.clarionlabs.ai/forms-capture.v1.js",
-  blogEmbed: "https://www.clarionlabs.ai/blog-embed.v1.js",
+  // Blog posts are pulled as data from {api}/blog/public/feed and /blog/public/post
+  // (see lib/clarionBlog.ts) so they merge & date-sort with local posts.
   // form_key values must already exist in the Clarion dashboard.
   formKeys: {
     contact: "contact",

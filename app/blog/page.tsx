@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import BlogIndex from "@/components/BlogIndex";
-import ClarionBlog from "@/components/ClarionBlog";
 import CallbackCTA from "@/components/CallbackCTA";
-import { getAllPosts, getCategories, coverFor } from "@/lib/blog";
+import { getAllPosts, coverFor, type BlogCard } from "@/lib/blog";
+import { getClarionPosts, CLARION_CATEGORY } from "@/lib/clarionBlog";
 
 export const metadata: Metadata = {
   title: "Blog — Recovery Insights & Resources",
@@ -11,10 +11,40 @@ export const metadata: Metadata = {
     "Expert articles on addiction, recovery, detox, mental health, and family healing from the team at Ocean Coast Recovery Center in Costa Mesa, CA.",
 };
 
-export default function BlogPage() {
-  const posts = getAllPosts();
-  const categories = getCategories();
-  const covers = Object.fromEntries(posts.map((p) => [p.slug, coverFor(p.slug)]));
+export default async function BlogPage() {
+  const localPosts = getAllPosts();
+  const clarionPosts = await getClarionPosts();
+
+  // Merge both sources into one card list, dedupe by slug (local wins),
+  // then sort newest-first so Clarion and local posts interleave by date.
+  const bySlug = new Map<string, BlogCard>();
+
+  for (const p of localPosts) {
+    bySlug.set(p.slug, {
+      slug: p.slug,
+      title: p.title,
+      date: p.date,
+      category: p.category,
+      excerpt: p.excerpt,
+      cover: coverFor(p.slug),
+      readMinutes: p.readMinutes,
+    });
+  }
+  for (const p of clarionPosts) {
+    if (bySlug.has(p.slug)) continue; // don't let a Clarion post shadow a local one
+    bySlug.set(p.slug, {
+      slug: p.slug,
+      title: p.title,
+      date: p.publishedAt,
+      category: CLARION_CATEGORY,
+      excerpt: p.excerpt,
+      cover: p.coverImageUrl || coverFor(p.slug),
+      remoteCover: !!p.coverImageUrl,
+    });
+  }
+
+  const posts = Array.from(bySlug.values()).sort((a, b) => (a.date < b.date ? 1 : -1));
+  const categories = Array.from(new Set(posts.map((p) => p.category))).sort();
 
   return (
     <>
@@ -26,22 +56,8 @@ export default function BlogPage() {
         crumbs={[{ label: "Home", href: "/" }, { label: "Blog" }]}
       />
 
-      {/* Existing hand-authored posts stay exactly as they are */}
       <section className="section-foam py-16 sm:py-20">
-        <BlogIndex posts={posts} categories={categories} covers={covers} />
-      </section>
-
-      {/* Clarion's new posts render in their own section below — old and new coexist */}
-      <section className="bg-cream py-16 sm:py-20">
-        <div className="container-x">
-          <div className="max-w-2xl">
-            <span className="eyebrow">Fresh off the press</span>
-            <h2 className="mt-2 text-3xl font-semibold text-navy sm:text-4xl">More from our team</h2>
-          </div>
-          <div className="mt-10">
-            <ClarionBlog />
-          </div>
-        </div>
+        <BlogIndex posts={posts} categories={categories} />
       </section>
 
       <CallbackCTA />

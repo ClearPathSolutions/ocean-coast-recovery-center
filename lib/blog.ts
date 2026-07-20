@@ -11,6 +11,19 @@ export type Post = {
   bodyHtml: string;
 };
 
+// Unified card shape for the blog index — covers both local posts and posts
+// pulled from the Clarion feed, so they can be merged and sorted together.
+export type BlogCard = {
+  slug: string;
+  title: string;
+  date: string; // ISO or YYYY-MM-DD — compared/sorted lexicographically
+  category: string;
+  excerpt: string;
+  cover: string;
+  readMinutes?: number; // optional: Clarion feed items have no body to measure
+  remoteCover?: boolean; // remote covers render with next/image `unoptimized`
+};
+
 const BLOG_DIR = path.join(process.cwd(), "content", "blog");
 
 // A rotating set of local cover images so each post has a pleasant thumbnail.
@@ -71,7 +84,8 @@ export function getCategories(): string[] {
 }
 
 export function formatDate(iso: string): string {
-  const d = new Date(iso + "T00:00:00");
+  // Local posts are date-only (YYYY-MM-DD); Clarion posts are full ISO timestamps.
+  const d = new Date(iso.includes("T") ? iso : iso + "T00:00:00");
   if (isNaN(d.getTime())) return "";
   return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 }
