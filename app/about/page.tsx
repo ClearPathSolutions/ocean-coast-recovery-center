@@ -45,10 +45,19 @@ const team = [
     name: "Halie Nall",
     creds: "",
     role: "Case Manager",
-    href: null,
+    href: "/about/halie-nall",
     initials: "HN",
     blurb:
       "Halie walks alongside each client through the logistics of treatment so they can stay focused on healing.",
+  },
+  {
+    name: "Vahan Oknayan",
+    creds: "AMFT",
+    role: "Therapist",
+    href: "/about/vahan-oknayan",
+    initials: "VO",
+    blurb:
+      "Integrative and client-centered, Vahan looks past the challenges that bring someone in — and believes healing starts with a genuine therapeutic relationship.",
   },
 ];
 
@@ -143,7 +152,7 @@ export default function AboutPage() {
             title="Meet our expert treatment staff"
             subtitle="Over 25 years of combined experience in substance abuse and mental health treatment — many of us walking the path of recovery ourselves."
           />
-          <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-3">
+          <div className="mx-auto mt-12 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {team.map((m, i) => (
               <Reveal key={m.name} delay={i * 90} className="flex flex-col items-center rounded-3xl border border-ocean-100 bg-foam p-8 text-center">
                 <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-ocean-400 to-navy font-display text-2xl font-semibold text-white shadow-soft">

@@ -13,6 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/about",
     "/about/tami-distefano",
     "/about/elizabeth-wald",
+    "/about/halie-nall",
+    "/about/vahan-oknayan",
     "/treatment",
     "/treatment/detox",
     "/treatment/residential",
