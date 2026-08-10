@@ -908,6 +908,46 @@ Rows reviewed from the sheet that require nothing from this site.
 
 ---
 
+# Deployment status — 2026-08-10
+
+**GitHub:** `ClearPathSolutions/ocean-coast-recovery-center` (public) — commit `a8c1766` on `main`.
+**Vercel:** `ocean-coast-recovery-center` auto-deployed from that push and is serving the new build.
+
+Verified live on `ocean-coast-recovery-center.vercel.app`:
+- `/about/` — hero is `exterior-front` (the correct building), 6-person roster with corrected titles
+- `/am-i-an-alcoholic` → 301 → `/blog/am-i-an-alcoholic/` — the legacy WordPress map is working
+
+## ⛔ Launch blockers — the Vercel build is up, the site is NOT ready for the domain
+
+- [ ] **LAUNCH-01 — Every lead form will fail with HTTP 503 until a delivery channel is configured.**
+  This is by design (CR-04): the endpoint now refuses a lead it cannot deliver rather than showing a
+  false success. But it means that **on any production deployment with no env vars set, the entire
+  admissions funnel returns an error**. Set one of these in Vercel → Settings → Environment Variables:
+  - `LEAD_WEBHOOK_URL` — POST each lead as JSON to Zapier/Make/the CRM, **or**
+  - `RESEND_API_KEY` + `LEAD_TO_EMAIL` — and set `LEAD_FROM_EMAIL` to an address on a Resend-verified
+    domain. The default `onboarding@resend.dev` only ever delivers to the Resend account owner and
+    silently drops mail to anyone else, which reads as success.
+
+  Then submit one real test enquiry and confirm it arrives before cutover.
+
+- [ ] **LAUNCH-02 — No analytics configured.** `components/Analytics.tsx` is env-gated and renders
+  nothing until `NEXT_PUBLIC_GA_ID` or `NEXT_PUBLIC_GTM_ID` is set. Until then there is no way to tell
+  which pages produce calls.
+
+- [ ] **LAUNCH-03 — Confirm Tami DiStefano's status before the domain moves.** The deployed site no
+  longer lists her. That change was actioned on an authorisation the owner did not give (see the
+  correction under **BIO-01**) and is currently public on the Vercel URL. Reversible in one commit.
+
+- [ ] **LAUNCH-04 — AUDIT-01 (Huntington Beach) is live.** The unsupportable proximity claim is being
+  served in the meta descriptions and hero subtitles of all 8 substance and 4 insurance pages.
+
+**Note on indexing:** every page canonicals to `https://oceancoastrecovery.com/...`, which is still the
+WordPress site. That is correct for a preview — the Vercel build will not compete for rankings — but it
+also means nothing here is "live" in a search sense until DNS cutover. At cutover, re-run the
+production-vs-build diff (**V0124**) first; the builds are from a mid-July snapshot.
+
+---
+
 # Final audit — 2026-08-10
 
 Full head-to-toe pass over the finished site. Every check below ran against **built output**, not source.
