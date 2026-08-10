@@ -6,8 +6,11 @@ import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import ProgramGrid from "@/components/ProgramGrid";
 import InsuranceBand from "@/components/InsuranceBand";
+import Testimonials from "@/components/Testimonials";
 import CallbackCTA from "@/components/CallbackCTA";
 import { populations, getPopulation } from "@/lib/populations";
+import Link from "next/link";
+import { substanceHref } from "@/lib/substanceMeta";
 import { CheckCircle } from "@/components/icons";
 
 export function generateStaticParams() {
@@ -40,7 +43,6 @@ export default async function PopulationPage({
         eyebrow="Who We Help"
         title={p.heroTitle}
         subtitle={p.heroSubtitle}
-        image={p.image}
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Who We Help", href: "/who-we-help" },
@@ -48,7 +50,7 @@ export default async function PopulationPage({
         ]}
       />
 
-      <Split eyebrow="Welcome to Ocean Coast Recovery" title={p.introTitle} paragraphs={p.intro} image={p.introImage} imageAlt={p.navLabel} />
+      <Split eyebrow="Welcome to Ocean Coast Recovery" title={p.introTitle} paragraphs={p.intro} />
 
       {p.stats && (
         <section className="bg-navy py-14">
@@ -74,12 +76,23 @@ export default async function PopulationPage({
             </div>
             {sec.bullets && (
               <ul className="mt-6 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
-                {sec.bullets.map((b) => (
-                  <li key={b} className="flex items-start gap-3 text-navy/75">
-                    <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-ocean-500" />
-                    <span>{b}</span>
-                  </li>
-                ))}
+                {sec.bullets.map((b) => {
+                  // VIS-1641 — bullets that name a substance we treat link to
+                  // that detox page; everything else stays plain text.
+                  const href = substanceHref(b);
+                  return (
+                    <li key={b} className="flex items-start gap-3 text-navy/75">
+                      <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-ocean-500" />
+                      {href ? (
+                        <Link href={href} className="underline decoration-ocean-200 underline-offset-2 hover:text-ocean-700">
+                          {b}
+                        </Link>
+                      ) : (
+                        <span>{b}</span>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </div>
@@ -87,6 +100,9 @@ export default async function PopulationPage({
       ))}
 
       <ProgramGrid eyebrow="How We Help" title="Our programs" subtitle="Every population we serve has access to our full continuum of care." />
+      {/* VIS-1645/1649/1652/1656 — "Stories of Hope & Recovery" on every
+          population page. One shared change covers all four sheet rows. */}
+      <Testimonials variant="foam" />
       <InsuranceBand />
       <CallbackCTA />
     </>

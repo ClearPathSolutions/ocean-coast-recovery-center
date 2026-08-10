@@ -50,7 +50,7 @@ export default function DualDiagnosisPage() {
         eyebrow="Healing the intersection of mental health and addiction"
         title="Dual diagnosis program in Costa Mesa"
         subtitle="True recovery requires healing the underlying mental health conditions that drive the cycle of addiction. We treat co-occurring disorders simultaneously — the whole person, not just the symptoms."
-        image="/images/stock/stock-03.jpg"
+        image="/images/facility/consult-room.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "Treatment", href: "/treatment" }, { label: "Dual Diagnosis" }]}
       />
 
@@ -61,7 +61,7 @@ export default function DualDiagnosisPage() {
           "At Ocean Coast Recovery Center, we specialize in dual diagnosis treatment — an integrated clinical approach that addresses co-occurring disorders at the same time.",
           "Our multidisciplinary team of medical and psychiatric experts creates a personalized roadmap to stabilize your mind and body. By treating the whole person rather than just the symptoms, we empower you to build a foundation for long-term sobriety and mental wellness.",
         ]}
-        image="/images/stock/stock-09.jpg"
+        image="/images/facility/living-room-wide.jpg"
         imageAlt="Therapy session at Ocean Coast Recovery"
       />
 

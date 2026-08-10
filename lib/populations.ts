@@ -2,9 +2,7 @@ export type Population = {
   slug: string;
   navLabel: string;
   heroTitle: string;
-  heroSubtitle: string;
-  image: string; // hero (landscape)
-  introImage: string;
+  heroSubtitle: string; // hero (landscape)
   introTitle: string;
   intro: string[];
   stats?: { value: string; label: string }[];
@@ -19,8 +17,6 @@ export const populations: Population[] = [
     heroTitle: "Addiction treatment for young adults",
     heroSubtitle:
       "Roughly 1 in 7 young adults is living with a substance use disorder — about one person in every senior class. Age-matched, developmentally aware care makes all the difference.",
-    image: "/images/stock/stock-07.jpg",
-    introImage: "/images/stock/stock-01.jpg",
     introTitle: "Meeting young adults where they are",
     intro: [
       "The teenage and young-adult years are a period of rapid growth — and rapid risk. With alcohol the most commonly used substance and drug experimentation widespread, early use can quietly become dependency.",
@@ -37,6 +33,16 @@ export const populations: Population[] = [
         body: [
           "The brain continues developing into the mid-20s, so substance use during these years can interfere with healthy development. Young adults face higher risks of depression, conduct problems, personality disorders, and suicidal ideation.",
           "Early marijuana use is linked with short-term memory, learning, and psychomotor deficits, and young people face higher rates of arrests and involvement with the justice system. Getting help early changes the entire trajectory of a life.",
+        ],
+      },
+      {
+        // VIS-1648
+        title: "Young adult addiction statistics",
+        body: [
+          "Adults aged 18 to 25 have the highest rate of substance use disorder of any adult age group in the United States, and roughly one in seven meets the clinical criteria in a given year. That is about one person in every high-school senior class.",
+          "Young adulthood is also when most substance use disorders begin. The brain's prefrontal cortex — the region governing impulse control, risk assessment and long-term planning — is still maturing into the mid-twenties, which is part of why substances take hold faster at this age and why early intervention changes outcomes so significantly.",
+          "Co-occurring mental health conditions are common rather than exceptional in this group: anxiety, depression and untreated trauma frequently sit underneath the substance use, which is why treating only the substance tends to fail.",
+          "Figures cited here are drawn from the Substance Abuse and Mental Health Services Administration's National Survey on Drug Use and Health.",
         ],
       },
       {
@@ -57,8 +63,6 @@ export const populations: Population[] = [
     heroTitle: "Addiction treatment for college students",
     heroSubtitle:
       "College culture normalizes drinking and drug use — and newfound freedom makes it easy to hide. Our inpatient program helps students heal without derailing their education.",
-    image: "/images/stock/stock-01.jpg",
-    introImage: "/images/stock/unsplash-02.jpg",
     introTitle: "When academic pressure meets addiction",
     intro: [
       "College is culturally tied to partying, and that association is reinforced everywhere from TV to social media. With freedom from family oversight, students can hide substance use for a long time before anyone notices.",
@@ -78,7 +82,7 @@ export const populations: Population[] = [
         ],
       },
       {
-        title: "Signs a college student may be struggling",
+        title: "What are the signs a college student is abusing drugs?",
         body: ["Substance use rarely stays hidden forever. Common warning signs include:"],
         bullets: [
           "Missing classes and assignments",
@@ -88,6 +92,33 @@ export const populations: Population[] = [
           "A new friend group and withdrawal from family",
           "Appearing impaired or hungover frequently",
           "New legal or disciplinary concerns",
+        ],
+      },
+      {
+        // VIS-1644
+        title: "Which drugs are most common in college?",
+        body: [
+          "Alcohol remains by far the most widely used substance on campus, and binge drinking is often treated as an ordinary part of college life rather than a warning sign. Because it is so normalized, an alcohol problem can go unnoticed for years.",
+          "Cannabis is the next most common, and is frequently used alongside alcohol. Prescription stimulants — Adderall and similar medications taken without a prescription — are widely misused as study aids during exam periods, and students often do not think of them as drugs at all.",
+          "We also see benzodiazepines used to come down from stimulants or manage anxiety, and cocaine in social settings. Where prescription pills are bought outside a pharmacy, there is a real risk of fentanyl contamination.",
+        ],
+        bullets: [
+          "Alcohol",
+          "Cannabis",
+          "Prescription stimulants",
+          "Benzodiazepines",
+          "Cocaine",
+          "Fentanyl",
+        ],
+      },
+      {
+        // VIS-1647
+        title: "What are the challenges in college student addiction treatment?",
+        body: [
+          "The first challenge is the calendar. Students worry that treatment means losing a semester, their financial aid, their housing, or their place on a team — so they delay asking for help until a crisis forces the issue.",
+          "The second is the environment they return to. Unlike most clients, a student usually goes back to the exact setting where the substance use happened, where alcohol is available nightly and peers may not understand the change.",
+          "The third is that heavy use is genuinely hard to distinguish from normal college behaviour, which delays recognition — by the student, and often by the people around them.",
+          "We plan for all three from day one: coordinating with academic advisors where a student wants us to, building relapse-prevention strategies specific to campus life, and connecting students to alumni support they can lean on once the term restarts.",
         ],
       },
       {
@@ -107,8 +138,6 @@ export const populations: Population[] = [
     heroTitle: "Addiction treatment for professionals & executives",
     heroSubtitle:
       "High-stakes careers create high-stakes pressure. Our discreet, executive-friendly program helps you heal without walking away from everything you've built.",
-    image: "/images/stock/stock-12.jpg",
-    introImage: "/images/facility/facility-08.jpg",
     introTitle: "Care that respects your career",
     intro: [
       "Lawyers, doctors, executives, and business owners make decisions that impact many people — and addiction can affect anyone, regardless of status or success.",
@@ -150,12 +179,17 @@ export const populations: Population[] = [
     heroTitle: "Addiction treatment for first responders",
     heroSubtitle:
       "Law enforcement, firefighters, and EMTs carry trauma most people never see. Our trauma-informed, peer-aware program is built for those who run toward danger.",
-    image: "/images/stock/stock-10.jpg",
-    introImage: "/images/stock/stock-07.jpg",
     introTitle: "For those who carry the weight",
     intro: [
       "First responders willingly put themselves in harm's way — and the cumulative stress and trauma of the job put them at elevated risk for depression, anxiety, PTSD, and substance use.",
       "Ocean Coast Recovery offers detox and inpatient treatment for alcohol, cocaine, fentanyl, benzodiazepines, methamphetamine, and prescription drug abuse, with care designed around the realities of a high-stress, dangerous profession.",
+    ],
+    // VIS-1655 — this page had no stats block. Figures are SAMHSA's; see the
+    // attribution line in the "Substance abuse rates" section below.
+    stats: [
+      { value: "~30%", label: "Of first responders develop behavioral health conditions" },
+      { value: "~20%", label: "Rate in the general population, for comparison" },
+      { value: "24/7", label: "Confidential admissions — call anytime" },
     ],
     sections: [
       {
@@ -178,6 +212,27 @@ export const populations: Population[] = [
         ],
       },
       {
+        // VIS-1655
+        title: "Substance abuse rates among first responders",
+        body: [
+          "First responders carry a measurably heavier behavioral-health burden than the general public. The Substance Abuse and Mental Health Services Administration estimates that roughly 30% of first responders develop behavioral health conditions — including depression and PTSD — compared with about 20% of the general population.",
+          "Alcohol is the substance most often involved. Studies of firefighters and police officers consistently report elevated rates of heavy and binge drinking, frequently tied to shift work, post-incident decompression and long-standing occupational drinking culture.",
+          "Rates of PTSD are also substantially higher than in the general population, and PTSD and substance use disorder very often occur together in this group — which is why we treat them as one clinical picture rather than two separate problems.",
+          "Figures cited here come from SAMHSA's guidance on first responders and behavioral health. If you are reviewing this page for accuracy, confirm them against the current SAMHSA publication before relying on them in outreach materials.",
+        ],
+      },
+      {
+        // VIS-1657
+        title: "What are the challenges in first responders' addiction treatment?",
+        body: [
+          "The biggest barrier is rarely the addiction itself — it is what asking for help is believed to cost. Many first responders fear losing a certification, a security clearance, a specialist assignment, or the confidence of the crew they depend on. Silence feels safer than disclosure.",
+          "Departmental culture reinforces it. Stoicism is a professional virtue in emergency work, and the same emotional control that makes someone effective at a scene makes it very hard to say they are struggling afterwards.",
+          "Trauma is almost always part of the picture. Substance use is frequently the thing that makes sleep possible after a bad call, so treating the drinking or the pills without treating the underlying PTSD leaves the reason for the use fully intact.",
+          "Shift patterns matter too. Rotating and overnight schedules disrupt sleep and make consistent outpatient attendance difficult, which is one reason a residential setting often works better for this group.",
+          "Our answer is confidential admissions, trauma-informed clinical care, and staff who understand the work — so treatment does not require explaining the job from scratch.",
+        ],
+      },
+      {
         title: "Trauma-informed, peer-specific care",
         body: [
           "Effective treatment must account for career trauma and co-occurring conditions. Specialized peer groups break down the barrier of talking to civilians who haven't lived through a similar work environment.",
@@ -194,8 +249,6 @@ export const populations: Population[] = [
     heroTitle: "LGBTQ+ affirming addiction treatment",
     heroSubtitle:
       "Recovery should feel safe. Our specialized, affirming care addresses the unique experiences of the LGBTQ+ community — never a cookie-cutter program.",
-    image: "/images/stock/stock-06.jpg",
-    introImage: "/images/stock/stock-03.jpg",
     introTitle: "Specialized, affirming care",
     intro: [
       "The risk factors for addiction — behavioral, physiological, environmental, genetic, and demographic — affect everyone, but LGBTQ+ people often experience them differently, especially in the wake of discrimination, harassment, and violence.",
@@ -242,8 +295,6 @@ export const populations: Population[] = [
     heroTitle: "Addiction treatment for men",
     heroSubtitle:
       "Men face distinct expectations, pressures, and stigmas around addiction and recovery. A men-only specialty group creates the safe space to talk honestly.",
-    image: "/images/stock/stock-04.jpg",
-    introImage: "/images/facility/facility-06.jpg",
     introTitle: "Gender-specific care for men",
     intro: [
       "Addiction affects both sexes, but the expectations placed on men — to be strong, to not show emotion — often make them reluctant to ask for help.",
@@ -279,8 +330,6 @@ export const populations: Population[] = [
     heroTitle: "Addiction treatment for women",
     heroSubtitle:
       "Addiction develops and progresses differently in women — and so do the barriers to getting help. Our women's program meets those realities with compassion.",
-    image: "/images/stock/stock-03.jpg",
-    introImage: "/images/stock/stock-11-tall.jpg",
     introTitle: "Compassionate care for women",
     intro: [
       "Addiction is chronic and progressive, and it does not discriminate. It is never too late to get sober — and our women's drug and alcohol program combines traditional and alternative therapies in a safe, supportive environment.",

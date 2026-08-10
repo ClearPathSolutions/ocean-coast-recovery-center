@@ -1,17 +1,16 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/lib/site";
+import { absoluteUrl } from "@/lib/site";
 import { getAllPosts } from "@/lib/blog";
+import { getClarionPosts } from "@/lib/clarionBlog";
 import { populations } from "@/lib/populations";
 import { getSubstanceDocs, getInsuranceDocs } from "@/lib/contentPages";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const base = site.url;
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticRoutes = [
     "",
     "/about",
-    "/about/tami-distefano",
     "/about/elizabeth-wald",
     "/about/halie-nall",
     "/about/vahan-oknayan",
@@ -29,35 +28,53 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/blog",
     "/privacy",
   ].map((path) => ({
-    url: `${base}${path}`,
+    url: absoluteUrl(path),
     lastModified: now,
     changeFrequency: "monthly" as const,
     priority: path === "" ? 1 : 0.8,
   }));
 
   const populationRoutes = populations.map((p) => ({
-    url: `${base}/who-we-help/${p.slug}`,
+    url: absoluteUrl(`/who-we-help/${p.slug}`),
     lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
 
-  const postRoutes = getAllPosts().map((p) => ({
-    url: `${base}/blog/${p.slug}`,
+  const localPosts = getAllPosts();
+  const postRoutes = localPosts.map((p) => ({
+    url: absoluteUrl(`/blog/${p.slug}`),
     lastModified: new Date(p.date + "T00:00:00"),
     changeFrequency: "yearly" as const,
     priority: 0.6,
   }));
 
+  // Clarion feed posts render at /blog/<slug> exactly like local ones, so they
+  // have to be listed here too. Omitting them is what V0087 recorded: a post
+  // that is reachable and indexable but absent from the sitemap. Local slugs
+  // win, matching the dedupe in app/blog/page.tsx.
+  const localSlugs = new Set(localPosts.map((p) => p.slug));
+  const clarionRoutes = (await getClarionPosts())
+    .filter((p) => !localSlugs.has(p.slug))
+    .map((p) => {
+      const published = new Date(p.publishedAt);
+      return {
+        url: absoluteUrl(`/blog/${p.slug}`),
+        lastModified: isNaN(published.getTime()) ? now : published,
+        changeFrequency: "yearly" as const,
+        priority: 0.6,
+      };
+    });
+
   const substanceRoutes = getSubstanceDocs().map((d) => ({
-    url: `${base}/treatment/detox/${d.slug}`,
+    url: absoluteUrl(`/treatment/detox/${d.slug}`),
     lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
 
   const insuranceRoutes = getInsuranceDocs().map((d) => ({
-    url: `${base}/insurance/${d.slug}`,
+    url: absoluteUrl(`/insurance/${d.slug}`),
     lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.6,
@@ -69,5 +86,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...substanceRoutes,
     ...insuranceRoutes,
     ...postRoutes,
+    ...clarionRoutes,
   ];
 }

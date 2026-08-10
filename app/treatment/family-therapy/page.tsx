@@ -25,7 +25,7 @@ export default function FamilyTherapyPage() {
         eyebrow="Therapy for the whole family"
         title="Family therapy for addiction"
         subtitle="Those closest to a person with addiction often suffer the most. Family therapy helps everyone heal from the pain and dysfunction addiction can cause."
-        image="/images/stock/stock-01.jpg"
+        image="/images/facility/living-room-wide.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "Treatment", href: "/treatment" }, { label: "Family Therapy" }]}
       />
 
@@ -36,7 +36,7 @@ export default function FamilyTherapyPage() {
           "Drug and alcohol use profoundly impacts the brain of someone with an addiction, and people struggling with the disease will sometimes do and say things that cause emotional harm to those they love most.",
           "Family members may feel alone, angry, or as though they failed as a parent or spouse. It is crucial for them to find support from others who understand — because one family member's addiction inevitably affects the entire family.",
         ]}
-        image="/images/stock/stock-04.jpg"
+        image="/images/facility/dining-room.jpg"
         imageAlt="Family therapy session"
       />
 
@@ -50,7 +50,7 @@ export default function FamilyTherapyPage() {
           "A trained family therapist explores how substance use is embedded in a cycle of interaction within the family. They educate the whole family about substance use and help reduce unhelpful behaviors, such as enabling, while increasing effective ones.",
           "Research shows family therapy helps repair relationships, supports behavioral change, and improves family engagement — increasing the chance that a loved one seeks help and maintains long-term recovery.",
         ]}
-        image="/images/facility/facility-11.jpg"
+        image="/images/facility/patio-dining.jpg"
         imageAlt="Comfortable common space at Ocean Coast Recovery"
       />
 

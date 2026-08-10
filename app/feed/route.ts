@@ -1,4 +1,4 @@
-import { site } from "@/lib/site";
+import { site, absoluteUrl } from "@/lib/site";
 import { getAllPosts } from "@/lib/blog";
 
 // The WordPress site served an RSS feed at /feed/, so existing subscribers and
@@ -18,7 +18,7 @@ export function GET() {
   const posts = getAllPosts();
   const items = posts
     .map((p) => {
-      const url = `${site.url}/blog/${p.slug}`;
+      const url = absoluteUrl(`/blog/${p.slug}`);
       return `    <item>
       <title>${esc(p.title)}</title>
       <link>${url}</link>
@@ -35,8 +35,8 @@ export function GET() {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${esc(site.name)}</title>
-    <link>${site.url}/blog</link>
-    <atom:link href="${site.url}/feed" rel="self" type="application/rss+xml" />
+    <link>${absoluteUrl("/blog")}</link>
+    <atom:link href="${absoluteUrl("/feed")}" rel="self" type="application/rss+xml" />
     <description>${esc(site.description)}</description>
     <language>en-US</language>${
       latest

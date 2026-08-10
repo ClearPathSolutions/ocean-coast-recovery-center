@@ -47,7 +47,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" aria-label={`${site.name} home`} className="relative flex shrink-0 items-center">
           <Image
-            src={solid ? "/images/logos/logo-color.png" : "/images/logos/logo-final.png"}
+            src={solid ? "/images/logos/logo-color.png" : "/images/logos/logo-white.png"}
             alt={site.name}
             width={260}
             height={195}

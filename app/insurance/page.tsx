@@ -30,7 +30,7 @@ export default function InsuranceIndexPage() {
         eyebrow="Coverage & Benefits"
         title="Insurance we accept"
         subtitle="Ocean Coast Recovery works with most major PPO & POS insurance plans that offer out-of-network coverage for substance abuse treatment. Verify your benefits for free — it's fast and 100% confidential."
-        image="/images/facility/facility-05.jpg"
+        image="/images/facility/entry-stairs.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "Insurance" }]}
       />
 

@@ -52,9 +52,6 @@ export const ArrowLeft = (p: P) => (
 export const Star = (p: P) => (
   <svg {...base({ fill: "currentColor", stroke: "none", ...p })}><path d="M12 2.5l2.9 6.06 6.6.79-4.9 4.5 1.3 6.55L12 17.9l-5.9 3 1.3-6.55-4.9-4.5 6.6-.79z" /></svg>
 );
-export const Star5 = (p: P) => (
-  <svg {...base({ fill: "currentColor", stroke: "none", ...p })}><path d="M12 2.5l2.9 6.06 6.6.79-4.9 4.5 1.3 6.55L12 17.9l-5.9 3 1.3-6.55-4.9-4.5 6.6-.79z" /></svg>
-);
 export const Waves = (p: P) => (
   <svg {...base(p)}><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" /><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" /><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" /></svg>
 );
@@ -66,9 +63,6 @@ export const Wifi = (p: P) => (
 );
 export const Sun = (p: P) => (
   <svg {...base(p)}><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" /></svg>
-);
-export const Heart = (p: P) => (
-  <svg {...base(p)}><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z" /></svg>
 );
 export const HeartHand = (p: P) => (
   <svg {...base(p)}><path d="M11 14h2a2 2 0 0 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16" /><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" /><path d="m2 15 6 6" /><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.7 2.7 0 0 0 16 4a2.7 2.7 0 0 0-5 1.8c0 1.1.8 2 1.5 2.7L16 12Z" /></svg>
@@ -82,15 +76,6 @@ export const Users = (p: P) => (
 export const Brain = (p: P) => (
   <svg {...base(p)}><path d="M12 5a3 3 0 1 0-5.9.6A3 3 0 0 0 4 10a3 3 0 0 0 2 5 3 3 0 0 0 6 0V5Z" /><path d="M12 5a3 3 0 1 1 5.9.6A3 3 0 0 1 20 10a3 3 0 0 1-2 5 3 3 0 0 1-6 0" /></svg>
 );
-export const Leaf = (p: P) => (
-  <svg {...base(p)}><path d="M11 20A7 7 0 0 1 4 13c0-6 7-11 16-11 0 9-5 16-9 16Z" /><path d="M4 21c2-5 6-8 12-9" /></svg>
-);
-export const Sparkles = (p: P) => (
-  <svg {...base(p)}><path d="M12 3v4M12 17v4M3 12h4M17 12h4" /><path d="M12 8a4 4 0 0 0 4 4 4 4 0 0 0-4 4 4 4 0 0 0-4-4 4 4 0 0 0 4-4Z" /></svg>
-);
-export const Compass = (p: P) => (
-  <svg {...base(p)}><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z" /></svg>
-);
 export const Stethoscope = (p: P) => (
   <svg {...base(p)}><path d="M4 3v6a5 5 0 0 0 10 0V3" /><path d="M4 3H2M14 3h2" /><path d="M9 18a4 4 0 0 0 8 0v-2" /><circle cx="20" cy="14" r="2" /></svg>
 );
@@ -102,9 +87,6 @@ export const Instagram = (p: P) => (
 );
 export const Facebook = (p: P) => (
   <svg {...base(p)}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
-);
-export const Quote = (p: P) => (
-  <svg {...base({ fill: "currentColor", stroke: "none", ...p })}><path d="M7 7c-2.2 0-4 1.8-4 4v6h6v-6H5c0-1.1.9-2 2-2V7Zm10 0c-2.2 0-4 1.8-4 4v6h6v-6h-4c0-1.1.9-2 2-2V7Z" /></svg>
 );
 export const Plus = (p: P) => (
   <svg {...base(p)}><path d="M12 5v14M5 12h14" /></svg>

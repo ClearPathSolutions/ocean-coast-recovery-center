@@ -62,6 +62,20 @@ export const callTracking = {
   accountId: "264810", // 👈 tctm.co account ID for this site
 } as const;
 
+/**
+ * Absolute, slash-canonical URL for a route.
+ *
+ * `trailingSlash: true` in next.config.mjs makes the slash form the canonical
+ * one, matching production. Anything that emits absolute URLs outside of
+ * Next's metadata layer — sitemap, RSS feed, JSON-LD — has to agree with that,
+ * or it advertises URLs that immediately redirect (V0102).
+ */
+export function absoluteUrl(path = "/"): string {
+  const withLeading = path.startsWith("/") ? path : `/${path}`;
+  const withTrailing = withLeading.endsWith("/") ? withLeading : `${withLeading}/`;
+  return `${site.url}${withTrailing}`;
+}
+
 // ----------------------------------------------------------------------------
 // Primary navigation
 // ----------------------------------------------------------------------------
@@ -139,10 +153,21 @@ export const accreditations = [
     name: "The Joint Commission",
     label: "Gold Seal of Approval®",
     img: "/images/logos/jointcommission-goldseal.png",
+    href: "https://www.qualitycheck.org/",
   },
   {
     name: "LegitScript",
     label: "Certified Provider",
     img: "/images/logos/legitscript-certified.png",
+    href: "https://www.legitscript.com/",
+  },
+  {
+    // VIS-1624 — the DHCS seal shipped in the repo unreferenced, and the licence
+    // number was plain text. The link points at California's public provider
+    // register so the licence can actually be checked.
+    name: "California DHCS",
+    label: "Licensed Provider",
+    img: "/images/logos/dhcs-accredited.webp",
+    href: "https://data.chhs.ca.gov/dataset/sud-recovery-treatment-facilities",
   },
 ];

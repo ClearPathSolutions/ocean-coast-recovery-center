@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { aggregate } from "@/lib/reviews";
+import { substanceHref } from "@/lib/substanceMeta";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import InsuranceBand from "@/components/InsuranceBand";
@@ -12,7 +14,7 @@ import {
 } from "@/components/icons";
 
 const features = [
-  { icon: Waves, title: "Short Walk to the Beach", text: "Daily ocean air, sand, and sunsets as part of your healing." },
+  { icon: Waves, title: "Calm Orange County Setting", text: "A quiet residential street in Costa Mesa, minutes from the coast." },
   { icon: Bed, title: "Intimate 6-Bed Setting", text: "A calm, homelike environment — never a crowd, never a number." },
   { icon: Wifi, title: "Flexible Tech Policy", text: "Stay connected to work and family when it supports recovery." },
   { icon: Sun, title: "Have Fun in Recovery", text: "Surfing, outings, and real joy — treatment shouldn't be boring." },
@@ -21,22 +23,22 @@ const features = [
 const programs = [
   {
     icon: Stethoscope, eyebrow: "Safe & Comfortable", title: "Drug & Alcohol Detox",
-    href: "/treatment/detox", img: "/images/stock/stock-11-tall.jpg",
+    href: "/treatment/detox", img: "/images/facility/consult-room.jpg",
     text: "The first step in treatment. We ease you through withdrawal with medication and round-the-clock comfort and supervision.",
   },
   {
     icon: Home, eyebrow: "Evidence-Based", title: "Residential Inpatient",
-    href: "/treatment/residential", img: "/images/facility/facility-05.jpg",
+    href: "/treatment/residential", img: "/images/facility/bedroom-twin.jpg",
     text: "Immersive, 24/7 care built around you — with 30, 60, and 90+ day options because longer stays lead to stronger recovery.",
   },
   {
     icon: Brain, eyebrow: "Root-Cause Healing", title: "Dual Diagnosis",
-    href: "/treatment/dual-diagnosis", img: "/images/stock/stock-03.jpg",
+    href: "/treatment/dual-diagnosis", img: "/images/facility/bedroom-single.jpg",
     text: "Integrated care that treats substance use and co-occurring mental health conditions together, not in isolation.",
   },
   {
     icon: HeartHand, eyebrow: "Lifelong Support", title: "Aftercare & Alumni",
-    href: "/treatment/aftercare", img: "/images/stock/group-therapy.jpg",
+    href: "/treatment/aftercare", img: "/images/facility/living-room.jpg",
     text: "Recovery doesn't end at discharge. Our alumni community and aftercare keep you supported for the long haul.",
   },
 ];
@@ -56,8 +58,8 @@ export default function HomePage() {
       {/* ============================ HERO ============================ */}
       <section className="relative isolate flex min-h-[92vh] items-center overflow-hidden bg-navy-dark">
         <Image
-          src="/images/facility/facility-01.jpg"
-          alt="Ocean Coast Recovery Center in Costa Mesa, California"
+          src="/images/facility/exterior-front.jpg"
+          alt="The front entrance of Ocean Coast Recovery Center in Costa Mesa, California"
           fill
           priority
           sizes="100vw"
@@ -66,12 +68,15 @@ export default function HomePage() {
         <div className="hero-overlay absolute inset-0" />
 
         <div className="container-wide relative z-10 pt-36 pb-20 lg:pt-48">
-          <Reveal className="max-w-3xl">
+          {/* Deliberately not wrapped in <Reveal>: this block contains the LCP
+              element, so it must paint from the server HTML with no client-side
+              involvement at all (CR-02). */}
+          <div className="max-w-3xl">
             <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-white backdrop-blur">
               <span className="flex text-sand-300">
                 {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-3.5 w-3.5" />)}
               </span>
-              5.0 · 124 reviews · Costa Mesa, CA
+              {aggregate.rating} · {aggregate.count} reviews · Costa Mesa, CA
             </span>
 
             <h1 className="mt-6 text-4xl font-semibold leading-[1.05] text-white sm:text-5xl lg:text-6xl">
@@ -98,7 +103,7 @@ export default function HomePage() {
                 </span>
               ))}
             </div>
-          </Reveal>
+          </div>
         </div>
       </section>
 
@@ -115,7 +120,9 @@ export default function HomePage() {
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-ocean-500 text-white">
                   <f.icon className="h-6 w-6" />
                 </span>
-                <h3 className="text-lg font-semibold text-navy">{f.title}</h3>
+                {/* h2, not h3: this band is the first section after the page h1,
+                    so an h3 here skips a level (WCAG 1.3.1). */}
+                <h2 className="text-lg font-semibold text-navy">{f.title}</h2>
                 <p className="text-sm leading-relaxed text-navy/65">{f.text}</p>
               </Reveal>
             ))}
@@ -129,16 +136,16 @@ export default function HomePage() {
           <Reveal className="relative">
             <div className="overflow-hidden rounded-4xl shadow-card">
               <Image
-                src="/images/facility/facility-08.jpg"
-                alt="Comfortable, homelike interior at Ocean Coast Recovery"
+                src="/images/facility/patio-dining.jpg"
+                alt="Shaded patio dining in the backyard at Ocean Coast Recovery"
                 width={900}
                 height={600}
                 className="h-full w-full object-cover"
               />
             </div>
             <div className="absolute -bottom-6 -right-4 hidden rounded-3xl bg-navy px-7 py-5 text-white shadow-lift sm:block">
-              <p className="font-display text-4xl font-semibold text-sand-300">25+</p>
-              <p className="text-sm text-white/80">years of combined<br />clinical experience</p>
+              <p className="font-display text-4xl font-semibold text-sand-300">6</p>
+              <p className="text-sm text-white/80">beds — never<br />a number</p>
             </div>
           </Reveal>
 
@@ -162,6 +169,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* VIS-1621 — insurance moved up, directly after the welcome section. */}
+      <InsuranceBand />
 
       {/* ============================ PROGRAMS ============================ */}
       <section className="section-foam py-20 sm:py-24">
@@ -210,7 +220,7 @@ export default function HomePage() {
       {/* ========================= FRESH START BAND ========================= */}
       <section className="relative isolate overflow-hidden bg-navy py-24">
         <Image
-          src="/images/stock/unsplash-beach.jpg"
+          src="/images/facility/aerial-neighborhood.jpg"
           alt=""
           fill
           sizes="100vw"
@@ -251,11 +261,21 @@ export default function HomePage() {
               </span>
               <h3 className="mt-5 text-2xl font-semibold text-navy">Substance Use Disorders</h3>
               <ul className="mt-5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                {substances.map((s) => (
-                  <li key={s} className="flex items-center gap-2 text-navy/75">
-                    <CheckCircle className="h-4 w-4 shrink-0 text-ocean-500" /> {s}
-                  </li>
-                ))}
+                {substances.map((s) => {
+                  const href = substanceHref(s);
+                  return (
+                    <li key={s} className="flex items-center gap-2 text-navy/75">
+                      <CheckCircle className="h-4 w-4 shrink-0 text-ocean-500" />
+                      {href ? (
+                        <Link href={href} className="underline decoration-ocean-200 underline-offset-2 hover:text-ocean-700">
+                          {s}
+                        </Link>
+                      ) : (
+                        s
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </Reveal>
             <Reveal delay={120} className="rounded-3xl border border-ocean-100 bg-foam p-8">
@@ -275,7 +295,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <InsuranceBand />
 
       {/* ============================ ENVIRONMENT ============================ */}
       <section className="section-foam py-20 sm:py-24">
@@ -289,7 +308,7 @@ export default function HomePage() {
                 subtitle="Ocean Coast Recovery offers those struggling with addiction an oasis where safety and comfort are the top priority — from daily beach walks to private suites and a sun-soaked backyard."
               />
               <ul className="mt-6 space-y-3">
-                {["Private & semi-private suites with en-suite baths", "Pool and backyard for Southern California sun", "Steps from the beach — surf, walk, and reset", "Boutique amenities in a serene, homelike setting"].map((t) => (
+                {["Private & semi-private suites with en-suite baths", "Pool and backyard for Southern California sun", "A short drive to the Newport and Huntington Beach coastline", "Boutique amenities in a serene, homelike setting"].map((t) => (
                   <li key={t} className="flex items-center gap-3 text-navy/75">
                     <span className="flex h-6 w-6 items-center justify-center rounded-full bg-ocean-500 text-white">
                       <CheckCircle className="h-4 w-4" />
@@ -302,14 +321,14 @@ export default function HomePage() {
             </div>
 
             <Reveal delay={120} className="grid grid-cols-2 gap-4">
-              {["facility-04.jpg", "facility-07.jpg", "facility-10.jpg", "facility-06.jpg"].map((img, i) => (
+              {["kitchen.jpg", "living-room.jpg", "pool-waterfall.jpg", "loft-overlook.jpg"].map((img, i) => (
                 <div
                   key={img}
                   className={`overflow-hidden rounded-3xl shadow-soft ${i % 2 === 0 ? "mt-8" : ""}`}
                 >
                   <Image
                     src={`/images/facility/${img}`}
-                    alt="Ocean Coast Recovery facility"
+                    alt=""
                     width={400}
                     height={500}
                     className="h-56 w-full object-cover transition-transform duration-500 hover:scale-105"

@@ -33,7 +33,7 @@ export default function AftercarePage() {
         eyebrow="Preparing you for success in recovery"
         title="Aftercare & beyond"
         subtitle="Getting sober is the first step. The rest of the work is staying sober — and we walk with you long after you leave our doors."
-        image="/images/stock/group-therapy.jpg"
+        image="/images/facility/patio-dining.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "Treatment", href: "/treatment" }, { label: "Aftercare" }]}
       />
 
@@ -44,7 +44,7 @@ export default function AftercarePage() {
           "When the time comes to leave treatment, you may have trepidation about what life will look like in sobriety. Inpatient rehab is a protected space — and thinking about life afterward can feel overwhelming.",
           "But you are no longer the person who arrived at detox. By the time you leave, you'll have done tremendous work and built a toolkit of resources you can rely on. The early days are still challenging — and that's exactly why aftercare is an essential tool.",
         ]}
-        image="/images/stock/stock-07.jpg"
+        image="/images/facility/living-room.jpg"
         imageAlt="Alumni community at Ocean Coast Recovery"
       />
 

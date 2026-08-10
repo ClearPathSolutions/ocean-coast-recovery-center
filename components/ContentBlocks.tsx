@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import { CheckCircle } from "@/components/icons";
@@ -19,13 +20,15 @@ export function Split({
   title: string;
   paragraphs?: string[];
   bullets?: string[];
-  image: string;
+  /** Optional — omitted on population pages per IMG-07; the block then renders
+   *  as a single centred text column instead of a two-column split. */
+  image?: string;
   imageAlt?: string;
   imageSide?: "left" | "right";
   tint?: boolean;
   children?: React.ReactNode;
 }) {
-  const imageEl = (
+  const imageEl = image ? (
     <Reveal className="overflow-hidden rounded-4xl shadow-card">
       <Image
         src={image}
@@ -35,12 +38,16 @@ export function Split({
         className="h-full max-h-[520px] w-full object-cover"
       />
     </Reveal>
-  );
+  ) : null;
   return (
     <section className={`${tint ? "section-foam" : "bg-white"} py-20 sm:py-24`}>
-      <div className="container-x grid items-center gap-12 lg:grid-cols-2">
-        {imageSide === "left" && <div className="order-2 lg:order-1">{imageEl}</div>}
-        <div className={imageSide === "left" ? "order-1 lg:order-2" : ""}>
+      <div
+        className={`container-x grid items-center gap-12 ${
+          imageEl ? "lg:grid-cols-2" : "mx-auto max-w-3xl"
+        }`}
+      >
+        {imageEl && imageSide === "left" && <div className="order-2 lg:order-1">{imageEl}</div>}
+        <div className={imageEl && imageSide === "left" ? "order-1 lg:order-2" : ""}>
           <SectionHeading align="left" eyebrow={eyebrow} title={title} />
           <div className="mt-5 space-y-4">
             {paragraphs.map((p, i) => (
@@ -59,7 +66,7 @@ export function Split({
           )}
           {children}
         </div>
-        {imageSide === "right" && imageEl}
+        {imageEl && imageSide === "right" && imageEl}
       </div>
     </section>
   );
@@ -77,7 +84,7 @@ export function CardGrid({
   eyebrow?: string;
   title: string;
   subtitle?: string;
-  items: { title: string; text: string }[];
+  items: { title: string; text: string; href?: string }[];
   cols?: 2 | 3;
   tint?: boolean;
 }) {
@@ -95,7 +102,15 @@ export function CardGrid({
               <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-ocean-50 font-display text-lg font-semibold text-ocean-600">
                 {i + 1}
               </span>
-              <h3 className="mt-4 text-lg font-semibold text-navy">{item.title}</h3>
+              <h3 className="mt-4 text-lg font-semibold text-navy">
+                {item.href ? (
+                  <Link href={item.href} className="hover:text-ocean-700">
+                    {item.title}
+                  </Link>
+                ) : (
+                  item.title
+                )}
+              </h3>
               <p className="mt-2 text-sm leading-relaxed text-navy/65">{item.text}</p>
             </Reveal>
           ))}

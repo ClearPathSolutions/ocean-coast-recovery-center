@@ -19,8 +19,25 @@ export default function FAQ({
 }) {
   const [open, setOpen] = useState<number | null>(0);
 
+  // CR-03 — FAQPage structured data. The answers are already in the DOM (the
+  // accordion only hides them with CSS, it does not unmount them), so this
+  // describes content the crawler can actually see.
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+
   return (
     <section className="bg-white py-20 sm:py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <div className="container-x">
         <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} />
         <div className="mx-auto mt-12 max-w-3xl space-y-3">

@@ -1,10 +1,22 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 /**
- * Fades + lifts children into view on scroll. Respects prefers-reduced-motion
- * (the CSS in globals.css neutralizes the animation duration).
+ * Fades + lifts children into view on scroll — as a progressive enhancement.
+ *
+ * The server renders children **visible**. Previously this component emitted
+ * `opacity-0` in the HTML and only flipped after hydration, which meant the
+ * homepage <h1> (the LCP element) was invisible until JS ran, and 37 blocks on
+ * `/` were blank with JS disabled or failed (CR-02).
+ *
+ * Now the hidden state is only ever applied on the client, and only to elements
+ * that are still below the fold at mount — so anything already on screen (the
+ * LCP element included) is never hidden and never flashes. With no JS,
+ * `data-reveal` is never set and everything simply stays visible.
+ *
+ * `prefers-reduced-motion` is honoured by skipping the animation entirely
+ * rather than relying on globals.css to zero out the duration.
  */
 export default function Reveal({
   children,
@@ -18,15 +30,22 @@ export default function Reveal({
   as?: React.ElementType;
 }) {
   const ref = useRef<HTMLElement | null>(null);
-  const [shown, setShown] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (typeof IntersectionObserver === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // Already on screen: leave it alone. Hiding it here would cause a visible
+    // flash and would re-break the LCP element.
+    if (el.getBoundingClientRect().top < window.innerHeight) return;
+
+    el.dataset.reveal = "pending";
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setShown(true);
+          el.dataset.reveal = "shown";
           observer.disconnect();
         }
       },
@@ -36,15 +55,9 @@ export default function Reveal({
     return () => observer.disconnect();
   }, []);
 
-  const Comp = Tag as any;
+  const Comp = Tag as React.ElementType;
   return (
-    <Comp
-      ref={ref}
-      className={`transition-all duration-700 ease-out ${
-        shown ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-      } ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
+    <Comp ref={ref} className={className} style={{ transitionDelay: `${delay}ms` }}>
       {children}
     </Comp>
   );

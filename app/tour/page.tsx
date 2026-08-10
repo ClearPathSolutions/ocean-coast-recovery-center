@@ -11,28 +11,28 @@ import { Waves, Bed, Sun } from "@/components/icons";
 export const metadata: Metadata = {
   title: "Tour Our Facility — Costa Mesa Rehab Environment",
   description:
-    "Tour Ocean Coast Recovery — a boutique, six-bed drug & alcohol treatment center in Costa Mesa, CA with private suites, a pool, and the beach just steps away.",
+    "Tour Ocean Coast Recovery — a boutique, six-bed drug & alcohol treatment center in Costa Mesa, CA with private suites, a pool, and a quiet residential setting minutes from the coast.",
 };
 
 const amenities = [
   { icon: Bed, title: "Private & Semi-Private Suites", text: "Comfortable bedroom suites with en-suite bathrooms offer the privacy and dignity you deserve while you heal." },
   { icon: Sun, title: "Pool & Sun-Soaked Backyard", text: "A pool and backyard area let you relax and recharge in the Southern California sun between sessions." },
-  { icon: Waves, title: "The Beach, Just Steps Away", text: "Daily walks on the sand, surfing, and ocean air are woven into treatment — because healing should feel alive." },
+  { icon: Waves, title: "Outings & Time Outdoors", text: "Beach trips, outings and time in the fresh air are woven into treatment — because healing should feel alive." },
 ];
 
 const galleryImages = [
-  { src: "/images/facility/facility-01.jpg", alt: "Ocean Coast Recovery exterior" },
-  { src: "/images/facility/facility-08.jpg", alt: "Comfortable living space" },
-  { src: "/images/facility/facility-04.jpg", alt: "Bright, homelike common area" },
-  { src: "/images/facility/facility-05.jpg", alt: "Private bedroom suite" },
-  { src: "/images/facility/facility-07.jpg", alt: "Relaxing lounge" },
-  { src: "/images/facility/facility-10.jpg", alt: "Serene interior" },
-  { src: "/images/facility/facility-06.jpg", alt: "Peaceful corner to reflect" },
-  { src: "/images/facility/facility-11.jpg", alt: "Shared gathering space" },
-  { src: "/images/facility/facility-03.jpg", alt: "Warm, inviting details" },
-  { src: "/images/facility/facility-09.jpg", alt: "Bright treatment space" },
-  { src: "/images/facility/aerial.jpg", alt: "Aerial view of the Costa Mesa coast" },
-  { src: "/images/stock/unsplash-beach.jpg", alt: "The beach near our facility" },
+  { src: "/images/facility/exterior-front.jpg", alt: "The covered front entrance of our Costa Mesa treatment center" },
+  { src: "/images/facility/exterior-side.jpg", alt: "The garden path along the side of the house" },
+  { src: "/images/facility/living-room.jpg", alt: "The living room, with a sectional sofa and teal armchairs" },
+  { src: "/images/facility/living-room-wide.jpg", alt: "A wider view of the living room and its high ceiling" },
+  { src: "/images/facility/entry-stairs.jpg", alt: "The entryway and wrought-iron staircase" },
+  { src: "/images/facility/dining-kitchen.jpg", alt: "The dining area looking through to the kitchen" },
+  { src: "/images/facility/kitchen.jpg", alt: "The kitchen, with a central island and double oven" },
+  { src: "/images/facility/bedroom-twin.jpg", alt: "A twin bedroom with two beds and natural light" },
+  { src: "/images/facility/bedroom-single.jpg", alt: "A single bedroom with a teal throw" },
+  { src: "/images/facility/bathroom.jpg", alt: "A guest bathroom" },
+  { src: "/images/facility/pool-wide.jpg", alt: "The backyard pool, steps and barbecue area" },
+  { src: "/images/facility/patio-dining.jpg", alt: "Shaded patio dining in the backyard" },
 ];
 
 export default function TourPage() {
@@ -41,8 +41,8 @@ export default function TourPage() {
       <PageHero
         eyebrow="World-class treatment in Orange County"
         title="Our environment"
-        subtitle="An oasis where safety and comfort are the top priority — a private sanctuary just steps from the coast, designed for a real fresh start."
-        image="/images/facility/facility-01.jpg"
+        subtitle="An oasis where safety and comfort are the top priority — a private sanctuary in Costa Mesa, minutes from the coast, designed for a real fresh start."
+        image="/images/facility/exterior-front.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "Tour Facility" }]}
       />
 
@@ -53,8 +53,8 @@ export default function TourPage() {
           "Ocean Coast Recovery offers those struggling with addiction an oasis where safety and comfort come first. Our intimate, six-bed residential home was designed to feel calm, private, and genuinely restorative.",
           "Explore our Costa Mesa treatment center and discover how you can find your personal path to recovery at a world-class drug and alcohol rehab facility in the heart of Orange County.",
         ]}
-        image="/images/facility/facility-07.jpg"
-        imageAlt="Interior of Ocean Coast Recovery"
+        image="/images/facility/entry-stairs.jpg"
+        imageAlt="The entryway and wrought-iron staircase at Ocean Coast Recovery"
       />
 
       {/* Amenities */}
@@ -63,7 +63,7 @@ export default function TourPage() {
           <SectionHeading
             eyebrow="Boutique Amenities"
             title="Modern, comfortable & holistic"
-            subtitle="From daily walks on the beach to surfing and other activities, we offer the very best for our clients."
+            subtitle="From beach outings and surfing to quiet time in the backyard, we offer the very best for our clients."
           />
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {amenities.map((a, i) => (

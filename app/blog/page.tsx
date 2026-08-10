@@ -38,8 +38,10 @@ export default async function BlogPage() {
       date: p.publishedAt,
       category: CLARION_CATEGORY,
       excerpt: p.excerpt,
-      cover: p.coverImageUrl || coverFor(p.slug),
-      remoteCover: !!p.coverImageUrl,
+      // Clarion supplies a `coverImageUrl`, but it points at third-party stock
+      // (Unsplash). Site policy is approved facility photography only, so the
+      // remote cover is deliberately ignored in favour of a local one.
+      cover: coverFor(p.slug),
     });
   }
 
@@ -52,7 +54,7 @@ export default async function BlogPage() {
         eyebrow="Insights & Resources"
         title="The Ocean Coast blog"
         subtitle="Guidance on addiction, recovery, detox, mental health, and family healing — written to help you and your loved ones take the next step."
-        image="/images/stock/stock-08-wide.jpg"
+        image="/images/facility/bedroom-coastal-wide.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "Blog" }]}
       />
 

@@ -96,6 +96,22 @@
   }
 }
 
+/* Scroll reveal (components/Reveal.tsx).
+   `data-reveal` is only ever set by JS, and only on elements that were below
+   the fold at mount — so the default, no-JS and above-the-fold state is fully
+   visible with no transition attached. */
+[data-reveal] {
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(1.5rem);
+}
+[data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+}
+
 /* Utility: gentle top-to-bottom section wash */
 .section-foam {
   background: linear-gradient(180deg, #ffffff 0%, #eef6f9 100%);

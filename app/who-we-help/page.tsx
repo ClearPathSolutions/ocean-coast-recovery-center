@@ -22,7 +22,7 @@ export default function WhoWeHelpPage() {
         eyebrow="Personalized to your world"
         title="Who we help"
         subtitle="Recovery isn't one-size-fits-all. We tailor care to the specific pressures, experiences, and needs of the people we serve."
-        image="/images/stock/stock-08-wide.jpg"
+        image="/images/facility/aerial-neighborhood.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "Who We Help" }]}
       />
 
@@ -40,16 +40,12 @@ export default function WhoWeHelpPage() {
                   href={`/who-we-help/${p.slug}`}
                   className="group flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-ocean-100 transition-all hover:-translate-y-1.5 hover:shadow-card"
                 >
-                  <div className="relative h-48 overflow-hidden">
-                    <Image
-                      src={p.image}
-                      alt={p.navLabel}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/60 to-transparent" />
-                    <h3 className="absolute bottom-4 left-5 font-display text-2xl font-semibold text-white">
+                  {/* Text-forward header. These cards previously carried stock
+                      photography of people, which IMG-07 removes rather than
+                      substitutes — nothing in the approved set depicts a
+                      population authentically. */}
+                  <div className="relative overflow-hidden bg-gradient-to-br from-navy to-ocean-800 px-5 py-8">
+                    <h3 className="font-display text-2xl font-semibold text-white">
                       {p.navLabel}
                     </h3>
                   </div>

@@ -46,7 +46,7 @@ export default function DetoxPage() {
         eyebrow="Safe, medically supervised withdrawal management"
         title="Drug & alcohol detox in Costa Mesa"
         subtitle="Detox is the vital first step on the road to recovery — a safe, medical intervention under 24/7 clinical supervision that creates a firm foundation for the treatment that follows."
-        image="/images/stock/stock-11-tall.jpg"
+        image="/images/facility/consult-room.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "Treatment", href: "/treatment" }, { label: "Detox" }]}
       />
 
@@ -57,7 +57,7 @@ export default function DetoxPage() {
           "At Ocean Coast Recovery Center, we provide a safe medical intervention designed to manage acute intoxication and withdrawal under 24/7 clinical supervision.",
           "As your body stabilizes, you're protected by medical professionals who monitor your vital signs and overall health around the clock. By completing detox in our supportive Orange County environment, you create a firm foundation for the residential treatment that follows.",
         ]}
-        image="/images/facility/facility-04.jpg"
+        image="/images/facility/bedroom-twin.jpg"
         imageAlt="Calming detox environment at Ocean Coast Recovery"
       />
 

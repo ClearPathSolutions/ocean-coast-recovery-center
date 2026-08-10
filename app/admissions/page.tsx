@@ -36,7 +36,7 @@ export default function AdmissionsPage() {
         eyebrow="Begin your journey to healing"
         title="Admissions made simple"
         subtitle="Taking the first step is the hardest part. We've made getting help as clear, fast, and confidential as possible."
-        image="/images/facility/facility-09.jpg"
+        image="/images/facility/exterior-side.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "Admissions" }]}
       />
 

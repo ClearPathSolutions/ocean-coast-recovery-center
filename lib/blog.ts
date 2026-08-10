@@ -21,25 +21,24 @@ export type BlogCard = {
   excerpt: string;
   cover: string;
   readMinutes?: number; // optional: Clarion feed items have no body to measure
-  remoteCover?: boolean; // remote covers render with next/image `unoptimized`
 };
 
 const BLOG_DIR = path.join(process.cwd(), "content", "blog");
 
 // A rotating set of local cover images so each post has a pleasant thumbnail.
 const COVERS = [
-  "/images/stock/stock-01.jpg",
-  "/images/stock/stock-03.jpg",
-  "/images/stock/stock-04.jpg",
-  "/images/stock/stock-06.jpg",
-  "/images/stock/stock-07.jpg",
-  "/images/stock/stock-09.jpg",
-  "/images/stock/stock-10.jpg",
-  "/images/stock/stock-12.jpg",
-  "/images/stock/unsplash-beach.jpg",
-  "/images/stock/unsplash-02.jpg",
-  "/images/facility/facility-03.jpg",
-  "/images/facility/facility-06.jpg",
+  "/images/facility/exterior-front.jpg",
+  "/images/facility/exterior-side.jpg",
+  "/images/facility/living-room.jpg",
+  "/images/facility/living-room-wide.jpg",
+  "/images/facility/dining-room.jpg",
+  "/images/facility/dining-kitchen.jpg",
+  "/images/facility/kitchen.jpg",
+  "/images/facility/kitchen-island.jpg",
+  "/images/facility/bedroom-twin.jpg",
+  "/images/facility/bedroom-single.jpg",
+  "/images/facility/pool-wide.jpg",
+  "/images/facility/aerial-neighborhood.jpg",
 ];
 
 let cache: Post[] | null = null;

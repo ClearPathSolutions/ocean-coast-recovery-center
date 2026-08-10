@@ -3,14 +3,19 @@ import { Fraunces, Barlow } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { site, clarion, callTracking } from "@/lib/site";
+import { aggregate } from "@/lib/reviews";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import LocationMap from "@/components/LocationMap";
 import Clarion from "@/components/Clarion";
+import Analytics from "@/components/Analytics";
 
 const display = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["400", "500", "600", "700"],
+  // CR-15 — only the weights actually used: 600 for display headings, plus
+  // 400 italic for the two pull-quotes. Was 4 weights x2 styles.
+  weight: ["400", "600"],
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -18,7 +23,8 @@ const display = Fraunces({
 const sans = Barlow({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["300", "400", "500", "600", "700"],
+  // CR-15 — 300 and 700 were never referenced by a utility class.
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
@@ -47,18 +53,31 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: site.url,
+    // "./" resolves against metadataBase + the current pathname, so every page
+    // gets its own og:url instead of inheriting the homepage's (V0088).
+    url: "./",
     siteName: site.name,
-    title: `${site.name} | Drug & Alcohol Rehab in Costa Mesa, CA`,
+    // Deliberately no `title` here: omitting it makes Next.js fall back to each
+    // page's own resolved <title>. Setting it would push the homepage title onto
+    // all 107 pages, which is the defect V0088 records.
     description: site.description,
-    images: [{ url: "/images/facility/facility-01.jpg", width: 1200, height: 630, alt: site.name }],
+    images: [
+      {
+        url: "/images/facility/exterior-front.jpg",
+        width: 2560,
+        height: 1707,
+        alt: `The front entrance of ${site.name} in Costa Mesa, California`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: site.name,
     description: site.description,
   },
-  alternates: { canonical: site.url },
+  // Self-referencing canonical. "./" is resolved per-route against metadataBase;
+  // a literal site.url here canonicals all 107 pages to the homepage and
+  // instructs Google to deindex 106 of them (V0109).
+  alternates: { canonical: "./" },
 };
 
 export const viewport: Viewport = {
@@ -75,7 +94,7 @@ const jsonLd = {
   url: site.url,
   telephone: site.phoneRaw,
   email: site.email,
-  image: `${site.url}/images/facility/facility-01.jpg`,
+  image: `${site.url}/images/facility/exterior-front.jpg`,
   priceRange: "$$$",
   address: {
     "@type": "PostalAddress",
@@ -87,7 +106,13 @@ const jsonLd = {
   },
   geo: { "@type": "GeoCoordinates", latitude: 33.6713545, longitude: -117.936243 },
   openingHours: "Mo-Su 00:00-23:59",
-  aggregateRating: { "@type": "AggregateRating", ratingValue: "5.0", reviewCount: "124" },
+  // CR-09: sourced from content/reviews.json so the structured data cannot
+  // drift from the rating shown on the page.
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: aggregate.rating,
+    reviewCount: String(aggregate.count),
+  },
   sameAs: [site.social.instagram, site.social.facebook],
 };
 
@@ -109,6 +134,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <Navbar />
         <main id="main">{children}</main>
+        {/* VIS-1625 — location map directly above the footer, sitewide. */}
+        <LocationMap />
         <Footer />
 
         {/* Clarion — form capture (exposes window.ClarionForms) + chat widget */}
@@ -119,6 +146,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           data-api={clarion.api}
         />
         <Clarion />
+        <Analytics />
       </body>
     </html>
   );

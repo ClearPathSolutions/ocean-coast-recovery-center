@@ -23,6 +23,7 @@ export default function ContactForm({
   variant?: Variant;
 }) {
   const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
   const isInsurance = variant === "insurance";
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -40,15 +41,25 @@ export default function ContactForm({
         });
       } catch {}
 
-      const res = await fetch("/api/lead", {
+      const res = await fetch("/api/lead/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (!res.ok) throw new Error("Request failed");
+      if (!res.ok) {
+        // The endpoint returns a human-readable reason when it cannot deliver
+        // the lead (no channel configured, every channel failed, rate limited).
+        // Show that rather than a generic failure.
+        const reason = await res
+          .json()
+          .then((j: { error?: string }) => j?.error)
+          .catch(() => undefined);
+        throw new Error(reason || "Request failed");
+      }
       setStatus("success");
       form.reset();
-    } catch {
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "");
       setStatus("error");
     }
   }
@@ -76,30 +87,37 @@ export default function ContactForm({
 
   return (
     <form onSubmit={onSubmit} className="rounded-3xl bg-white p-6 shadow-card sm:p-8">
+      {/* Honeypot (CR-05). Hidden from users and from assistive tech; bots fill
+          it in and the endpoint then silently drops the submission. Not
+          `display:none`, which some bots detect and skip. */}
+      <div className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+        <label htmlFor="company">Company</label>
+        <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
       <div className={`grid gap-4 ${compact ? "" : "sm:grid-cols-2"}`}>
         <div>
           <label htmlFor="firstName" className="mb-1.5 block text-sm font-medium text-navy">
             First name
           </label>
-          <input id="firstName" name="firstName" required className={input} placeholder="Jane" />
+          <input id="firstName" name="firstName" required autoComplete="given-name" className={input} placeholder="Jane" />
         </div>
         <div>
           <label htmlFor="lastName" className="mb-1.5 block text-sm font-medium text-navy">
             Last name
           </label>
-          <input id="lastName" name="lastName" required className={input} placeholder="Doe" />
+          <input id="lastName" name="lastName" required autoComplete="family-name" className={input} placeholder="Doe" />
         </div>
         <div>
           <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-navy">
             Phone
           </label>
-          <input id="phone" name="phone" type="tel" required className={input} placeholder="(000) 000-0000" />
+          <input id="phone" name="phone" type="tel" required autoComplete="tel" className={input} placeholder="(000) 000-0000" />
         </div>
         <div>
           <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-navy">
             Email
           </label>
-          <input id="email" name="email" type="email" required className={input} placeholder="you@email.com" />
+          <input id="email" name="email" type="email" required autoComplete="email" className={input} placeholder="you@email.com" />
         </div>
       </div>
 
@@ -109,7 +127,7 @@ export default function ContactForm({
             <label htmlFor="dob" className="mb-1.5 block text-sm font-medium text-navy">
               Date of birth
             </label>
-            <input id="dob" name="dob" type="date" required className={input} />
+            <input id="dob" name="dob" type="date" required autoComplete="bday" className={input} />
           </div>
           <div>
             <label htmlFor="insurer" className="mb-1.5 block text-sm font-medium text-navy">
@@ -144,8 +162,8 @@ export default function ContactForm({
       </div>
 
       {status === "error" && (
-        <p className="mt-3 text-sm text-red-600">
-          Something went wrong. Please call us at{" "}
+        <p role="alert" className="mt-3 text-sm text-red-600">
+          {errorMsg || "Something went wrong."} Please call us at{" "}
           <a href={site.phoneHref} className="font-semibold underline">
             {site.phone}
           </a>

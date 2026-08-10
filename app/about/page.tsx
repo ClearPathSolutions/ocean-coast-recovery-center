@@ -7,6 +7,7 @@ import Reveal from "@/components/Reveal";
 import Testimonials from "@/components/Testimonials";
 import CallbackCTA from "@/components/CallbackCTA";
 import { site } from "@/lib/site";
+import { aggregate } from "@/lib/reviews";
 import { ArrowRight, CheckCircle, HeartHand, Users, Waves, Star } from "@/components/icons";
 
 export const metadata: Metadata = {
@@ -15,31 +16,38 @@ export const metadata: Metadata = {
     "Ocean Coast Recovery is an intimate, six-bed drug & alcohol treatment center in Costa Mesa, CA. Meet our caring team and learn what makes us different.",
 };
 
+// Every figure here has to be sourceable. Two were not and were replaced:
+//   • "25+ years combined experience" was carried mostly by a staff member who
+//     is no longer on the roster (BIO-01), and cannot be recomputed from the
+//     current team — the bios document gives start years for only some of them.
+//   • "2 blocks from the beach" is not supportable: the facility is inland in
+//     Costa Mesa and the approved photo set contains no coastline (D1/IMG-06).
 const stats = [
   { value: "6", label: "Boutique beds", icon: Users },
-  { value: "25+", label: "Years combined experience", icon: HeartHand },
-  { value: "5.0", label: "Rating · 124 reviews", icon: Star },
-  { value: "2 blocks", label: "From the beach", icon: Waves },
+  { value: "24/7", label: "Admissions & clinical support", icon: HeartHand },
+  { value: aggregate.rating, label: `Rating · ${aggregate.count} reviews`, icon: Star },
+  { value: "DHCS", label: "Licensed · Joint Commission accredited", icon: Waves },
 ];
 
+// Roster and titles follow the QHG staff-bios document, which is authoritative:
+// two facility staff plus the four "Cali SOUTH" regional staff who cover this
+// site (BIO-05 / HS-04). Tami DiStefano was removed — she appears in neither
+// the bios document nor the 124 approved headshots (BIO-01).
+//
+// `blurb` is only set where the wording condenses that person's own sourced
+// bio. The three regional staff whose bio copy is not yet available carry a
+// photo and title and nothing else — an invented blurb on a healthcare team
+// page is a trust claim we cannot source.
 const team = [
   {
-    name: "Tami DiStefano",
-    creds: "CADC II, ICDC",
-    role: "Program Director",
-    href: "/about/tami-distefano",
-    initials: "TD",
+    name: "Vahan Oknayan",
+    creds: "AMFT",
+    role: "Therapist",
+    href: "/about/vahan-oknayan",
+    initials: "VO",
+    photo: "/images/team/vahan-oknayan.jpg",
     blurb:
-      "18+ years in the field and in recovery herself, Tami meets every client where they are — with compassion, respect, and hope.",
-  },
-  {
-    name: "Elizabeth Wald",
-    creds: "RADT",
-    role: "Director of Operations",
-    href: "/about/elizabeth-wald",
-    initials: "EW",
-    blurb:
-      "With the facility since it opened, Elizabeth keeps our six-bed home running with heart, ensuring every detail supports your care.",
+      "Integrative and client-centered, Vahan looks past the challenges that bring someone in — and believes healing starts with a genuine therapeutic relationship.",
   },
   {
     name: "Halie Nall",
@@ -47,17 +55,46 @@ const team = [
     role: "Case Manager",
     href: "/about/halie-nall",
     initials: "HN",
+    photo: "/images/team/halie-nall.jpg",
     blurb:
-      "Halie walks alongside each client through the logistics of treatment so they can stay focused on healing.",
+      "Halie helps clients reach the resources, tools and support they need to build healthy, fulfilling lives — informed by her own lived experience.",
   },
   {
-    name: "Vahan Oknayan",
-    creds: "AMFT",
-    role: "Therapist",
-    href: "/about/vahan-oknayan",
-    initials: "VO",
+    name: "Elizabeth Wald",
+    creds: "",
+    role: "Program Director",
+    href: "/about/elizabeth-wald",
+    initials: "EW",
+    photo: "/images/team/elizabeth-wald.jpg",
     blurb:
-      "Integrative and client-centered, Vahan looks past the challenges that bring someone in — and believes healing starts with a genuine therapeutic relationship.",
+      "Program Director across Quadrant Health Group's Southern California facilities, in recovery herself, and focused on making every program feel personal.",
+  },
+  {
+    name: "Justin White",
+    creds: "",
+    role: "Program Director",
+    href: null,
+    initials: "JW",
+    photo: "/images/team/justin-white.jpg",
+    blurb: "",
+  },
+  {
+    name: "Jeremiah Ross",
+    creds: "",
+    role: "Nursing Supervisor",
+    href: null,
+    initials: "JR",
+    photo: "/images/team/jeremiah-ross.jpg",
+    blurb: "",
+  },
+  {
+    name: "Alanna McMurtrey",
+    creds: "",
+    role: "Lead Case Manager",
+    href: null,
+    initials: "AM",
+    photo: "/images/team/alanna-mcmurtrey.jpg",
+    blurb: "",
   },
 ];
 
@@ -68,7 +105,7 @@ export default function AboutPage() {
         eyebrow="Together, we can overcome anything"
         title="Who we are"
         subtitle="We understand that millions of Americans suffer from the disease of addiction. Ocean Coast Recovery offers a personalized, detailed experience in addiction treatment — and if we're not the right fit, we'll help you find a program that is."
-        image="/images/facility/facility-07.jpg"
+        image="/images/facility/exterior-front.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
       />
 
@@ -77,10 +114,10 @@ export default function AboutPage() {
         <div className="container-x grid items-center gap-12 lg:grid-cols-2">
           <Reveal className="order-2 grid grid-cols-2 gap-4 lg:order-1">
             <div className="overflow-hidden rounded-3xl shadow-soft">
-              <Image src="/images/team/team-02.jpg" alt="Our team at Ocean Coast Recovery" width={500} height={600} className="h-full w-full object-cover" />
+              <Image src="/images/facility/living-room.jpg" alt="The living room at our Costa Mesa facility" width={500} height={600} className="h-full w-full object-cover" />
             </div>
             <div className="mt-8 overflow-hidden rounded-3xl shadow-soft">
-              <Image src="/images/facility/facility-03.jpg" alt="Inside our Costa Mesa home" width={500} height={600} className="h-full w-full object-cover" />
+              <Image src="/images/facility/dining-room.jpg" alt="The dining room at our Costa Mesa facility" width={500} height={600} className="h-full w-full object-cover" />
             </div>
           </Reveal>
           <div className="order-1 lg:order-2">
@@ -150,18 +187,33 @@ export default function AboutPage() {
           <SectionHeading
             eyebrow="A team that cares about your outcome"
             title="Meet our expert treatment staff"
-            subtitle="Over 25 years of combined experience in substance abuse and mental health treatment — many of us walking the path of recovery ourselves."
+            subtitle="Licensed clinicians, nurses and case managers in substance abuse and mental health treatment — many of us walking the path of recovery ourselves."
           />
           <div className="mx-auto mt-12 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {team.map((m, i) => (
               <Reveal key={m.name} delay={i * 90} className="flex flex-col items-center rounded-3xl border border-ocean-100 bg-foam p-8 text-center">
-                <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-ocean-400 to-navy font-display text-2xl font-semibold text-white shadow-soft">
-                  {m.initials}
-                </div>
+                {m.photo ? (
+                  <Image
+                    src={m.photo}
+                    alt={`${m.name}, ${m.role} at Ocean Coast Recovery Center`}
+                    width={192}
+                    height={192}
+                    className="h-24 w-24 rounded-full object-cover shadow-soft"
+                  />
+                ) : (
+                  <div
+                    aria-hidden="true"
+                    className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-ocean-400 to-navy font-display text-2xl font-semibold text-white shadow-soft"
+                  >
+                    {m.initials}
+                  </div>
+                )}
                 <h3 className="mt-5 text-xl font-semibold text-navy">{m.name}</h3>
                 {m.creds && <p className="text-sm text-navy/50">{m.creds}</p>}
                 <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-ocean-600">{m.role}</p>
-                <p className="mt-4 flex-1 text-sm leading-relaxed text-navy/65">{m.blurb}</p>
+                {m.blurb && (
+                  <p className="mt-4 flex-1 text-sm leading-relaxed text-navy/65">{m.blurb}</p>
+                )}
                 {m.href && (
                   <Link href={m.href} className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-ocean-600 hover:gap-2.5">
                     Read Bio <ArrowRight className="h-4 w-4" />
@@ -192,8 +244,17 @@ export default function AboutPage() {
               Help for Your Loved One <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <Reveal delay={120} className="overflow-hidden rounded-4xl shadow-card">
-            <Image src="/images/stock/group-therapy.jpg" alt="Family therapy at Ocean Coast Recovery" width={800} height={600} className="h-full w-full object-cover" />
+          {/* VIS-1628 asks for no image in this section, and the stock photo
+              that was here carried alt="Family therapy at Ocean Coast Recovery"
+              on a picture taken somewhere else. Replaced with a pull-quote. */}
+          <Reveal delay={120} className="rounded-4xl border-l-4 border-ocean-500 bg-white p-8 shadow-card">
+            <p className="font-display text-2xl italic leading-relaxed text-navy">
+              &ldquo;Addiction is a family disease. When one person begins to heal, everyone
+              around them gets the chance to heal too.&rdquo;
+            </p>
+            <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-ocean-600">
+              Our family program
+            </p>
           </Reveal>
         </div>
       </section>

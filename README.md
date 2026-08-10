@@ -9,12 +9,18 @@ boutique drug & alcohol treatment center in Costa Mesa, CA. Built with **Next.js
 - **Mobile-first, full-width design** — a sticky, transparent-over-hero navbar that turns frosted
   white on scroll; a full-screen mobile drawer with accordion sub-menus; and content that fills the
   viewport edge-to-edge with balanced gutters (no dead space on desktop).
-- **Fast & SEO-ready** — static generation for every page (98 routes), `next/image` with AVIF/WebP,
-  `sitemap.xml`, `robots.txt`, per-page metadata, Open Graph tags, and `MedicalBusiness` +
-  `BlogPosting` JSON-LD structured data.
-- **All original content & assets** rebuilt locally — every page, the full 69-article blog, 8
-  substance-specific detox pages, 6 insurance-carrier coverage pages, the real Google reviews, and
-  all facility photos, insurance logos, and accreditation badges live in this repo.
+- **Fast & SEO-ready** — static generation for every page (110 pages), `next/image` with AVIF/WebP,
+  `sitemap.xml`, `robots.txt`, an RSS feed at `/feed`, a legacy WordPress 301 map, self-referencing
+  per-page canonicals and Open Graph tags, and `MedicalBusiness` + `BlogPosting` + `FAQPage` JSON-LD.
+- **Slash-canonical URLs** — `trailingSlash: true` matches production and every other site in the
+  portfolio, so inbound links don't hit a redirect at cutover. Anything emitting an absolute URL
+  outside Next's metadata layer must go through `absoluteUrl()` in `lib/site.ts`.
+- **All original content & assets** rebuilt locally — every page, the 70-article local blog (merged
+  at build time with posts from the Clarion feed), 8 substance-specific detox pages, 6
+  insurance-carrier coverage pages, the real Google reviews, and the approved facility photography
+  and accreditation badges.
+- **Photography is approved-source only** — every image traces to the owner-supplied shoot. See
+  *Images* below; this is a hard rule, not a preference.
 - **Accessible** — semantic HTML, keyboard-navigable menus, focus states, skip-to-content link,
   `prefers-reduced-motion` support, and a 988/911 crisis notice in the footer.
 
@@ -50,6 +56,19 @@ site works immediately. To actually **deliver** leads, set one of these environm
 | --- | --- |
 | `LEAD_WEBHOOK_URL` | POST each lead as JSON to a Zapier/Make webhook or your CRM endpoint. |
 | `RESEND_API_KEY` + `LEAD_TO_EMAIL` | Email each lead via [Resend](https://resend.com). |
+| `LEAD_FROM_EMAIL` | Sender for Resend. Must be on a domain **verified with Resend**. |
+| `NEXT_PUBLIC_GA_ID` / `NEXT_PUBLIC_GTM_ID` | Optional GA4 / Tag Manager. Nothing loads without them. |
+
+See `.env.example` for the annotated list.
+
+> **In production the endpoint requires at least one delivery channel.** With none configured it
+> returns `503` and the form shows its "please call us" fallback, rather than reporting success for
+> a lead it cannot deliver. It also returns `502` if every configured channel fails. Only a
+> correlation ID and per-channel delivery status are logged — never the submitted personal details.
+
+> **Do not leave the Resend sender as the default.** `onboarding@resend.dev` is Resend's sandbox
+> address and only ever delivers to the Resend account owner; with any other recipient it accepts
+> the request and silently drops the mail.
 
 No secrets are required to build or run the site.
 
@@ -67,7 +86,7 @@ No secrets are required to build or run the site.
 | Google reviews / testimonials | `content/reviews.json` |
 | Team bios | `app/about/**` |
 | Brand colors & fonts | `tailwind.config.ts`, `app/globals.css`, `app/layout.tsx` |
-| Images | `public/images/**` (facility, stock, logos, insurance, team) |
+| Images | `public/images/**` (facility, logos, insurance, team) — see *Images* below |
 
 ### Refreshing the Google reviews
 
@@ -96,6 +115,21 @@ Create `content/blog/<slug>.json`:
 It will appear automatically in the blog index, the category filter, sitemap, and get its own
 statically generated page at `/blog/my-post`.
 
+## Images
+
+Every photograph on the site must come from the owner-approved shoot. There is deliberately **no
+`public/images/stock/` directory** — it was removed along with four non-facility files, because
+while it existed stock imagery kept creeping back in.
+
+- Facility photography lives in `public/images/facility/` under semantic names (`exterior-front`,
+  `living-room`, `bedroom-twin`, …) rather than `facility-07`, so the call site says what it shows.
+- Staff headshots live in `public/images/team/`, normalised to an 800×800 square crop.
+- Substance and population pages ship **without** hero images on purpose: nothing in the approved
+  set honestly depicts therapy, people or a specific substance, so `PageHero` renders the brand
+  gradient instead. Passing no `image` prop is the supported path, not an oversight.
+- Captions and `alt` text are trust claims on a healthcare site. Describe what is actually in the
+  frame; never label a photograph as this facility unless it is.
+
 ## Brand
 
 | Token | Value | Use |
@@ -110,6 +144,8 @@ statically generated page at `/blog/my-post`.
 - A few source-site inconsistencies were standardized: a single phone number
   `(949) 649-0702`, the email `info@oceancoastrecovery.com`, and "Costa Mesa" as the primary
   location.
-- The homepage/legacy site used a JS review widget; the four verbatim testimonials that were
-  recoverable are included in `components/Testimonials.tsx` along with the 5.0 / 124-review rating.
+- Testimonials live in `content/reviews.json` (10 reviews plus the aggregate rating), rendered by
+  `components/Testimonials.tsx`. The aggregate is read from that one file by the homepage badge, the
+  About stats and the `MedicalBusiness` JSON-LD, so updating the JSON updates all three.
+- Outstanding work, decisions and their evidence are tracked in **`ISSUES.md`** at the repo root.
 ```

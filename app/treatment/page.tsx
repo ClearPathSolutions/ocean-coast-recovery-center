@@ -17,8 +17,8 @@ export const metadata: Metadata = {
 const therapies = [
   { title: "Cognitive Behavioral Therapy", text: "Identifying and shifting the thought patterns that lead to self-medication and distress." },
   { title: "Dialectical Behavior Therapy", text: "Practical tools for distress tolerance and emotional regulation." },
-  { title: "Trauma-Informed Care", text: "Addressing the underlying PTSD and experiences that drive the cycle of addiction." },
-  { title: "Group & Peer Support", text: "Building a supportive community of peers who share accountability and hope." },
+  { title: "Trauma-Informed Care", text: "Addressing the underlying PTSD and experiences that drive the cycle of addiction.", href: "/treatment/dual-diagnosis" },
+  { title: "Group & Peer Support", text: "Building a supportive community of peers who share accountability and hope.", href: "/treatment/aftercare" },
   { title: "Holistic Therapies", text: "Meditation, yoga, tai chi, reiki, art & music therapy, acupuncture, and nature hikes." },
   { title: "Nutrition Counseling", text: "Restoring physical health to support the work of long-term recovery." },
 ];
@@ -30,7 +30,7 @@ export default function TreatmentPage() {
         eyebrow="Premier substance abuse treatment in Costa Mesa"
         title="Addiction treatment services in Orange County"
         subtitle="We meet you where you are and build an individualized plan that treats the whole person — mind, body, and spirit."
-        image="/images/facility/facility-05.jpg"
+        image="/images/facility/dining-kitchen.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "Treatment" }]}
       />
 
@@ -42,7 +42,7 @@ export default function TreatmentPage() {
           "At our treatment center in Orange County, we understand that your addiction may have taken over your identity. We're here to help you find your way back to you — to step away from drugs and alcohol and into recovery.",
           "The proper treatment can feel as if someone not only turned on the light, but showed you the path out. You do not have to continue to suffer in isolation, because there is a way out.",
         ]}
-        image="/images/facility/facility-08.jpg"
+        image="/images/facility/exterior-side.jpg"
         imageAlt="Comfortable interior at Ocean Coast Recovery"
       />
 
@@ -69,7 +69,7 @@ export default function TreatmentPage() {
           "We take a holistic approach because addiction affects your whole person — mind, body, and spirit. Our treatment seeks to bring healing to all three so you can move forward into long-term recovery.",
           "While your addiction may always be part of your story, it doesn't have to be the whole story. We'll partner with you to write new chapters.",
         ]}
-        image="/images/facility/facility-10.jpg"
+        image="/images/facility/pool-waterfall.jpg"
         imageAlt="Ocean Coast Recovery facility"
       >
         <Link href="/admissions" className="btn-ocean mt-8">Get Help Now <ArrowRight className="h-4 w-4" /></Link>

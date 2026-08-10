@@ -48,7 +48,6 @@ export default async function SubstancePage({
         eyebrow="Medically supervised detox"
         title={meta.heroTitle}
         subtitle={doc.heroSubtitle}
-        image={meta.image}
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Treatment", href: "/treatment" },

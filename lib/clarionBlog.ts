@@ -23,6 +23,30 @@ function endpoint(path: string, extra: Record<string, string> = {}) {
   return `${clarion.api}${path}?${qs.toString()}`;
 }
 
+/**
+ * Clarion post bodies are third-party HTML injected via dangerouslySetInnerHTML.
+ * The site CSP has to allow 'unsafe-inline' for scripts (Next.js emits inline
+ * bootstrap + JSON-LD), so an injected <script> WOULD execute — CSP is not a
+ * backstop here. Strip the executable surface before it ever reaches the DOM.
+ *
+ * Deliberately conservative: an allow-list parser would be better, but that
+ * means a dependency, and this content is semantic article markup.
+ */
+export function sanitizeRemoteHtml(html: string): string {
+  return html
+    // Drop whole elements that can execute or restyle the page.
+    .replace(/<(script|style|iframe|object|embed|link|meta|base|form)\b[\s\S]*?<\/\1\s*>/gi, "")
+    // ...and their self-closing / unterminated forms.
+    .replace(/<(script|style|iframe|object|embed|link|meta|base|form)\b[^>]*>/gi, "")
+    // Inline event handlers: onclick=, onerror=, onload=…
+    .replace(/\son[a-z]+\s*=\s*"[^"]*"/gi, "")
+    .replace(/\son[a-z]+\s*=\s*'[^']*'/gi, "")
+    .replace(/\son[a-z]+\s*=\s*[^\s>]+/gi, "")
+    // javascript:/data: URLs in href/src.
+    .replace(/\s(href|src)\s*=\s*"\s*(javascript|data|vbscript):[^"]*"/gi, "")
+    .replace(/\s(href|src)\s*=\s*'\s*(javascript|data|vbscript):[^']*'/gi, "");
+}
+
 function normalize(p: unknown): ClarionPost | null {
   const o = p as Record<string, unknown>;
   if (!o || typeof o.slug !== "string" || typeof o.title !== "string") return null;
@@ -34,7 +58,7 @@ function normalize(p: unknown): ClarionPost | null {
     coverImageUrl: typeof o.cover_image_url === "string" ? o.cover_image_url : "",
     authorName: typeof o.author_name === "string" ? o.author_name : "",
     publishedAt: typeof o.published_at === "string" ? o.published_at : "",
-    bodyHtml: typeof o.body_html === "string" ? o.body_html : undefined,
+    bodyHtml: typeof o.body_html === "string" ? sanitizeRemoteHtml(o.body_html) : undefined,
     seo: seo ? { title: seo.title, description: seo.description } : undefined,
   };
 }

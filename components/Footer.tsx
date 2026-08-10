@@ -21,7 +21,8 @@ const columns = [
       { label: "Professionals", href: "/who-we-help/professionals" },
       { label: "First Responders", href: "/who-we-help/first-responders" },
       { label: "LGBTQ+ Community", href: "/who-we-help/lgbtq" },
-      { label: "Men & Women", href: "/who-we-help/men" },
+      { label: "Men", href: "/who-we-help/men" },
+      { label: "Women", href: "/who-we-help/women" },
     ],
   },
   {
@@ -67,7 +68,7 @@ export default function Footer() {
         {/* Brand + contact */}
         <div className="col-span-2 md:col-span-3">
           <Image
-            src="/images/logos/logo-final.png"
+            src="/images/logos/logo-white.png"
             alt={site.name}
             width={260}
             height={195}
@@ -75,7 +76,7 @@ export default function Footer() {
           />
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/65">
             An intimate, six-bed drug &amp; alcohol treatment center in Costa Mesa, California —
-            steps from the coast, built for lasting recovery.
+            minutes from the coast, built for lasting recovery.
           </p>
           <ul className="mt-6 space-y-3 text-sm">
             <li>
@@ -141,21 +142,39 @@ export default function Footer() {
         <div className="container-wide flex flex-col items-center gap-6 py-8 md:flex-row md:justify-between">
           <div className="flex items-center gap-5">
             {accreditations.map((a) => (
-              <Image
+              <a
                 key={a.name}
-                src={a.img}
-                alt={`${a.name} — ${a.label}`}
-                width={64}
-                height={64}
-                className="h-14 w-14 rounded-lg bg-white/95 object-contain p-1.5"
-              />
+                href={a.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`${a.name} — ${a.label}`}
+                className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ocean-300"
+              >
+                <Image
+                  src={a.img}
+                  alt={`${a.name} — ${a.label}`}
+                  width={64}
+                  height={64}
+                  className="h-14 w-14 rounded-lg bg-white/95 object-contain p-1.5 transition-transform hover:scale-105"
+                />
+              </a>
             ))}
-            <p className="max-w-[220px] text-xs leading-relaxed text-white/50">
-              Accredited by The Joint Commission &amp; LegitScript Certified.
+            <p className="max-w-[240px] text-xs leading-relaxed text-white/50">
+              Accredited by The Joint Commission, LegitScript Certified, and licensed by the
+              California Department of Health Care Services.
             </p>
           </div>
           <div className="text-center text-xs text-white/45 md:text-right">
-            <p>{site.license}</p>
+            <p>
+              <a
+                href="https://data.chhs.ca.gov/dataset/sud-recovery-treatment-facilities"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white/70"
+              >
+                {site.license}
+              </a>
+            </p>
             <p className="mt-1">
               © {new Date().getFullYear()} {site.name}. All rights reserved. ·{" "}
               <Link href="/privacy" className="hover:text-white/70">Privacy Policy</Link>

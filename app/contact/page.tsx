@@ -26,7 +26,7 @@ export default function ContactPage() {
         eyebrow="Contact Ocean Coast Recovery today"
         title="Get in touch"
         subtitle="Reach out day or night. Whether you're ready to start treatment or just have questions, a caring team member is here for you."
-        image="/images/facility/facility-04.jpg"
+        image="/images/facility/exterior-front.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
       />
 
@@ -39,7 +39,8 @@ export default function ContactPage() {
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-ocean-500 text-white">
                   <c.icon className="h-6 w-6" />
                 </span>
-                <h3 className="mt-4 text-sm font-semibold uppercase tracking-wider text-ocean-600">{c.title}</h3>
+                {/* h2: first section after the page h1 — h3 would skip a level. */}
+                <h2 className="mt-4 text-sm font-semibold uppercase tracking-wider text-ocean-600">{c.title}</h2>
                 <p className="mt-1 font-medium text-navy">{c.value}</p>
               </>
             );
@@ -75,7 +76,7 @@ export default function ContactPage() {
 
           <Reveal delay={120} className="overflow-hidden rounded-4xl shadow-card lg:mt-2">
             <iframe
-              title="Ocean Coast Recovery location map"
+              title="Map showing Ocean Coast Recovery Center in Costa Mesa, California"
               src="https://www.google.com/maps?q=1799+Hummingbird+Drive,+Costa+Mesa,+CA+92626&output=embed"
               width="100%"
               height="100%"

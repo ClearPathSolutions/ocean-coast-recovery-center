@@ -11,28 +11,41 @@ export default function PageHero({
   image,
   crumbs = [],
   align = "left",
-  unoptimizedImage = false,
 }: {
   eyebrow?: string;
   title: string;
   subtitle?: string;
-  image: string;
+  /**
+   * Optional. Substance and population pages deliberately ship without a hero
+   * image (IMG-07): the approved photo set contains no person, therapy or
+   * clinical frame, and the audit asked for those images to be *removed* rather
+   * than substituted. Those pages get the brand gradient instead of a stock
+   * photo that misrepresents the facility.
+   */
+  image?: string;
   crumbs?: Crumb[];
   align?: "left" | "center";
-  unoptimizedImage?: boolean;
 }) {
   return (
     <section className="relative isolate overflow-hidden bg-navy-dark pt-[120px] lg:pt-[148px]">
-      <Image
-        src={image}
-        alt=""
-        fill
-        priority
-        unoptimized={unoptimizedImage}
-        sizes="100vw"
-        className="object-cover"
-      />
-      <div className="hero-overlay absolute inset-0" />
+      {image ? (
+        <>
+          <Image
+            src={image}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="hero-overlay absolute inset-0" />
+        </>
+      ) : (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-br from-navy-deepest via-navy to-ocean-800"
+        />
+      )}
       <div
         className={`container-wide relative z-10 flex min-h-[46vh] flex-col justify-center py-16 sm:min-h-[52vh] sm:py-20 ${
           align === "center" ? "items-center text-center" : "items-start"

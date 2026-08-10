@@ -17,7 +17,6 @@ type PostView = {
   excerpt: string;
   dateISO: string;
   cover: string;
-  remoteCover: boolean;
   readMinutes: number;
   bodyHtml: string;
   seo?: { title?: string; description?: string };
@@ -33,7 +32,6 @@ async function loadView(slug: string): Promise<PostView | null> {
       excerpt: local.excerpt,
       dateISO: local.date,
       cover: coverFor(local.slug),
-      remoteCover: false,
       readMinutes: local.readMinutes,
       bodyHtml: local.bodyHtml,
     };
@@ -46,8 +44,8 @@ async function loadView(slug: string): Promise<PostView | null> {
       category: CLARION_CATEGORY,
       excerpt: cp.excerpt,
       dateISO: cp.publishedAt,
-      cover: cp.coverImageUrl || coverFor(cp.slug),
-      remoteCover: !!cp.coverImageUrl,
+      // `cp.coverImageUrl` is ignored on purpose — see the note in app/blog/page.tsx.
+      cover: coverFor(cp.slug),
       readMinutes: estimateReadMinutes(cp.bodyHtml),
       bodyHtml: cp.bodyHtml,
       seo: cp.seo,
@@ -82,6 +80,10 @@ export async function generateMetadata({
       title: view.seo?.title ?? view.title,
       description: view.seo?.description ?? view.excerpt,
       type: "article",
+      // A page-level openGraph object replaces the parent's wholesale rather
+      // than merging, so `url` has to be restated here or og:url comes out
+      // empty on all 70 posts (V0088).
+      url: "./",
       images: [{ url: view.cover }],
     },
   };
@@ -114,7 +116,6 @@ export default async function BlogPostPage({
         eyebrow={post.category}
         title={post.title}
         image={post.cover}
-        unoptimizedImage={post.remoteCover}
         crumbs={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.category }]}
       />
 

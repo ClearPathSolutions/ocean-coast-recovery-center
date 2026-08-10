@@ -44,7 +44,7 @@ export default function ResidentialPage() {
         eyebrow="Orange County drug & alcohol residential program"
         title="Luxury inpatient rehab in Costa Mesa"
         subtitle="The most immersive level of care we offer — 24/7 clinical support in a safe, high-comfort home designed for those who need to step away and focus entirely on healing."
-        image="/images/facility/facility-08.jpg"
+        image="/images/facility/bedroom-twin.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "Treatment", href: "/treatment" }, { label: "Residential Inpatient" }]}
       />
 
@@ -55,7 +55,7 @@ export default function ResidentialPage() {
           "Residential treatment is designed for those who need to step away from the noise and triggers of daily life to focus entirely on healing. You live on-site in a safe home where medical and clinical support is available around the clock.",
           "This level of care bridges the gap between the intensity of detox and the return to independent living. It's the right choice for anyone who feels their current environment makes staying sober feel impossible — especially those who've tried outpatient before and needed more consistent, 24/7 accountability.",
         ]}
-        image="/images/facility/facility-05.jpg"
+        image="/images/facility/bedroom-single.jpg"
         imageAlt="Residential bedroom suite at Ocean Coast Recovery"
       />
 

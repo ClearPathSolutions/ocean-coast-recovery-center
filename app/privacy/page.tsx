@@ -5,6 +5,12 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "How Ocean Coast Recovery Center collects, uses, and protects your information.",
+  // V0042 cross-ref: this page previously served no robots meta at all, while
+  // the rest of the site is index/follow. Portfolio-wide the same page type
+  // carried four different treatments; "index, follow" is the majority and
+  // matches every other page here. A privacy policy is a trust signal on a
+  // YMYL site, so it should be indexable.
+  robots: { index: true, follow: true },
 };
 
 export default function PrivacyPage() {
@@ -12,7 +18,7 @@ export default function PrivacyPage() {
     <>
       <PageHero
         title="Privacy Policy"
-        image="/images/facility/facility-06.jpg"
+        image="/images/facility/loft-overlook.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "Privacy" }]}
       />
       <section className="bg-white py-16 sm:py-20">
@@ -26,9 +32,29 @@ export default function PrivacyPage() {
           <h2>Information We Collect</h2>
           <p>
             When you submit a form or request a callback, we may collect your name, phone number,
-            email address, and any details you choose to share about your situation. We also collect
-            standard, non-identifying analytics data such as pages visited and device type.
+            email address, and any details you choose to share about your situation.
           </p>
+          <h2>Third-Party Services on This Site</h2>
+          <p>
+            This website uses a small number of third-party services, each of which may receive
+            limited information about your visit:
+          </p>
+          <ul>
+            <li>
+              <strong>Call tracking.</strong> The phone number shown on the site may be swapped for
+              a tracking number so we can tell which pages lead to calls. This records the call and
+              basic visit details such as the page you were on and your approximate location.
+            </li>
+            <li>
+              <strong>Chat and form capture.</strong> Our chat widget and contact forms are handled
+              by a third-party provider that processes the messages and contact details you submit.
+            </li>
+            <li>
+              <strong>Website analytics.</strong> If enabled, we collect standard, non-identifying
+              analytics such as pages visited and device type. We do not use analytics to identify
+              you personally.
+            </li>
+          </ul>
           <h2>How We Use Your Information</h2>
           <ul>
             <li>To respond to your inquiries and provide information about our programs.</li>

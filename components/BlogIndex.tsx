@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { BlogCard } from "@/lib/blog";
@@ -14,11 +14,30 @@ export default function BlogIndex({
   categories: string[];
 }) {
   const [active, setActive] = useState<string>("All");
+  // VIS-1640 — the index rendered all ~80 cards at once. Paginate to 10.
+  const [page, setPage] = useState(1);
+  const gridTopRef = useRef<HTMLDivElement | null>(null);
+  const didMount = useRef(false);
 
   const filtered = useMemo(
     () => (active === "All" ? posts : posts.filter((p) => p.category === active)),
     [active, posts]
   );
+
+  const PER_PAGE = 10;
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+  const current = Math.min(page, pageCount);
+  const visible = filtered.slice((current - 1) * PER_PAGE, current * PER_PAGE);
+
+  // Changing the category resets to page 1.
+  useEffect(() => { setPage(1); }, [active]);
+
+  // Scroll the grid back into view on page change — but not on first render,
+  // which would yank the viewport on load.
+  useEffect(() => {
+    if (!didMount.current) { didMount.current = true; return; }
+    gridTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [current]);
 
   const fmt = (iso: string) => {
     const d = new Date(iso.includes("T") ? iso : iso + "T00:00:00");
@@ -46,13 +65,17 @@ export default function BlogIndex({
         ))}
       </div>
 
+      <div ref={gridTopRef} className="scroll-mt-32" />
+
       <p className="mt-6 text-center text-sm text-navy/50">
-        Showing {filtered.length} article{filtered.length === 1 ? "" : "s"}
+        {filtered.length === 0
+          ? "No articles in this category yet."
+          : `Showing ${(current - 1) * PER_PAGE + 1}–${Math.min(current * PER_PAGE, filtered.length)} of ${filtered.length} article${filtered.length === 1 ? "" : "s"}`}
       </p>
 
       {/* Grid */}
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((post) => (
+        {visible.map((post) => (
           <Link
             key={post.slug}
             href={`/blog/${post.slug}`}
@@ -63,7 +86,6 @@ export default function BlogIndex({
                 src={post.cover}
                 alt=""
                 fill
-                unoptimized={post.remoteCover}
                 sizes="(max-width: 640px) 100vw, 33vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
@@ -80,9 +102,10 @@ export default function BlogIndex({
                   </span>
                 )}
               </div>
-              <h3 className="mt-3 flex-1 text-lg font-semibold leading-snug text-navy group-hover:text-ocean-700">
+              {/* h2: the card grid is the first section after the page h1. */}
+              <h2 className="mt-3 flex-1 text-lg font-semibold leading-snug text-navy group-hover:text-ocean-700">
                 {post.title}
-              </h3>
+              </h2>
               <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-navy/60">{post.excerpt}</p>
               <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-ocean-600 transition-all group-hover:gap-2.5">
                 Read Article <ArrowRight className="h-4 w-4" />
@@ -91,6 +114,46 @@ export default function BlogIndex({
           </Link>
         ))}
       </div>
+
+      {/* Pagination (VIS-1640) */}
+      {pageCount > 1 && (
+        <nav
+          aria-label="Blog pagination"
+          className="mt-12 flex flex-wrap items-center justify-center gap-2"
+        >
+          <button
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={current === 1}
+            className="rounded-full border border-ocean-200 bg-white px-4 py-2 text-sm font-semibold text-navy transition-colors hover:border-ocean-400 hover:text-ocean-600 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Previous
+          </button>
+
+          {Array.from({ length: pageCount }, (_, i) => i + 1).map((n) => (
+            <button
+              key={n}
+              onClick={() => setPage(n)}
+              aria-current={n === current ? "page" : undefined}
+              aria-label={`Page ${n}`}
+              className={`h-10 min-w-10 rounded-full px-3 text-sm font-semibold transition-colors ${
+                n === current
+                  ? "bg-ocean-500 text-white shadow-soft"
+                  : "border border-ocean-200 bg-white text-navy hover:border-ocean-400 hover:text-ocean-600"
+              }`}
+            >
+              {n}
+            </button>
+          ))}
+
+          <button
+            onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
+            disabled={current === pageCount}
+            className="rounded-full border border-ocean-200 bg-white px-4 py-2 text-sm font-semibold text-navy transition-colors hover:border-ocean-400 hover:text-ocean-600 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Next
+          </button>
+        </nav>
+      )}
     </div>
   );
 }
