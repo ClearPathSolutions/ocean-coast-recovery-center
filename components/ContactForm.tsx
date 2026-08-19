@@ -95,17 +95,11 @@ export default function ContactForm({
         <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
       </div>
       <div className={`grid gap-4 ${compact ? "" : "sm:grid-cols-2"}`}>
-        <div>
-          <label htmlFor="firstName" className="mb-1.5 block text-sm font-medium text-navy">
-            First name
+        <div className={compact ? "" : "sm:col-span-2"}>
+          <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-navy">
+            Name
           </label>
-          <input id="firstName" name="firstName" required autoComplete="given-name" className={input} placeholder="Jane" />
-        </div>
-        <div>
-          <label htmlFor="lastName" className="mb-1.5 block text-sm font-medium text-navy">
-            Last name
-          </label>
-          <input id="lastName" name="lastName" required autoComplete="family-name" className={input} placeholder="Doe" />
+          <input id="name" name="name" required autoComplete="name" className={input} placeholder="Jane Doe" />
         </div>
         <div>
           <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-navy">

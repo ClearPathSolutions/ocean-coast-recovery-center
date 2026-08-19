@@ -92,13 +92,12 @@ export async function POST(req: Request) {
   }
 
   const str = (v: unknown) => (typeof v === "string" ? v.trim() : "");
-  const firstName = str(body.firstName);
-  const lastName = str(body.lastName);
+  const name = str(body.name);
   const phone = str(body.phone);
   const email = str(body.email);
   const message = str(body.message);
 
-  if (!firstName || !lastName || !phone || !email) {
+  if (!name || !phone || !email) {
     return NextResponse.json({ ok: false, error: "Missing required fields" }, { status: 422 });
   }
   if (!isEmail(email) || !isPhone(phone)) {
@@ -107,7 +106,7 @@ export async function POST(req: Request) {
       { status: 422 }
     );
   }
-  if ([firstName, lastName, phone, email, message].some((v) => v.length > MAX_FIELD_LEN)) {
+  if ([name, phone, email, message].some((v) => v.length > MAX_FIELD_LEN)) {
     return NextResponse.json({ ok: false, error: "Submission too long" }, { status: 413 });
   }
 
@@ -115,8 +114,7 @@ export async function POST(req: Request) {
   const leadId = crypto.randomUUID();
   const lead = {
     leadId,
-    firstName,
-    lastName,
+    name,
     phone,
     email,
     message,
@@ -161,10 +159,10 @@ export async function POST(req: Request) {
           from: fromEmail,
           to: [toEmail],
           reply_to: email,
-          subject: `New admissions inquiry — ${firstName} ${lastName}`,
+          subject: `New admissions inquiry — ${name}`,
           text: [
             `Lead ID: ${leadId}`,
-            `Name:    ${firstName} ${lastName}`,
+            `Name:    ${name}`,
             `Phone:   ${phone}`,
             `Email:   ${email}`,
             `Message: ${message || "(none)"}`,
