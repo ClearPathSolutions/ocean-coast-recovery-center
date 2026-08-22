@@ -1014,8 +1014,12 @@ local posts if the feed is unreachable.
   *(Tested and rejected: recompressing at q80 saves only 20 MB → 18.8 MB, so the files are already
   quality-appropriate and dimensions are on spec. Deleting the unused set is the real win.)*
 
-- [ ] **AUDIT-03 — Call-tracking asset is loaded protocol-relative.**
-  `<link rel="preload" href="//264810.tctm.co/t.js" as="script">`, and the CSP allows
+- [x] **AUDIT-03 — resolved.** ✅ Done 2026-08-21, alongside the CTM/Clarion attribution work.
+  `t.js` is now loaded absolute-`https://` in [app/layout.tsx](app/layout.tsx), and the
+  `http://*.tctm.co` CSP entry is gone. Verified in a browser: exactly one `t.js` tag,
+  `__ctm.config.aid === 264810`. Note the second `*.tctm.co` script you will see in devtools is
+  `p.js`, which `t.js` injects itself to carry the number-swap pool — not a duplicate install.
+  Original note:  `<link rel="preload" href="//264810.tctm.co/t.js" as="script">`, and the CSP allows
   `http://*.tctm.co` alongside the https form. `upgrade-insecure-requests` covers it in practice,
   but pin both to `https://` and drop the `http://` CSP entry — there's no reason to permit the
   downgrade on a site handling health enquiries.

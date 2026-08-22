@@ -54,6 +54,13 @@ export default function PrivacyPage() {
               analytics such as pages visited and device type. We do not use analytics to identify
               you personally.
             </li>
+            <li>
+              <strong>Referral source.</strong> Your browser stores, for up to 30 days, how you
+              first arrived at this site — the page you landed on, the site that referred you, and
+              any advertising campaign tags in the link you followed. If you later submit a form,
+              that is sent with it so we can tell which of our listings and adverts help people
+              find care. It contains no health information and is not used to identify you.
+            </li>
           </ul>
           <h2>How We Use Your Information</h2>
           <ul>

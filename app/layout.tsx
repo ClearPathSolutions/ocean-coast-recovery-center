@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import LocationMap from "@/components/LocationMap";
 import Clarion from "@/components/Clarion";
 import Analytics from "@/components/Analytics";
+import SessionTracker from "@/components/SessionTracker";
 
 const display = Fraunces({
   subsets: ["latin"],
@@ -119,8 +120,14 @@ const jsonLd = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
-      {/* Call tracking (tctm.co) — loads early to swap/track phone numbers */}
-      <Script src={`//${callTracking.accountId}.tctm.co/t.js`} strategy="beforeInteractive" />
+      {/* Call tracking (tctm.co). Eager on every page, landing pages included:
+          it performs the dynamic number swap, so deferring it lets a visitor
+          read and dial the wrong number. Pinned to https — protocol-relative
+          permits a downgrade on a site handling health enquiries (AUDIT-03). */}
+      <Script
+        src={`https://${callTracking.accountId}.tctm.co/t.js`}
+        strategy="beforeInteractive"
+      />
       <body className="min-h-screen overflow-x-hidden">
         <script
           type="application/ld+json"
@@ -138,7 +145,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LocationMap />
         <Footer />
 
-        {/* Clarion — form capture (exposes window.ClarionForms) + chat widget */}
+        {/* Clarion form capture. The site submits to Clarion itself (see
+            lib/clarionForms.ts) because this script reads the campaign live
+            from location.search; it stays loaded so Clarion still sees the
+            integration as installed. It auto-binds only to
+            `form[data-clarion-form]` — never add that attribute to this site's
+            form, or every lead is submitted twice. */}
         <Script
           src={clarion.formsCapture}
           strategy="afterInteractive"
@@ -147,6 +159,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <Clarion />
         <Analytics />
+        {/* First-touch attribution — records a pageview on every route change. */}
+        <SessionTracker />
       </body>
     </html>
   );

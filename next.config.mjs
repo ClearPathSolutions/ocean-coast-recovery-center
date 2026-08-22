@@ -59,7 +59,9 @@ const CARRIERS = ['bcbs', 'beacon', 'cigna', 'geha', 'meritain', 'value-options'
 // needs middleware and makes every page dynamic — a real trade against the
 // fully-static build. Everything else is locked to known hosts.
 const CLARION = 'https://www.clarionlabs.ai https://api.clarionlabs.ai';
-const CALL_TRACKING = 'https://*.tctm.co http://*.tctm.co';
+// https only — the http form permitted a downgrade on a site handling health
+// enquiries, and t.js is now loaded absolute-https (AUDIT-03).
+const CALL_TRACKING = 'https://*.tctm.co';
 const ANALYTICS = 'https://www.googletagmanager.com https://www.google-analytics.com';
 
 const CSP = [
