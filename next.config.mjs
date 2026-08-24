@@ -76,7 +76,7 @@ const CSP = [
   `style-src 'self' 'unsafe-inline'`,
   `img-src 'self' data: blob: https:`,
   `font-src 'self' data:`,
-  `connect-src 'self' ${CLARION} ${CALL_TRACKING} ${ANALYTICS} https://api.resend.com`,
+  `connect-src 'self' ${CLARION} ${CALL_TRACKING} ${ANALYTICS}`,
   `frame-src 'self' https://www.google.com https://maps.google.com https://www.googletagmanager.com https://tagassistant.google.com https://td.doubleclick.net`,
   `form-action 'self'`,
   `base-uri 'self'`,

@@ -47,28 +47,35 @@ Requires Node 18.18+ (Node 20 recommended).
 
 ## Lead / contact form
 
-The contact and "verify insurance" forms POST to `app/api/lead/route.ts`. Out of the box it
-validates input, logs each lead to the server (visible in Vercel logs), and returns success so the
-site works immediately. To actually **deliver** leads, set one of these environment variables in
-**Vercel → Settings → Environment Variables**:
+The contact and "verify insurance" forms are the same component
+([components/ContactForm.tsx](components/ContactForm.tsx), `variant="contact" | "insurance"`).
+Both submit **directly to Clarion** from the browser — `POST {api}/forms/public/submit` — via
+[lib/clarionForms.ts](lib/clarionForms.ts). Clarion is the system of record; there is no
+server-side lead endpoint and no environment variable to configure.
 
-| Variable | Purpose |
+Each submission carries first-touch attribution built by [lib/session.ts](lib/session.ts):
+
+| Field | Notes |
 | --- | --- |
-| `LEAD_WEBHOOK_URL` | POST each lead as JSON to a Zapier/Make webhook or your CRM endpoint. |
-| `RESEND_API_KEY` + `LEAD_TO_EMAIL` | Email each lead via [Resend](https://resend.com). |
-| `LEAD_FROM_EMAIL` | Sender for Resend. Must be on a domain **verified with Resend**. |
-| `NEXT_PUBLIC_GA_ID` / `NEXT_PUBLIC_GTM_ID` | Optional GA4 / Tag Manager. Nothing loads without them. |
+| `ctm_visitor_sid` | CallTrackingMetrics' visitor session id. **Flat and top-level** — nested, Clarion's parser never finds it and the lead attaches to no visit. 24 hex characters, no dashes; `null` if CTM is unavailable. Never substitute another id. |
+| `utm` | Object with unprefixed keys (`source`, `medium`, …), or `null`. |
+| `gclid` | Falls back to `wbraid` / `gbraid`, which is how Google reports a click under iOS and consent mode. |
+| `landing_page_url`, `referrer` | The real entry page and external referrer, not the form page. |
 
-See `.env.example` for the annotated list.
+Attribution is captured on the **first** pageview into `localStorage` (30-day window, 30-minute
+idle, a fresh ad click re-attributes) and read back at submit time. Reading it live from
+`location.search` is the bug this replaced: anyone who browsed before converting submitted as
+direct traffic, and the record still looked complete.
 
-> **In production the endpoint requires at least one delivery channel.** With none configured it
-> returns `503` and the form shows its "please call us" fallback, rather than reporting success for
-> a lead it cannot deliver. It also returns `502` if every configured channel fails. Only a
-> correlation ID and per-channel delivery status are logged — never the submitted personal details.
+`NEXT_PUBLIC_GA_ID` / `NEXT_PUBLIC_GTM_ID` remain optional — GA4 / Tag Manager load only when set.
 
-> **Do not leave the Resend sender as the default.** `onboarding@resend.dev` is Resend's sandbox
-> address and only ever delivers to the Resend account owner; with any other recipient it accepts
-> the request and silently drops the mail.
+> **The form's success message is gated on Clarion's response.** If the POST fails, the visitor
+> sees the "please call us" fallback with the real phone number instead of a success message the
+> delivery does not support.
+
+> **Never add `data-clarion-form` to the form.** `forms-capture.v1.js` is still loaded (it reports
+> the integration as installed) and auto-binds to any form carrying that attribute without checking
+> `defaultPrevented` — every lead would be submitted twice.
 
 No secrets are required to build or run the site.
 

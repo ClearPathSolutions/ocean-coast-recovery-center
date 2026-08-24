@@ -919,16 +919,18 @@ Verified live on `ocean-coast-recovery-center.vercel.app`:
 
 ## ⛔ Launch blockers — the Vercel build is up, the site is NOT ready for the domain
 
-- [ ] **LAUNCH-01 — Every lead form will fail with HTTP 503 until a delivery channel is configured.**
-  This is by design (CR-04): the endpoint now refuses a lead it cannot deliver rather than showing a
-  false success. But it means that **on any production deployment with no env vars set, the entire
-  admissions funnel returns an error**. Set one of these in Vercel → Settings → Environment Variables:
-  - `LEAD_WEBHOOK_URL` — POST each lead as JSON to Zapier/Make/the CRM, **or**
-  - `RESEND_API_KEY` + `LEAD_TO_EMAIL` — and set `LEAD_FROM_EMAIL` to an address on a Resend-verified
-    domain. The default `onboarding@resend.dev` only ever delivers to the Resend account owner and
-    silently drops mail to anyone else, which reads as success.
-
-  Then submit one real test enquiry and confirm it arrives before cutover.
+- [x] **LAUNCH-01 — resolved 2026-08-21 by removing the server-side lead path entirely.**
+  Confirmed in production that submissions reach Clarion directly, so Clarion is the system of
+  record and the webhook/email channel was redundant. `app/api/lead/route.ts` is deleted along with
+  `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, `LEAD_TO_EMAIL` and `LEAD_FROM_EMAIL`; no environment
+  variable is needed for the admissions funnel to work, and the 503 cannot occur.
+  The form's success message is now gated on Clarion's own response, so a Clarion failure shows the
+  "please call us" fallback rather than a false success.
+  ⚠️ **Traded away with it:** server-side rate limiting and the `__ctmid` cookie recovery. Neither
+  ever applied to Clarion, which the browser posts to directly — but it does mean submission abuse
+  protection is now Clarion's responsibility alone. Original note:  Every lead form will fail with
+  HTTP 503 until a delivery channel is configured. This is by design (CR-04): the endpoint refuses a
+  lead it cannot deliver rather than showing a false success.
 
 - [ ] **LAUNCH-02 — No analytics configured.** `components/Analytics.tsx` is env-gated and renders
   nothing until `NEXT_PUBLIC_GA_ID` or `NEXT_PUBLIC_GTM_ID` is set. Until then there is no way to tell

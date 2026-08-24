@@ -25,38 +25,24 @@ export default function ContactForm({
     setStatus("submitting");
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
-    // Read once, so both destinations are told the same story about this visit.
     // Campaign data comes from the persisted first-touch store, not the current
     // URL — by the time someone fills this in, the URL that carried the ad click
     // is usually two navigations behind them.
     const attribution = leadAttribution();
     try {
-      // Best-effort Clarion capture. Fire-and-forget (keepalive) rather than
-      // awaited: it must never add latency to, or block, the real lead reaching
-      // /api/lead below. Skipped for honeypot hits so bots do not reach the CRM
-      // — the endpoint below already drops them.
+      // A honeypot hit is a bot. Report success so it records one and does not
+      // retry with the field stripped out, but send nothing anywhere.
       const isBot = typeof data.company === "string" && data.company.trim() !== "";
       if (!isBot) {
-        void submitToClarion(clarion.formKeys[variant], { ...data, variant }, attribution);
-      }
-
-      const res = await fetch("/api/lead/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // Attribution is spread at the top level: `ctm_visitor_sid` in
-        // particular must stay flat, since a nested copy is invisible to
-        // everything downstream that looks for it.
-        body: JSON.stringify({ ...data, ...attribution }),
-      });
-      if (!res.ok) {
-        // The endpoint returns a human-readable reason when it cannot deliver
-        // the lead (no channel configured, every channel failed, rate limited).
-        // Show that rather than a generic failure.
-        const reason = await res
-          .json()
-          .then((j: { error?: string }) => j?.error)
-          .catch(() => undefined);
-        throw new Error(reason || "Request failed");
+        const delivered = await submitToClarion(
+          clarion.formKeys[variant],
+          { ...data, variant },
+          attribution
+        );
+        // Clarion is the only destination now, so a failure here means the
+        // enquiry reached nobody. Show the "call us" fallback rather than a
+        // success message the delivery does not support.
+        if (!delivered) throw new Error("We could not submit your request.");
       }
       setStatus("success");
       form.reset();

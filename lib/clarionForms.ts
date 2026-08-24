@@ -58,14 +58,18 @@ function post(body: Record<string, unknown>): Promise<Response> {
 }
 
 /**
- * Send a lead to Clarion. Best-effort: it resolves either way and never throws,
- * so a Clarion outage cannot stop the visitor's enquiry reaching /api/lead.
+ * Send a lead to Clarion, reporting whether it actually landed.
+ *
+ * Clarion is the only destination, so this return value gates the form's
+ * success message. It never throws — but a `false` must be surfaced to the
+ * visitor, because the alternative is telling someone their enquiry was
+ * received when nothing was delivered.
  */
 export async function submitToClarion(
   formKey: string,
   data: Record<string, unknown>,
   attribution: Attribution
-): Promise<void> {
+): Promise<boolean> {
   const body: Record<string, unknown> = {
     site_key: clarion.siteKey,
     form_key: formKey,
@@ -92,7 +96,10 @@ export async function submitToClarion(
 
   try {
     const res = await post(body);
-    if (res.ok || res.status < 400 || res.status >= 500) return;
+    if (res.ok) return true;
+    // 5xx (or a stray 3xx): the extra fields are not the problem, so a retry
+    // would only send the same lead twice.
+    if (res.status < 400 || res.status >= 500) return false;
 
     // 4xx. The extra keys are ones Clarion was never asked to accept, so strict
     // validation would turn every lead into an error. Retry with the vendor's
@@ -101,8 +108,11 @@ export async function submitToClarion(
     const minimal: Record<string, unknown> = {};
     for (const k of VENDOR_KEYS) minimal[k] = body[k];
     console.warn(`[clarion] ${res.status} with extended payload — retrying vendor-only fields`);
-    await post(minimal);
+    const retry = await post(minimal);
+    return retry.ok;
   } catch {
-    // Network failure or CORS. The lead still reaches /api/lead.
+    // Network failure, or CORS refusing us the response. Either way we cannot
+    // claim the lead was received.
+    return false;
   }
 }
