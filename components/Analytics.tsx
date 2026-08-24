@@ -1,4 +1,5 @@
 import Script from "next/script";
+import { analytics } from "@/lib/site";
 
 /**
  * CR-08 — GA4 / Google Tag Manager.
@@ -16,7 +17,7 @@ import Script from "next/script";
  */
 export default function Analytics() {
   const ga = process.env.NEXT_PUBLIC_GA_ID;
-  const gtm = process.env.NEXT_PUBLIC_GTM_ID;
+  const gtm = process.env.NEXT_PUBLIC_GTM_ID || analytics.gtmId;
 
   if (!ga && !gtm) return null;
 
@@ -41,6 +42,17 @@ var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+
 j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','${gtm}');`}
         </Script>
+      )}
+      {gtm && (
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${gtm}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+            title="Google Tag Manager"
+          />
+        </noscript>
       )}
     </>
   );

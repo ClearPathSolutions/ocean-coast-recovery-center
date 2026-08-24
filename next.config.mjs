@@ -62,7 +62,13 @@ const CLARION = 'https://www.clarionlabs.ai https://api.clarionlabs.ai';
 // https only — the http form permitted a downgrade on a site handling health
 // enquiries, and t.js is now loaded absolute-https (AUDIT-03).
 const CALL_TRACKING = 'https://*.tctm.co';
-const ANALYTICS = 'https://www.googletagmanager.com https://www.google-analytics.com';
+// GTM container + GA4. Wildcards cover GA4's regional collect endpoints
+// (region1.google-analytics.com etc.) and Google Ads conversion hosts, which
+// are the tags a site like this actually runs. Any OTHER vendor tag added in
+// GTM later needs its host added here or the browser will block it.
+const ANALYTICS =
+  'https://*.googletagmanager.com https://*.google-analytics.com ' +
+  'https://*.analytics.google.com https://*.g.doubleclick.net https://www.google.com';
 
 const CSP = [
   `default-src 'self'`,
@@ -71,7 +77,7 @@ const CSP = [
   `img-src 'self' data: blob: https:`,
   `font-src 'self' data:`,
   `connect-src 'self' ${CLARION} ${CALL_TRACKING} ${ANALYTICS} https://api.resend.com`,
-  `frame-src 'self' https://www.google.com https://maps.google.com`,
+  `frame-src 'self' https://www.google.com https://maps.google.com https://www.googletagmanager.com https://tagassistant.google.com https://td.doubleclick.net`,
   `form-action 'self'`,
   `base-uri 'self'`,
   `frame-ancestors 'none'`,

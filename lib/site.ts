@@ -63,6 +63,22 @@ export const callTracking = {
 } as const;
 
 /**
+ * Google Tag Manager container for this site.
+ *
+ * Committed rather than env-only so it ships with the build, matching
+ * callTracking above. Neither value is a secret — both are visible in page
+ * source by design. NEXT_PUBLIC_GTM_ID still overrides at build time if a
+ * different container is ever needed per environment.
+ *
+ * NOTE: GTM is a container. Any tag you add inside it that loads from a host
+ * not in the CSP allowlist in next.config.mjs will be silently blocked by the
+ * browser. Add the host there when you add the tag.
+ */
+export const analytics = {
+  gtmId: "GTM-T5FSQTCL",
+} as const;
+
+/**
  * Absolute, slash-canonical URL for a route.
  *
  * `trailingSlash: true` in next.config.mjs makes the slash form the canonical
