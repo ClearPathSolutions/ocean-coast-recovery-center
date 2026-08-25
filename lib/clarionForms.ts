@@ -92,6 +92,11 @@ export async function submitToClarion(
     msclkid: attribution.msclkid,
     visit_id: attribution.visit_id,
     visit_pageviews: attribution.visit_pageviews,
+    // `session` is a key Clarion was never asked to accept. It rides in the
+    // extension group deliberately: if their validation is strict, the 4xx
+    // retry below drops it and the lead still lands. Losing admissions
+    // enquiries to gain attribution is not a trade worth making.
+    session: attribution.session,
   };
 
   try {

@@ -40,8 +40,20 @@ const CAMPAIGN_KEYS: readonly string[] = [...UTM_KEYS, ...CLICK_KEYS];
 
 const MAX_VALUE_LEN = 300;
 const MAX_URL_LEN = 1000;
+/** Journey entries kept. Oldest are dropped first. */
+const MAX_PAGES = 25;
+/**
+ * Byte ceiling for the serialised `session` block. The Clarion request is sent
+ * with `keepalive`, which caps the WHOLE body at 64 KB — past that the browser
+ * drops the request outright and the lead is silently lost. This leaves ample
+ * headroom for the form answers.
+ */
+const MAX_SESSION_BYTES = 8000;
 
 type Campaign = Record<string, string>;
+
+/** One journey entry. Short keys: this is serialised into localStorage. */
+type Page = { p: string; t: number };
 
 type Store = {
   v: 1;
@@ -53,6 +65,7 @@ type Store = {
   referrer: string | null;
   campaign: Campaign;
   pageviews: number;
+  pages: Page[];
 };
 
 export type Utm = {
@@ -61,6 +74,26 @@ export type Utm = {
   campaign: string | null;
   term: string | null;
   content: string | null;
+};
+
+export type SessionPage = { path: string; at: string };
+
+/**
+ * The visit behind a lead: how long it has been running and what was read.
+ *
+ * Note that `pages` carries real paths, and on this site a path states what
+ * someone is seeking treatment for. This block attaches that to a named person
+ * in the CRM. That is deliberate and was asked for — but it is the reason the
+ * journey is bounded rather than unlimited, and dropping to a count alone is a
+ * one-line change here if that trade is ever reconsidered.
+ */
+export type Session = {
+  id: string | null;
+  started_at: string | null;
+  first_touch_at: string | null;
+  last_seen_at: string | null;
+  pageviews: number;
+  pages: SessionPage[];
 };
 
 export type Attribution = {
@@ -83,6 +116,7 @@ export type Attribution = {
   /** Our own visit id. Diagnostics/dedup only. NOT a CTM id. */
   visit_id: string | null;
   visit_pageviews: number;
+  session: Session;
 };
 
 const isBrowser = () => typeof window !== "undefined";
@@ -174,6 +208,8 @@ export function recordPageview(): void {
       referrer: externalReferrer(),
       campaign: live,
       pageviews: 0,
+      // A fresh campaign starts a fresh journey.
+      pages: [],
     };
   } else if (now - s.lastSeenAt > IDLE_MS) {
     // New visit, same person, same first-touch campaign.
@@ -183,7 +219,34 @@ export function recordPageview(): void {
 
   s.lastSeenAt = now;
   s.pageviews += 1;
+  // `?? []` matters: stores written before the journey existed are still v1 and
+  // must keep their first-touch data rather than being discarded.
+  s.pages = [...(s.pages ?? []), { p: clip(location.pathname + location.search, MAX_VALUE_LEN), t: now }]
+    .slice(-MAX_PAGES);
   write(s);
+}
+
+function buildSession(s: Store | null): Session {
+  const iso = (n: number | undefined) => (typeof n === "number" ? new Date(n).toISOString() : null);
+  const session: Session = {
+    id: s?.visitId ?? null,
+    started_at: iso(s?.visitStartedAt),
+    first_touch_at: iso(s?.firstTouchAt),
+    last_seen_at: iso(s?.lastSeenAt),
+    pageviews: s?.pageviews ?? 0,
+    // Capped here as well as on write. recordPageview is not the only thing that
+    // can have produced this store — an older build, or another tab on a
+    // different version — and the cap should hold regardless of what it reads.
+    pages: (s?.pages ?? [])
+      .slice(-MAX_PAGES)
+      .map((e) => ({ path: e.p, at: new Date(e.t).toISOString() })),
+  };
+  // Shed the oldest entries until the block fits. Losing the start of a long
+  // journey is a far better outcome than losing the lead to a dropped request.
+  while (session.pages.length > 1 && JSON.stringify(session).length > MAX_SESSION_BYTES) {
+    session.pages.shift();
+  }
+  return session;
 }
 
 /**
@@ -233,6 +296,7 @@ export function leadAttribution(): Attribution {
     ctm_visitor_sid: null,
     visit_id: null,
     visit_pageviews: 0,
+    session: buildSession(null),
   };
   if (!isBrowser()) return empty;
 
@@ -266,5 +330,6 @@ export function leadAttribution(): Attribution {
     ctm_visitor_sid: ctmSessionId(),
     visit_id: s?.visitId ?? null,
     visit_pageviews: s?.pageviews ?? 0,
+    session: buildSession(s),
   };
 }
