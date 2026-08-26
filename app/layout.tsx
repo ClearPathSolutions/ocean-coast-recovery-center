@@ -120,13 +120,33 @@ const jsonLd = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
-      {/* Call tracking (tctm.co). Eager on every page, landing pages included:
-          it performs the dynamic number swap, so deferring it lets a visitor
-          read and dial the wrong number. Pinned to https — protocol-relative
-          permits a downgrade on a site handling health enquiries (AUDIT-03). */}
+      {/* Call tracking (tctm.co) — renders as <script async>. Root layout, so it
+          is on every page including campaign landing pages.
+
+          MUST NOT be made eager/synchronous, whatever the rollout spec says.
+          Measured on this site with `beforeInteractive`:
+          `Object.keys(__ctm_tracked_numbers).length === 0` and every rendered
+          tel: link still matched the hardcoded number in lib/site.ts — the swap
+          never happened. Two causes, both silent:
+
+            1. A sync tag in <head> runs before <body> exists. CTM's number scan
+               defaults its root to document.body and no-ops when that is null,
+               so it finds nothing and CTM can only guess which web session an
+               inbound call belongs to.
+            2. Running before hydration, any swap it did manage is reverted when
+               React replaces the server HTML.
+
+          afterInteractive runs it after hydration, which fixes both. Verify with
+          the tracked-number count, not the tag's `async` property — that reads
+          true under beforeInteractive as well and proves nothing.
+
+          Pinned to https — protocol-relative permits a downgrade on a site
+          handling health enquiries (AUDIT-03). Exactly one copy: count with
+          `script[src*="tctm.co/t.js"]`, never `script[src*="tctm.co"]`, which
+          returns 2 because t.js injects its own p.js. Removing that breaks CTM. */}
       <Script
         src={`https://${callTracking.accountId}.tctm.co/t.js`}
-        strategy="beforeInteractive"
+        strategy="afterInteractive"
       />
       <body className="min-h-screen overflow-x-hidden">
         <script
