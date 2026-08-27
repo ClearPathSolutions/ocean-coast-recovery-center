@@ -143,6 +143,13 @@ const nextConfig = {
       { source: '/about/tami-distefano', destination: '/about/', permanent: true },
       { source: '/about-us/tami-distefano', destination: '/about/', permanent: true },
 
+      // Departed staff (ticket #36, last day 2026-09-01). Removed from all four
+      // Southern California sites. The bio page was indexed and in the sitemap,
+      // so it 301s rather than 404s. Same ordering constraint as above: must
+      // precede the /about-us/:person rule.
+      { source: '/about/elizabeth-wald', destination: '/about/', permanent: true },
+      { source: '/about-us/elizabeth-wald', destination: '/about/', permanent: true },
+
       // Renamed pages
       { source: '/about-us', destination: '/about/', permanent: true },
       { source: '/about-us/:person', destination: '/about/:person/', permanent: true },
