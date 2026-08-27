@@ -112,9 +112,6 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // Elizabeth Wald left QHG (last day 2026-09-01); her bio page is retired
-      // but the URL is indexed, so send it to the team page rather than 404.
-      { source: '/about/elizabeth-wald', destination: '/about', permanent: true },
       // Blog posts moved from the site root to /blog/*
       ...blogSlugs().map((slug) => ({
         source: `/${slug}`,
