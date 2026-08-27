@@ -172,12 +172,6 @@ export const accreditations = [
     href: "https://www.qualitycheck.org/",
   },
   {
-    name: "LegitScript",
-    label: "Certified Provider",
-    img: "/images/logos/legitscript-certified.png",
-    href: "https://www.legitscript.com/",
-  },
-  {
     // VIS-1624 — the DHCS seal shipped in the repo unreferenced, and the licence
     // number was plain text. The link points at California's public provider
     // register so the licence can actually be checked.

@@ -160,8 +160,8 @@ export default function Footer() {
               </a>
             ))}
             <p className="max-w-[240px] text-xs leading-relaxed text-white/50">
-              Accredited by The Joint Commission, LegitScript Certified, and licensed by the
-              California Department of Health Care Services.
+              Accredited by The Joint Commission and licensed by the California
+              Department of Health Care Services.
             </p>
           </div>
           <div className="text-center text-xs text-white/45 md:text-right">
