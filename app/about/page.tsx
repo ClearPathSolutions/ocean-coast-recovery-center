@@ -60,16 +60,6 @@ const team = [
       "Halie helps clients reach the resources, tools and support they need to build healthy, fulfilling lives — informed by her own lived experience.",
   },
   {
-    name: "Elizabeth Wald",
-    creds: "",
-    role: "Program Director",
-    href: "/about/elizabeth-wald",
-    initials: "EW",
-    photo: "/images/team/elizabeth-wald.jpg",
-    blurb:
-      "Program Director across Quadrant Health Group's Southern California facilities, in recovery herself, and focused on making every program feel personal.",
-  },
-  {
     name: "Justin White",
     creds: "",
     role: "Program Director",
