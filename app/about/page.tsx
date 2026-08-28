@@ -50,6 +50,16 @@ const team = [
       "Integrative and client-centered, Vahan looks past the challenges that bring someone in — and believes healing starts with a genuine therapeutic relationship.",
   },
   {
+    name: "Dr. Pamela Tambini",
+    creds: "",
+    role: "Medical Oversight",
+    href: "/about/pamela-tambini",
+    initials: "PT",
+    photo: "/images/team/pamela-tambini.jpg",
+    blurb:
+      "Board-certified in Internal Medicine and Addiction Medicine, Dr. Tambini provides medical oversight across the Quadrant Health Group network.",
+  },
+  {
     name: "Halie Nall",
     creds: "",
     role: "Case Manager",
