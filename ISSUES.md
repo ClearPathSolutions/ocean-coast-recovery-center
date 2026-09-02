@@ -59,14 +59,14 @@ Taken from the sheet's Legend tab.
 | CRITICAL | 4 | 4 | Parent-site coordination, cutover process, sheet access |
 | COMPLIANCE | 2 | 1 | Slug-standard decisions (D2) |
 | Image library | 4 | 10 (+1 partial) | Owner confirmation (aerials, video, screenshot) |
-| Staff headshots | — | 7 | — |
-| Staff bios | — | 10 | — |
+| Staff headshots | — | 8 | — |
+| Staff bios | — | 11 | — |
 | HIGH | 5 | 4 (+1 partial) | All four parent-site rows + slug direction (D3) |
 | MEDIUM | 4 | 10 | Production-side renames + slug decisions |
 | LOW | 1 | 34 (+1 partial) | VIS-1639, blocked by a source conflict |
 | Needs a decision first | 2 | 1 | D2, D3 |
 
-**Total: 20 open · 80 resolved · 3 partial** (counted from the checkboxes in this file).
+**Total: 20 open · 82 resolved · 3 partial** (counted from the checkboxes in this file).
 
 **Nothing that can be done inside this repo is still open.** Every remaining item needs one of four
 things this pass could not supply: an owner decision, a change on the Quadrant parent site, a
@@ -441,7 +441,7 @@ Aspect ratios are also inconsistent — 1:1, 2:3, 3:4, 4:5, and Halie's is **lan
 - [x] **HS-01 — Import the 2 facility headshots.** ✅ Done 2026-08-10 — `OCRC - Vahan.jpg` → `team/vahan-oknayan.jpg`, `OCRC- Halie Nall.png` → `team/halie-nall.jpg`. Both wired into the bio pages and the About grid. Original note:  `OCRC - Vahan.jpg` → `team/vahan-oknayan.jpg`; `OCRC- Halie Nall.png` → `team/halie-nall.jpg`. Unblocks **BIO-03** and **BIO-04**, and closes **IMG-12** for facility staff. Note Halie's real headshot is *already in the repo* and merely unreferenced — the fastest win in this document.
 - [x] **HS-02 — Import Elizabeth Wald's headshot** ✅ Done — imported from the approved `CA-Elizabeth-Wald.webp` as `team/elizabeth-wald.jpg`, and the informal `liz.jpg` deleted. Landed together with BIO-02 as this row asks. Original note:  as `team/elizabeth-wald.jpg` (`CA-Elizabeth-Wald.webp`, or re-encode the existing `liz.jpg`, which is the same photo). Rename off `liz.jpg` — an informal filename for a bio page. Land with **BIO-02**, which corrects her title and scope.
 - [x] **HS-03 — Delete `team/team-01.jpg` and `team/team-02.jpg`** ✅ Done — both deleted, and the `/about` reference that captioned a coastal stock photo `alt="Our team at Ocean Coast Recovery"` now points at `exterior-front.jpg` with accurate alt text. The superseded `liz.jpg` and `halie-nall.png` were removed too. `public/images/team/` now contains exactly the 6 approved headshots and nothing else. Original note:  and remove the `team-02` reference from `/about`. Beach stock, one of them captioned as the team. Fold the `alt` fix into **IMG-08**.
-- [x] **HS-04 — DECIDED: option (b), 6 people.** ✅ All 6 imported. See **BIO-05** for the reasoning and the accepted V0086 trade-off. Original note:  Same decision as **BIO-05**, now with the headshots to price it:
+- [x] **HS-04 — DECIDED: option (b), 6 people.** ✅ All 6 imported. See **BIO-05** for the reasoning and the accepted V0086 trade-off. ⚠️ **Superseded 2026-09-02 by HS-08** — the owner moved to the full roster (option (c) plus the network alumni coordinator), 12 people. Original note:  Same decision as **BIO-05**, now with the headshots to price it:
   - **(a)** Facility only → 2 headshots (Vahan, Halie)
   - **(b)** Facility + Cali SOUTH regional → 6
   - **(c)** Facility + regional + CA state leadership → 11
@@ -449,6 +449,21 @@ Aspect ratios are also inconsistent — 1:1, 2:3, 3:4, 4:5, and Halie's is **lan
 - [x] **HS-05 — Normalise the imported headshots to one treatment.** ✅ Done — all 6 centre-cropped square and resized to 800×800, and both render surfaces use a circular crop, which hides the five different backdrops far better than a rectangle would. **Each crop was visually inspected**, not just measured: Halie's landscape 5:4 (the one this row flagged) trims only horizontally, so no hair is clipped; Elizabeth's and Justin's portraits retain full headroom; Vahan's is the tightest at the top but is comfortably inside the inscribed circle. Original note:  Square or 4:5 crop, consistent width, and a single background approach. Without this the grid shows five different photographic styles. If backgrounds cannot be unified, consider a circular crop, which hides backdrop mismatch better than a rectangle.
 - [x] **HS-06 — Resize on import.** ✅ Done — all converted to JPEG at quality 82. The two 1.7–2.2 MB PNGs are now 110 KB and 90 KB; the 6 headshots total ~552 KB. Original note:  Several are 1.7–2.2 MB PNGs at ~1254px. Convert photographs to JPEG/WebP at card and bio-page widths; PNG is the wrong container for a photograph.
 - [x] **HS-07 — Confirmed independently.** ✅ Re-ran the search across all 124 files: zero matches for `tami` or `stefano` in any state folder. Fed into the BIO-01 decision. Original note:  I searched all 124 files for `tami` and `stefano`: **zero matches**, in any state folder. Combined with her total absence from the bios doc, that is two independent sources with no record of her. Still not proof of departure — but it raises the priority of **BIO-01** and should be part of the same conversation.
+
+- [x] **HS-08 — Import the remaining California headshots (2026-09-02).** ✅ Six more imported from `~/Downloads/Staff Headshots 2/`, the refreshed drop of Source 9, taking `public/images/team/` to **12** approved headshots (1.1 MB total):
+
+  | Person | Source file | Source dims | Repo file |
+  |---|---|---|---|
+  | Shawn Young | `California (ON ALL CA SITES)/CA-Shawn Young.png` | 1254×1254 | `team/shawn-young.jpg` |
+  | Michael McArthur | `California (ON ALL CA SITES)/CA-MichaelMcArthur.png` | 1254×1254 | `team/michael-mcarthur.jpg` |
+  | Riky Hanaumi | `California (ON ALL CA SITES)/CA-Riky Hanaumi.png` | 1086×1448 | `team/riky-hanaumi.jpg` |
+  | Monica Olivares | `California (ON ALL CA SITES)/CA-Monica-Olivires.webp` | 1536×2048 | `team/monica-olivares.jpg` |
+  | Jacob Cameron | `California (ON ALL CA SITES)/CA-Jacob Cameron.png` | 1254×1254 | `team/jacob-cameron.jpg` |
+  | BJ Thome | `California (ON ALL CA SITES)/Alumni - BJ (cali).png` | 1254×1254 | `team/bj-thome.jpg` |
+
+  Processed to the **HS-05/HS-06 treatment**: square, 800×800, JPEG quality 82, 87–118 KB each. **Every crop was visually inspected.** The four 1:1 sources needed no crop. Monica's 3:4 centre-crops cleanly. Riky's 3:4 did **not** — a centred square clipped the top of her hair, so her crop is offset 60 px upward, which restores full headroom; that is the only non-centred crop in the set. Two notes for whoever imports the rest of this folder: `sips` cannot write a `.webp` intermediate, so Monica's file was converted to PNG before cropping; and the new folder nests California under `California (ON ALL CA SITES)/`, with the Cali SOUTH and facility subfolders one level deeper than in the original drop.
+
+  The five-backdrop mismatch **HS-05** flagged is unchanged and still handled by the circular crop — the six new ones add a black backdrop (Monica) and three more grey studio shots, all of which read as one set once masked to a circle. Elizabeth Wald's headshot is *not* part of this set; it was removed with her bio page (ticket #36).
 
 ---
 
@@ -554,7 +569,7 @@ He is the only licensed clinical therapist the doc names for this facility. A tr
 
 ## BIO-05 — Decide whether regional leadership appears on this site — and avoid re-creating V0086
 
-- [x] **DECIDED 2026-08-10 — option (b), facility + `Cali SOUTH` regional (6 people)**, per the owner's docs-are-law ruling and this row's own recommendation. Implemented: Vahan Oknayan, Halie Nall, Elizabeth Wald, Justin White, Jeremiah Ross, Alanna McMurtrey, all with approved headshots. ⚠️ **V0086 exposure accepted knowingly** — the same 4 regional people are scoped to Laguna View and Hillside Mission. Mitigation applied: the 3 regional staff without available bio copy carry a photo and title only, so there is no duplicated body text for them yet. When their copy arrives, write facility-specific wording rather than pasting the doc verbatim across three sites.
+- [x] **DECIDED 2026-08-10 — option (b), facility + `Cali SOUTH` regional (6 people)**, per the owner's docs-are-law ruling and this row's own recommendation. Implemented: Vahan Oknayan, Halie Nall, Elizabeth Wald, Justin White, Jeremiah Ross, Alanna McMurtrey, all with approved headshots. ⚠️ **V0086 exposure accepted knowingly** — the same 4 regional people are scoped to Laguna View and Hillside Mission. Mitigation applied: the 3 regional staff without available bio copy carry a photo and title only, so there is no duplicated body text for them yet. When their copy arrives, write facility-specific wording rather than pasting the doc verbatim across three sites. ⚠️ **Superseded 2026-09-02 by BIO-07** — the owner elected to publish the full roster, and the missing copy arrived, so the verbatim-duplication risk this row warned about is now live and knowingly accepted.
 
 **Priority: MEDIUM** · **Read V0086 before deciding.**
 
@@ -584,6 +599,44 @@ Note that **(c)** interacts with BIO-01/BIO-02: if regional staff are excluded, 
 
 - [x] **"25+ years of combined experience" REMOVED from all three places.** ✅ It was carried mostly by the staff member withdrawn under BIO-01 and cannot be recomputed — the bios doc gives start years for only some of the current roster. Replaced with claims that are sourceable: the About stat tile now reads `24/7 · Admissions & clinical support`, the team-section subtitle drops the figure, and the homepage badge now reads `6 beds — never a number`. The `2 blocks / From the beach` stat went in the same pass (see D1/IMG-06). Original note:  Asserted twice — [app/about/page.tsx:20](app/about/page.tsx#L20) and the homepage badge at [app/page.tsx:140](app/page.tsx#L140) — and derived from a team roster that is about to change. With Tami's 18+ years unconfirmed (BIO-01), this figure may no longer hold. Recalculate from the final roster or drop the specific number.
 - [x] **Replace the initials-circle placeholders with real photos** ✅ Done 2026-08-10. `components/BioPage.tsx` and the About grid both take an optional `photo` and fall back to the monogram only when absent (the monogram is now `aria-hidden`). Closes **VIS-1627** and **VIS-1630**; **VIS-1629** is moot since that page was withdrawn. Original note:  — [app/about/page.tsx:149](app/about/page.tsx#L149) and [components/BioPage.tsx:34](components/BioPage.tsx#L34). Closes **VIS-1627**, **VIS-1629**, **VIS-1630**. All photos are now available via **HS-01/HS-02/HS-04**; `liz.jpg` is confirmed to be Elizabeth Wald, and `team-01.jpg` is confirmed *not* to be a person (beach stock, deleted by **HS-03**). Apply **HS-05** so the grid reads as one set.
+
+---
+
+## BIO-07 — Full California roster published (2026-09-02)
+
+- [x] **Publish every person the bios doc scopes to this facility, with a bio page each.** ✅ Done. The owner supplied the three bios-doc tabs that cover Ocean Coast and asked for all of them on the site, which **supersedes HS-04/BIO-05 option (b)**. The team grid is now **12** people in the owner's stated order — leadership first, facility staff last — each with an approved headshot, a blurb condensed from their own sourced bio, and a bio page:
+
+  | # | Person | Role | Scope | Page |
+  |---|---|---|---|---|
+  | 1 | Dr. Pamela Tambini | Medical Oversight | Network | `/about/pamela-tambini` (existing) |
+  | 2 | Shawn Young | Executive Director | CA leadership | `/about/shawn-young` |
+  | 3 | Michael McArthur | Nursing Director | CA leadership | `/about/michael-mcarthur` |
+  | 4 | Riky Hanaumi | Clinical Director | CA leadership | `/about/riky-hanaumi` |
+  | 5 | Justin White | Program Director | Cali SOUTH | `/about/justin-white` |
+  | 6 | Jeremiah Ross | Nursing Supervisor | Cali SOUTH | `/about/jeremiah-ross` |
+  | 7 | Monica Olivares | Clinical Supervisor | CA leadership | `/about/monica-olivares` |
+  | 8 | Jacob Cameron | Client Care Director | CA leadership | `/about/jacob-cameron` |
+  | 9 | Vahan Oknayan, AMFT | Therapist | Facility | `/about/vahan-oknayan` (existing) |
+  | 10 | Alanna McMurtrey | Lead Case Manager | Cali SOUTH | `/about/alanna-mcmurtrey` |
+  | 11 | Halie Nall | Case Manager | Facility | `/about/halie-nall` (existing) |
+  | 12 | BJ Thome | Alumni Coordinator | Network | `/about/bj-thome` |
+
+  Nine new pages, all in the sitemap, all prerendered static, all reached by the legacy `/about-us/:person` rule. Tami DiStefano stays off the roster (**BIO-01**).
+
+**Editorial decisions worth knowing about**
+
+- **Two bios were converted from first person.** Shawn Young's and Michael McArthur's copy in the doc is written as "I…", the other ten are third person. Publishing both voices in one team grid would read as unfinished, so those two are rendered in third person with **every fact preserved** — career path, family, recovery journey, the Lakers. Nothing was added. If the owner prefers their own voice verbatim, both are a straight swap back.
+- **Credentials stay in the body copy.** Only Vahan carries a `creds` line, because only his doc *title* does. Riky (LCSW), Monica (CADC II), Justin (Registered Addiction Counselor) and Jacob (SUDCC I) have those credentials stated in their bio text instead — the same treatment Dr. Tambini's board certifications get. A licensure line under a name is a stronger claim than a sentence in a paragraph, and the doc's title lines don't make it.
+- **Monica's surname follows the doc** (`Olivares`), not the headshot filename (`Olivires`), per the note in **HS-04**.
+
+**⚠️ V0086 exposure is now wider, knowingly**
+
+Eight of the twelve are shared staff whose copy will repeat on other California builds — the exact multiplication **BIO-05** warned about, now live because the owner elected the full roster and the missing copy arrived. Current mitigation:
+
+- **Dr. Tambini** and **BJ Thome** are network-wide and canonical to their parent-site pages (`quadranthealthgroup.com/team/pamela-tambini/` and `/team/bj-thome/`; both checked live, both 200). This follows the precedent set in `db6a0b0`.
+- The other **eight — five CA leadership plus three Cali SOUTH — have no parent page to point at** — they are absent from the parent's `/about/meet-the-team`, checked 2026-09-02 — so their pages self-canonical, which is correct but leaves the copy duplicated across the CA facility sites.
+
+The durable fix is still **BIO-05 option (a) or (b)**: either give those eight a page on the parent and canonical to it, or write facility-specific copy per site. That is a portfolio-level call, not something this repo can settle alone. Fold it into the **V0086** coordination.
 
 ---
 
