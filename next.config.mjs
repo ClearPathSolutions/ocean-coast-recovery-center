@@ -106,6 +106,17 @@ const nextConfig = {
   trailingSlash: true,
   images: {
     formats: ['image/avif', 'image/webp'],
+    // Clarion blog covers. The URL 302s to a presigned S3 link that expires in
+    // an hour, so it has to be fetched server-side by next/image rather than
+    // linked directly — which also keeps the browser on our own origin and out
+    // of img-src entirely.
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.clarionlabs.ai',
+        pathname: '/blog/public/image/**',
+      },
+    ],
   },
   async headers() {
     return [{ source: '/:path*', headers: SECURITY_HEADERS }];

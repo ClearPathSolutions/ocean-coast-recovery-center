@@ -44,8 +44,9 @@ async function loadView(slug: string): Promise<PostView | null> {
       category: CLARION_CATEGORY,
       excerpt: cp.excerpt,
       dateISO: cp.publishedAt,
-      // `cp.coverImageUrl` is ignored on purpose — see the note in app/blog/page.tsx.
-      cover: coverFor(cp.slug),
+      // Preferred over the local pick — see the note in app/blog/page.tsx. It is
+      // authored at 1200x630, which is exactly what the og:image below wants.
+      cover: cp.coverImageUrl || coverFor(cp.slug),
       readMinutes: estimateReadMinutes(cp.bodyHtml),
       bodyHtml: cp.bodyHtml,
       seo: cp.seo,

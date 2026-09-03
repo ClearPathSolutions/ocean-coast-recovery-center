@@ -38,10 +38,13 @@ export default async function BlogPage() {
       date: p.publishedAt,
       category: CLARION_CATEGORY,
       excerpt: p.excerpt,
-      // Clarion supplies a `coverImageUrl`, but it points at third-party stock
-      // (Unsplash). Site policy is approved facility photography only, so the
-      // remote cover is deliberately ignored in favour of a local one.
-      cover: coverFor(p.slug),
+      // Clarion's cover used to be third-party stock (Unsplash), which is why
+      // REV-01 ignored it. It now ships branded artwork built on this site's own
+      // approved facility photography, at 1200x630, so it is preferred again and
+      // the local pick is only a fallback. If Clarion ever reverts to generic
+      // stock this silently reintroduces it — the check is editorial, not
+      // something the code can make for itself.
+      cover: p.coverImageUrl || coverFor(p.slug),
     });
   }
 
