@@ -81,6 +81,17 @@
   .prose-content h3 {
     @apply mt-8 mb-3 text-xl sm:text-2xl;
   }
+  /* Anchor targets sit behind the fixed navbar (120px, 148px at lg) without an
+     offset, so a working TOC link would still land on a heading hidden under
+     it. Applies to any in-post target: headings and the numbered references. */
+  .prose-content [id] {
+    scroll-margin-top: 8.5rem;
+  }
+  @media (min-width: 1024px) {
+    .prose-content [id] {
+      scroll-margin-top: 10.5rem;
+    }
+  }
   .prose-content ul {
     @apply mb-6 space-y-2 pl-1;
   }

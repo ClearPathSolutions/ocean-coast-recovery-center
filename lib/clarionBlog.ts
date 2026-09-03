@@ -47,6 +47,83 @@ export function sanitizeRemoteHtml(html: string): string {
     .replace(/\s(href|src)\s*=\s*'\s*(javascript|data|vbscript):[^']*'/gi, "");
 }
 
+/** Minimal entity decode — enough for heading text, and there is no DOM here. */
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&(#\d+|#x[0-9a-f]+|[a-z]+);/gi, (whole, ref: string) => {
+      if (ref[0] === "#") {
+        const code = ref[1] === "x" || ref[1] === "X"
+          ? parseInt(ref.slice(2), 16)
+          : parseInt(ref.slice(1), 10);
+        return Number.isFinite(code) ? String.fromCodePoint(code) : whole;
+      }
+      const named: Record<string, string> = {
+        amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ", ndash: "–", mdash: "—",
+      };
+      return named[ref.toLowerCase()] ?? whole;
+    });
+}
+
+const stripTags = (s: string) => s.replace(/<[^>]*>/g, "");
+
+/** Clarion's own slug rule, derived from the hrefs it emits: "Sign #1: Foo, bar" -> "sign-1-foo-bar". */
+function slugifyHeading(text: string): string {
+  return decodeEntities(stripTags(text))
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/**
+ * Reconnect Clarion's in-page links to their targets.
+ *
+ * Clarion renders a Table of Contents and numbered citation links, but the
+ * body_html it returns contains the links and NONE of the anchors: every
+ * heading arrives as a bare <h2>, and the references list has no ids. So every
+ * TOC entry and every [1]-style citation is a dead link. Verified against the
+ * raw feed — 19 href="#..." links, zero id attributes.
+ *
+ * Their hrefs are just the heading text slugified, so regenerating the same
+ * slug and attaching it as an id reconnects them without altering the visible
+ * markup. If Clarion ever starts emitting ids, theirs win.
+ */
+export function addAnchorTargets(html: string): string {
+  const used = new Set<string>();
+
+  let out = html.replace(
+    /<(h[1-6])([^>]*)>([\s\S]*?)<\/\1\s*>/gi,
+    (whole: string, tag: string, attrs: string, inner: string) => {
+      if (/\sid\s*=/i.test(attrs)) return whole;
+      const base = slugifyHeading(inner);
+      if (!base) return whole;
+      // Two headings can share text; each still needs its own target.
+      let slug = base;
+      for (let n = 2; used.has(slug); n++) slug = `${base}-${n}`;
+      used.add(slug);
+      return `<${tag}${attrs} id="${slug}">${inner}</${tag}>`;
+    }
+  );
+
+  // Citation links (#ref1, #ref2…) point at the references list, which has no
+  // ids either. Number its items in document order.
+  const refs = new Set([...out.matchAll(/href="#ref(\d+)"/gi)].map((m) => Number(m[1])));
+  if (refs.size) {
+    out = out.replace(
+      /(<h[1-6][^>]*>\s*references\s*<\/h[1-6]>\s*<ol[^>]*>)([\s\S]*?)(<\/ol>)/i,
+      (whole: string, open: string, items: string, close: string) => {
+        let i = 0;
+        const numbered = items.replace(/<li(?![^>]*\sid\s*=)([^>]*)>/gi, (li: string, a: string) => {
+          i += 1;
+          return refs.has(i) ? `<li${a} id="ref${i}">` : li;
+        });
+        return open + numbered + close;
+      }
+    );
+  }
+
+  return out;
+}
+
 function normalize(p: unknown): ClarionPost | null {
   const o = p as Record<string, unknown>;
   if (!o || typeof o.slug !== "string" || typeof o.title !== "string") return null;
@@ -58,7 +135,12 @@ function normalize(p: unknown): ClarionPost | null {
     coverImageUrl: typeof o.cover_image_url === "string" ? o.cover_image_url : "",
     authorName: typeof o.author_name === "string" ? o.author_name : "",
     publishedAt: typeof o.published_at === "string" ? o.published_at : "",
-    bodyHtml: typeof o.body_html === "string" ? sanitizeRemoteHtml(o.body_html) : undefined,
+    // Sanitise first (drop anything executable), then reattach the in-page
+    // anchor targets Clarion links to but never emits.
+    bodyHtml:
+      typeof o.body_html === "string"
+        ? addAnchorTargets(sanitizeRemoteHtml(o.body_html))
+        : undefined,
     seo: seo ? { title: seo.title, description: seo.description } : undefined,
   };
 }
