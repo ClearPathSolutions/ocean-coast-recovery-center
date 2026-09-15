@@ -123,6 +123,16 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Every other site in the network serves its privacy policy at
+      // /privacy-policy; this one is at /privacy (V0100 in the audit workbook).
+      // Anyone following the network's own pattern hit a 404, whose title is the
+      // site default — which is what made it look like the page had the wrong
+      // title rather than not existing.
+      {
+        source: "/privacy-policy",
+        destination: "/privacy/",
+        permanent: true,
+      },
       // Blog posts moved from the site root to /blog/*
       ...blogSlugs().map((slug) => ({
         source: `/${slug}`,
