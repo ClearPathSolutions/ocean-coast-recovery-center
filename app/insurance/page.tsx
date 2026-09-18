@@ -74,7 +74,7 @@ export default function InsuranceIndexPage() {
                 className="flex h-20 w-40 items-center justify-center rounded-2xl bg-navy p-5 shadow-soft"
                 title={c.name}
               >
-                <Image src={c.img} alt={c.name} width={140} height={48} className="max-h-10 w-auto object-contain" />
+                <Image src={c.img} alt={c.name} width={140} height={48} sizes="140px" className="max-h-10 w-auto object-contain" />
               </div>
             ))}
           </div>

@@ -14,11 +14,26 @@ import SessionTracker from "@/components/SessionTracker";
 const display = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
-  // CR-15 — only the weights actually used: 600 for display headings, plus
-  // 400 italic for the two pull-quotes. Was 4 weights x2 styles.
+  // CR-15 — only the weights actually used: 600 for display headings, 400 for
+  // the two unweighted display headings. Was 4 weights x2 styles.
   weight: ["400", "600"],
-  style: ["normal", "italic"],
   display: "swap",
+});
+
+// The italic face is a separate instance purely so it can opt out of preload.
+// All five font files were being requested at High priority inside the first
+// 450 ms — 128 KB competing with the LCP image and delaying first paint — and
+// this one is used by exactly two pull-quotes, both well below the fold. With
+// `preload: false` it is fetched only when an element that needs it is styled,
+// instead of racing the hero. `display: swap` means the quote still renders
+// immediately in the fallback face.
+const displayItalic = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-display-italic",
+  weight: ["400"],
+  style: ["italic"],
+  display: "swap",
+  preload: false,
 });
 
 const sans = Barlow({
@@ -119,7 +134,20 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+    <html lang="en" className={`${display.variable} ${displayItalic.variable} ${sans.variable}`}>
+      {/* Call tracking is the only third party still loading `afterInteractive`,
+          so it is the only one worth a full preconnect: the browser otherwise
+          discovers the host and pays DNS + TLS right as the hero is painting
+          (Lighthouse measured ~320 ms). Everything else here moved to
+          `lazyOnload` and now runs long after first paint — a preconnect for
+          those would just be dropped unused, since browsers close an idle
+          preconnect after ~10 s. They get DNS-only hints instead, which are
+          cheap and stay useful whenever the script eventually runs. */}
+      <link rel="preconnect" href={`https://${callTracking.accountId}.tctm.co`} />
+      <link rel="dns-prefetch" href={clarion.api} />
+      <link rel="dns-prefetch" href="https://www.clarionlabs.ai" />
+      <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
       {/* Call tracking (tctm.co) — renders as <script async>. Root layout, so it
           is on every page including campaign landing pages.
 
@@ -173,7 +201,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             form, or every lead is submitted twice. */}
         <Script
           src={clarion.formsCapture}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           data-site-key={clarion.siteKey}
           data-api={clarion.api}
         />

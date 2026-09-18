@@ -72,6 +72,7 @@ export default function Footer() {
             alt={site.name}
             width={260}
             height={195}
+            sizes="149px"
             className="h-28 w-auto"
           />
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/65">
@@ -155,6 +156,7 @@ export default function Footer() {
                   alt={`${a.name} — ${a.label}`}
                   width={64}
                   height={64}
+                  sizes="56px"
                   className="h-14 w-14 rounded-lg bg-white/95 object-contain p-1.5 transition-transform hover:scale-105"
                 />
               </a>

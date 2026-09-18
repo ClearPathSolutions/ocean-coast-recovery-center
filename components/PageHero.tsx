@@ -30,11 +30,15 @@ export default function PageHero({
     <section className="relative isolate overflow-hidden bg-navy-dark pt-[120px] lg:pt-[148px]">
       {image ? (
         <>
+          {/* fetchPriority is explicit for the same reason as the homepage
+              hero: in Next 15 `priority` does not imply it, and this is the
+              LCP element on every page that uses a hero image. */}
           <Image
             src={image}
             alt=""
             fill
             priority
+            fetchPriority="high"
             sizes="100vw"
             className="object-cover"
           />
