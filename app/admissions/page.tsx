@@ -25,7 +25,7 @@ const steps = [
 const faqs = [
   { q: "How quickly can I be admitted?", a: "Often the same day. Once we verify your benefits and complete a brief assessment, we can typically arrange admission right away. Call 949-649-0702 to get started now." },
   { q: "Is the conversation really confidential?", a: "Completely. Every call and inquiry is 100% confidential. We're here to help you understand your options — nothing more, nothing less." },
-  { q: "What insurance do you accept?", a: "We work with most major PPO and POS plans that offer out-of-network coverage for substance abuse treatment, including Blue Cross Blue Shield, Cigna, Aetna, UnitedHealthcare, Meritain, Beacon, GEHA, and more. We do not accept Medicaid or Medicare at this time." },
+  { q: "What insurance do you accept?", a: "We work with most major PPO and POS plans that offer out-of-network coverage for substance abuse treatment, including Blue Cross Blue Shield, Cigna, Aetna, Meritain, Beacon, GEHA, and more. We do not accept Medicaid or Medicare at this time." },
   { q: "What if I don't have insurance?", a: "We can still help. Reach out and our team will walk you through payment options and help you find a path to the care you need." },
 ];
 

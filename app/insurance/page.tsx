@@ -11,15 +11,13 @@ import { ArrowRight, ChevronRight, Shield } from "@/components/icons";
 export const metadata: Metadata = {
   title: "Insurance We Accept",
   description:
-    "Ocean Coast Recovery works with most major PPO & POS plans — Blue Cross Blue Shield, Cigna, Aetna, UnitedHealthcare, Meritain, Beacon, GEHA, and more. Verify your benefits free.",
+    "Ocean Coast Recovery works with most major PPO & POS plans — Blue Cross Blue Shield, Cigna, Aetna, Meritain, Beacon, GEHA, and more. Verify your benefits free.",
 };
 
 // Additional carriers we're in-network with (logos, no dedicated page).
 //
-// United Healthcare is deliberately absent. They asked Quadrant more than once
-// to stop using their mark, so the logo was pulled from every site. Their name
-// still appears in the carrier text lists, which is a statement of coverage
-// rather than use of their branding; the logo must not come back.
+// One carrier was removed at their request — logo and name, on every Quadrant
+// site. Do not add a carrier back here without checking with Chelsea first.
 const alsoAccepted = [
   { name: "Aetna", img: "/images/insurance/aetna-white.png" },
   { name: "ComPsych", img: "/images/insurance/compsych.png" },
