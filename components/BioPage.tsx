@@ -41,6 +41,7 @@ export default function BioPage({
                   alt={`${name}, ${role} at Ocean Coast Recovery Center`}
                   width={224}
                   height={224}
+                  sizes="112px"
                   className="mx-auto h-28 w-28 rounded-full object-cover shadow-soft"
                 />
               ) : (

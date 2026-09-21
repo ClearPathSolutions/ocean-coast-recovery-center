@@ -92,6 +92,7 @@ export default function Gallery({ images }: { images: { src: string; alt: string
               alt={images[active].alt}
               width={1600}
               height={1200}
+              sizes="(min-width: 1024px) 80vw, 100vw"
               className="max-h-[85vh] w-auto rounded-2xl object-contain"
             />
             <p className="mt-3 text-center text-sm text-white/70">{images[active].alt}</p>

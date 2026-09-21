@@ -43,6 +43,9 @@ const config: Config = {
       },
       fontFamily: {
         display: ["var(--font-display)", "Georgia", "serif"],
+        // Separate family so the italic face can stay out of the preload set
+        // (see the font block in app/layout.tsx). Used by the pull-quotes.
+        "display-italic": ["var(--font-display-italic)", "Georgia", "serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
       },
       maxWidth: {

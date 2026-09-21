@@ -186,10 +186,10 @@ export default function AboutPage() {
         <div className="container-x grid items-center gap-12 lg:grid-cols-2">
           <Reveal className="order-2 grid grid-cols-2 gap-4 lg:order-1">
             <div className="overflow-hidden rounded-3xl shadow-soft">
-              <Image src="/images/facility/living-room.jpg" alt="The living room at our Costa Mesa facility" width={500} height={600} className="h-full w-full object-cover" />
+              <Image src="/images/facility/living-room.jpg" alt="The living room at our Costa Mesa facility" width={500} height={600} sizes="(min-width: 1024px) 22vw, 45vw" className="h-full w-full object-cover" />
             </div>
             <div className="mt-8 overflow-hidden rounded-3xl shadow-soft">
-              <Image src="/images/facility/dining-room.jpg" alt="The dining room at our Costa Mesa facility" width={500} height={600} className="h-full w-full object-cover" />
+              <Image src="/images/facility/dining-room.jpg" alt="The dining room at our Costa Mesa facility" width={500} height={600} sizes="(min-width: 1024px) 22vw, 45vw" className="h-full w-full object-cover" />
             </div>
           </Reveal>
           <div className="order-1 lg:order-2">
@@ -205,7 +205,7 @@ export default function AboutPage() {
               enter our program you are an individual seeking help — not an illness.
             </p>
             <div className="mt-8 rounded-3xl border-l-4 border-ocean-500 bg-foam p-6">
-              <p className="font-display text-xl italic text-navy">
+              <p className="font-display-italic text-xl italic text-navy">
                 &ldquo;We don&rsquo;t see you as an addict who happens to be a person. We see you as a
                 person who happens to have an addiction.&rdquo;
               </p>
@@ -270,6 +270,7 @@ export default function AboutPage() {
                     alt={`${m.name}, ${m.role} at Ocean Coast Recovery Center`}
                     width={192}
                     height={192}
+                    sizes="96px"
                     className="h-24 w-24 rounded-full object-cover shadow-soft"
                   />
                 ) : (
@@ -320,7 +321,7 @@ export default function AboutPage() {
               that was here carried alt="Family therapy at Ocean Coast Recovery"
               on a picture taken somewhere else. Replaced with a pull-quote. */}
           <Reveal delay={120} className="rounded-4xl border-l-4 border-ocean-500 bg-white p-8 shadow-card">
-            <p className="font-display text-2xl italic leading-relaxed text-navy">
+            <p className="font-display-italic text-2xl italic leading-relaxed text-navy">
               &ldquo;Addiction is a family disease. When one person begins to heal, everyone
               around them gets the chance to heal too.&rdquo;
             </p>

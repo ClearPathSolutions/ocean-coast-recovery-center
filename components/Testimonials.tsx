@@ -5,7 +5,11 @@ import { reviews, aggregate, googleReviewsUrl } from "@/lib/reviews";
 
 function Stars({ n }: { n: number }) {
   return (
-    <div className="flex text-sand-400" aria-label={`${n} out of 5 stars`}>
+    // `aria-label` is prohibited on a bare <div> (implicit role="generic"), which
+    // is what Lighthouse's "prohibited ARIA attributes" audit flags — 11 hits on
+    // the homepage alone. role="img" is the right role for a rating drawn as
+    // graphics: it makes the label valid and hides the decorative stars inside.
+    <div className="flex text-sand-400" role="img" aria-label={`${n} out of 5 stars`}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Star key={i} className={`h-4 w-4 ${i < n ? "" : "text-navy/15"}`} />
       ))}

@@ -98,6 +98,15 @@ const SECURITY_HEADERS = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    // The one render-blocking request on every page was the 8.8 KB stylesheet,
+    // costing a round trip before anything could paint (Lighthouse measured
+    // ~190 ms). Inlining removes it from the critical path. The trade is that
+    // those bytes are re-sent per navigation instead of being cached once —
+    // acceptable here because the CSS is small and most sessions are one or
+    // two pages.
+    inlineCss: true,
+  },
   // Don't advertise the framework version to scanners.
   poweredByHeader: false,
   // Every production site in the portfolio is slash-canonical, and production
@@ -106,6 +115,19 @@ const nextConfig = {
   trailingSlash: true,
   images: {
     formats: ['image/avif', 'image/webp'],
+    // 31 days. Next's default is 60 SECONDS, which is the single biggest cause
+    // of this site's wildly inconsistent mobile Lighthouse scores: every
+    // optimised variant falls out of Vercel's edge cache after a minute, so any
+    // audit arriving later than that pays a cold AVIF re-encode of a 2560x1707
+    // source before the LCP image can even start downloading. Measured on
+    // production 2026-09-18: `x-vercel-cache: MISS, age: 0` on every hero size
+    // on first request, `HIT` immediately after — the cache works, it just
+    // expires faster than real traffic arrives. Identical code scored 65, 71,
+    // 74 and 92 depending on which side of that minute the run landed.
+    //
+    // Trade-off: replacing an image in-place without renaming it can serve the
+    // old optimised copy for up to 31 days. Rename the file to bust it.
+    minimumCacheTTL: 60 * 60 * 24 * 31,
     // Clarion blog covers. The URL 302s to a presigned S3 link that expires in
     // an hour, so it has to be fetched server-side by next/image rather than
     // linked directly — which also keeps the browser on our own origin and out

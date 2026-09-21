@@ -15,9 +15,13 @@ export const metadata: Metadata = {
 };
 
 // Additional carriers we're in-network with (logos, no dedicated page).
+//
+// United Healthcare is deliberately absent. They asked Quadrant more than once
+// to stop using their mark, so the logo was pulled from every site. Their name
+// still appears in the carrier text lists, which is a statement of coverage
+// rather than use of their branding; the logo must not come back.
 const alsoAccepted = [
   { name: "Aetna", img: "/images/insurance/aetna-white.png" },
-  { name: "UnitedHealthcare", img: "/images/insurance/uhc-white.png" },
   { name: "ComPsych", img: "/images/insurance/compsych.png" },
   { name: "AmeriHealth", img: "/images/insurance/amerihealth.png" },
   { name: "Highmark", img: "/images/insurance/highmark.png" },
@@ -74,7 +78,7 @@ export default function InsuranceIndexPage() {
                 className="flex h-20 w-40 items-center justify-center rounded-2xl bg-navy p-5 shadow-soft"
                 title={c.name}
               >
-                <Image src={c.img} alt={c.name} width={140} height={48} className="max-h-10 w-auto object-contain" />
+                <Image src={c.img} alt={c.name} width={140} height={48} sizes="140px" className="max-h-10 w-auto object-contain" />
               </div>
             ))}
           </div>

@@ -46,12 +46,25 @@ export default function Navbar() {
       <nav className="container-wide flex h-[120px] items-center justify-between gap-4 lg:h-[148px]">
         {/* Logo */}
         <Link href="/" aria-label={`${site.name} home`} className="relative flex shrink-0 items-center">
+          {/* This logo is preloaded, and that is deliberate — it is above the
+              fold on every page. Note the preload is React 19's, not Next's:
+              React emits one for any `loading="eager"` image, so dropping
+              `priority` in favour of `eager` does NOT remove it (measured —
+              the preload only disappears if the image goes lazy). It sits ahead
+              of the hero's preload in <head> because the navbar renders first,
+              which is why the hero carries an explicit fetchPriority="high":
+              that, not document order, is what decides which one the browser
+              fetches first.
+
+              `sizes` matters more than it looks — without it this fetched the
+              640w candidate for a logo that renders at ~150-180px. */}
           <Image
             src={solid ? "/images/logos/logo-color.png" : "/images/logos/logo-white.png"}
             alt={site.name}
             width={260}
             height={195}
-            priority
+            loading="eager"
+            sizes="(min-width: 1024px) 181px, 149px"
             className="h-28 w-auto lg:h-[136px]"
           />
         </Link>

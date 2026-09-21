@@ -57,11 +57,18 @@ export default function HomePage() {
     <>
       {/* ============================ HERO ============================ */}
       <section className="relative isolate flex min-h-[92vh] items-center overflow-hidden bg-navy-dark">
+        {/* `priority` alone only makes this eager and emits a preload — in
+            Next 15 it does NOT imply fetchpriority. Without the explicit prop
+            neither the <img> nor its preload carries fetchpriority="high", and
+            the LCP image queues behind the rest of the head. This is the
+            "fetchpriority=high should be applied to the image preload request"
+            failure in Lighthouse's LCP request discovery audit. */}
         <Image
           src="/images/facility/exterior-front.jpg"
           alt="The front entrance of Ocean Coast Recovery Center in Costa Mesa, California"
           fill
           priority
+          fetchPriority="high"
           sizes="100vw"
           className="object-cover"
         />
@@ -140,6 +147,11 @@ export default function HomePage() {
                 alt="Shaded patio dining in the backyard at Ocean Coast Recovery"
                 width={900}
                 height={600}
+                // Without `sizes` a fixed-width image only gets 1x/2x candidates
+                // (1080w and 1920w here), so any 2x phone downloads the 1920
+                // for a ~650px box. The w-descriptor set this produces lets the
+                // browser pick by layout width instead.
+                sizes="(min-width: 1024px) 45vw, 100vw"
                 className="h-full w-full object-cover"
               />
             </div>
@@ -331,6 +343,7 @@ export default function HomePage() {
                     alt=""
                     width={400}
                     height={500}
+                    sizes="(min-width: 1024px) 22vw, 45vw"
                     className="h-56 w-full object-cover transition-transform duration-500 hover:scale-105"
                   />
                 </div>

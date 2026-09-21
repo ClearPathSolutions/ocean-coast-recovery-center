@@ -35,6 +35,7 @@ export function Split({
         alt={imageAlt}
         width={800}
         height={640}
+        sizes="(min-width: 1024px) 45vw, 100vw"
         className="h-full max-h-[520px] w-full object-cover"
       />
     </Reveal>

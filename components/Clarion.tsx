@@ -14,7 +14,7 @@ export default function Clarion() {
       <style>{`:root{--clarion-chat-color:${B.color};--clarion-chat-header-text:${B.headerText};--clarion-chat-position:${B.position};}`}</style>
       <Script
         src={clarion.widget}
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         data-site-key={clarion.siteKey}
         data-api={clarion.api}
         data-color={B.color}
