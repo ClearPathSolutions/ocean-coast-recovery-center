@@ -154,7 +154,6 @@ export const insuranceCarriers = [
   "Blue Cross Blue Shield",
   "Cigna",
   "Aetna",
-  "UnitedHealthcare",
   "Meritain Health",
   "Beacon Health Options",
   "GEHA",
