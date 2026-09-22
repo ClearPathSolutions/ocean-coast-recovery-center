@@ -14,7 +14,8 @@ export const metadata: Metadata = {
     "Ocean Coast Recovery works with most major PPO & POS plans — Blue Cross Blue Shield, Cigna, Aetna, Meritain, Beacon, GEHA, and more. Verify your benefits free.",
 };
 
-// Additional carriers we're in-network with (logos, no dedicated page).
+// Additional carriers we accept (logos, no dedicated page). Accepted, not
+// in-network: Ocean Coast bills these as an out-of-network provider.
 //
 // One carrier was removed at their request — logo and name, on every Quadrant
 // site. Do not add a carrier back here without checking with Chelsea first.
@@ -68,7 +69,7 @@ export default function InsuranceIndexPage() {
       {/* Also accepted */}
       <section className="section-foam py-16 sm:py-20">
         <div className="container-x">
-          <SectionHeading eyebrow="And Many More" title="Also in-network with plans like" />
+          <SectionHeading eyebrow="And Many More" title="We also work with plans like" />
           <div className="mx-auto mt-10 flex max-w-4xl flex-wrap items-center justify-center gap-4">
             {alsoAccepted.map((c) => (
               <div

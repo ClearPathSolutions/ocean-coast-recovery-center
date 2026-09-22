@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { site, accreditations } from "@/lib/site";
-import { Phone, Mail, MapPin, Clock, Instagram, Facebook, ArrowRight } from "@/components/icons";
+import { Phone, Mail, MapPin, Clock, Instagram, Facebook, Linkedin, ArrowRight } from "@/components/icons";
 
 const columns = [
   {
@@ -115,6 +115,15 @@ export default function Footer() {
               className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-ocean-500"
             >
               <Facebook className="h-5 w-5" />
+            </a>
+            <a
+              href={site.social.linkedin}
+              aria-label="LinkedIn"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-ocean-500"
+            >
+              <Linkedin className="h-5 w-5" />
             </a>
           </div>
         </div>
