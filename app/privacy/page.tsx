@@ -74,12 +74,12 @@ export default function PrivacyPage() {
             privacy standards.
           </p>
           <h2>Your Choices</h2>
-          <p>
+          <p suppressHydrationWarning>
             You may request that we correct or delete your information at any time by contacting us at{" "}
             <a href={`mailto:${site.email}`}>{site.email}</a> or {site.phone}.
           </p>
           <h2>Contact Us</h2>
-          <p>
+          <p suppressHydrationWarning>
             Questions about this policy? Reach us at {site.address.full}, {site.phone}, or{" "}
             <a href={`mailto:${site.email}`}>{site.email}</a>.
           </p>

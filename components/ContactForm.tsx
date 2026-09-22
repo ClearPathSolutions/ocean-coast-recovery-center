@@ -63,7 +63,7 @@ export default function ContactForm({
           A caring admissions coordinator will contact you shortly — always confidentially.
           Prefer to talk right now?
         </p>
-        <a href={site.phoneHref} className="btn-ocean mt-5">
+        <a href={site.phoneHref} className="btn-ocean mt-5" suppressHydrationWarning>
           <Phone className="h-4 w-4" /> Call {site.phone}
         </a>
       </div>
@@ -74,7 +74,7 @@ export default function ContactForm({
     "w-full rounded-xl border border-ocean-100 bg-white px-4 py-3 text-navy placeholder:text-navy/40 focus:border-ocean-400 focus:outline-none focus:ring-2 focus:ring-ocean-200";
 
   return (
-    <form onSubmit={onSubmit} className="rounded-3xl bg-white p-6 shadow-card sm:p-8">
+    <form onSubmit={onSubmit} className="rounded-3xl bg-white p-6 shadow-card sm:p-8" suppressHydrationWarning>
       {/* Honeypot (CR-05). Hidden from users and from assistive tech; bots fill
           it in and the endpoint then silently drops the submission. Not
           `display:none`, which some bots detect and skip. */}
@@ -146,7 +146,7 @@ export default function ContactForm({
       {status === "error" && (
         <p role="alert" className="mt-3 text-sm text-red-600">
           {errorMsg || "Something went wrong."} Please call us at{" "}
-          <a href={site.phoneHref} className="font-semibold underline">
+          <a href={site.phoneHref} className="font-semibold underline" suppressHydrationWarning>
             {site.phone}
           </a>
           .

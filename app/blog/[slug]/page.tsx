@@ -150,7 +150,7 @@ export default async function BlogPostPage({
               <p className="mt-2 text-sm text-white/75">
                 Our caring admissions team is here for you 24/7 — confidential and judgment-free.
               </p>
-              <a href={site.phoneHref} className="btn-primary mt-5 w-full">
+              <a href={site.phoneHref} className="btn-primary mt-5 w-full" suppressHydrationWarning>
                 <Phone className="h-4 w-4" /> {site.phone}
               </a>
               <Link href="/admissions#verify" className="btn-outline mt-3 w-full">

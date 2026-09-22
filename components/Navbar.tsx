@@ -123,7 +123,7 @@ export default function Navbar() {
           >
             Verify Insurance
           </Link>
-          <a href={site.phoneHref} className="btn-primary !px-5 !py-2.5">
+          <a href={site.phoneHref} className="btn-primary !px-5 !py-2.5" suppressHydrationWarning>
             <Phone className="h-4 w-4" />
             {site.phone}
           </a>
@@ -136,7 +136,7 @@ export default function Navbar() {
             aria-label={`Call ${site.phone}`}
             className={`flex h-10 w-10 items-center justify-center rounded-full transition-colors ${
               solid ? "bg-sand-300 text-navy-dark" : "bg-white/15 text-white backdrop-blur"
-            }`}
+            }`} suppressHydrationWarning
           >
             <Phone className="h-[18px] w-[18px]" />
           </a>
@@ -216,7 +216,7 @@ export default function Navbar() {
           </ul>
 
           <div className="mt-auto space-y-3 pt-8">
-            <a href={site.phoneHref} className="btn-primary w-full">
+            <a href={site.phoneHref} className="btn-primary w-full" suppressHydrationWarning>
               <Phone className="h-4 w-4" />
               Call {site.phone}
             </a>

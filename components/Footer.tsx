@@ -53,7 +53,7 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <a href={site.phoneHref} className="btn-primary whitespace-nowrap">
+            <a href={site.phoneHref} className="btn-primary whitespace-nowrap" suppressHydrationWarning>
               <Phone className="h-4 w-4" /> {site.phone}
             </a>
             <Link href="/admissions#verify" className="btn-outline whitespace-nowrap">
@@ -81,7 +81,7 @@ export default function Footer() {
           </p>
           <ul className="mt-6 space-y-3 text-sm">
             <li>
-              <a href={site.phoneHref} className="flex items-center gap-3 hover:text-white">
+              <a href={site.phoneHref} className="flex items-center gap-3 hover:text-white" suppressHydrationWarning>
                 <Phone className="h-4 w-4 shrink-0 text-ocean-400" /> {site.phone}
               </a>
             </li>

@@ -22,7 +22,7 @@ export default function CallbackCTA() {
               a personalized treatment plan — no judgment, no pressure, ever.
             </p>
 
-            <ul className="mt-8 space-y-4">
+            <ul className="mt-8 space-y-4" suppressHydrationWarning>
               {[
                 { icon: Shield, text: "100% confidential — your privacy is protected." },
                 { icon: Clock, text: `${site.hours}. Someone is always here to help.` },
@@ -37,7 +37,7 @@ export default function CallbackCTA() {
               ))}
             </ul>
 
-            <a href={site.phoneHref} className="btn-primary mt-8">
+            <a href={site.phoneHref} className="btn-primary mt-8" suppressHydrationWarning>
               <Phone className="h-4 w-4" /> Call {site.phone}
             </a>
           </Reveal>

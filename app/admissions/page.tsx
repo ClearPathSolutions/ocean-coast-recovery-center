@@ -89,7 +89,7 @@ export default function AdmissionsPage() {
                 ))}
               </div>
 
-              <a href={site.phoneHref} className="btn-ocean mt-6">
+              <a href={site.phoneHref} className="btn-ocean mt-6" suppressHydrationWarning>
                 <Phone className="h-4 w-4" /> Or call {site.phone}
               </a>
             </div>

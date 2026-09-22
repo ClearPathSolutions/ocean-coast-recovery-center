@@ -25,7 +25,7 @@ export default function LocationMap() {
           </p>
           <p className="mt-3 text-sm text-white/60">{site.hours}</p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <a href={site.phoneHref} className="btn-primary whitespace-nowrap">
+            <a href={site.phoneHref} className="btn-primary whitespace-nowrap" suppressHydrationWarning>
               <Phone className="h-4 w-4" /> {site.phone}
             </a>
             <a

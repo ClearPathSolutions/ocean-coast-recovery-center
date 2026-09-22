@@ -64,7 +64,7 @@ export default async function InsurancePage({
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link href="/admissions#verify" className="btn-primary whitespace-nowrap">Free Benefits Check</Link>
-              <a href={site.phoneHref} className="btn-outline whitespace-nowrap"><Phone className="h-4 w-4" /> {site.phone}</a>
+              <a href={site.phoneHref} className="btn-outline whitespace-nowrap" suppressHydrationWarning><Phone className="h-4 w-4" /> {site.phone}</a>
             </div>
           </div>
         </div>
