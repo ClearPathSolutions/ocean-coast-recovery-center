@@ -129,7 +129,7 @@ const jsonLd = {
     ratingValue: aggregate.rating,
     reviewCount: String(aggregate.count),
   },
-  sameAs: [site.social.instagram, site.social.facebook],
+  sameAs: [site.social.instagram, site.social.facebook, site.social.linkedin],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -36,7 +36,7 @@ export default function InsuranceBand() {
 
             <div className="rounded-3xl bg-white/10 p-6 backdrop-blur-sm ring-1 ring-white/15">
               <p className="text-sm font-semibold uppercase tracking-wider text-sand-200">
-                In-network with plans like
+                Plans we work with
               </p>
               <ul className="mt-4 grid grid-cols-2 gap-2.5">
                 {insuranceCarriers.map((c) => (

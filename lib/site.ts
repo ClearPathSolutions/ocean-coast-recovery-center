@@ -25,6 +25,7 @@ export const site = {
   social: {
     instagram: "https://www.instagram.com/oceancoastrecovery/",
     facebook: "https://www.facebook.com/oceancoastrecovery/",
+    linkedin: "https://linkedin.com/company/ocean-coast-recovery",
     handle: "@oceancoastrecovery",
   },
   license: "DHCS License #300423AP · Expires 8/31/2027",

@@ -104,7 +104,15 @@ export default function HomePage() {
             </div>
 
             <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/75">
-              {["Joint Commission Accredited", "LegitScript Certified", "In-network with major PPOs"].map((t) => (
+              {/* Only claims we can evidence. Removed 2026-09-21 on the owner's
+                  instruction: Ocean Coast is NOT LegitScript certified, and it
+                  is NOT an in-network facility — it bills major PPOs as an
+                  out-of-network provider, which is what /admissions has always
+                  said. Both replacements are sourced: the DHCS licence number
+                  and register link are in lib/site.ts, and the PPO wording
+                  matches the admissions copy. Do not restore either claim
+                  without documentation. */}
+              {["Joint Commission Accredited", "DHCS Licensed", "Most major PPO plans accepted"].map((t) => (
                 <span key={t} className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-ocean-300" /> {t}
                 </span>

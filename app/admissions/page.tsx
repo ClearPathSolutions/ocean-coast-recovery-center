@@ -63,7 +63,7 @@ export default function AdmissionsPage() {
 
               <div className="mt-6 rounded-3xl border border-ocean-100 bg-white p-6">
                 <p className="text-sm font-semibold uppercase tracking-wider text-ocean-600">
-                  In-network with plans like
+                  Plans we work with
                 </p>
                 <ul className="mt-4 grid grid-cols-2 gap-2.5">
                   {insuranceCarriers.map((c) => (

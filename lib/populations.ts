@@ -281,7 +281,7 @@ export const populations: Population[] = [
           "The right level of care for your needs",
           "Integrated dual-diagnosis and medication-assisted treatment",
           "A realistic, comfortable location",
-          "Clear understanding of cost and in-network coverage",
+          "Clear understanding of cost and insurance coverage",
           "A genuinely affirming, safe environment",
         ],
       },
