@@ -17,6 +17,7 @@ const RESERVED = new Set([
   'admissions',
   'api',
   'blog',
+  'careers',
   'contact',
   'insurance',
   'privacy',
@@ -154,6 +155,15 @@ const nextConfig = {
         source: "/privacy-policy",
         destination: "/privacy/",
         permanent: true,
+      },
+      // Careers live on ADP Workforce Now; the site has no careers page of its
+      // own. Temporary (307) rather than 301 so browsers don't cache it — ADP
+      // posting URLs change when the recruitment portal is reconfigured.
+      {
+        source: '/careers',
+        destination:
+          'https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=e1094ba9-8b93-4f55-9dab-3102a4eaaa49&ccId=9200866717655_2&lang=en_US',
+        permanent: false,
       },
       // Blog posts moved from the site root to /blog/*
       ...blogSlugs().map((slug) => ({
