@@ -101,7 +101,7 @@ const team = [
   {
     name: "Jacob Cameron",
     creds: "",
-    role: "Client Care Director",
+    role: "Program Director",
     href: "/about/jacob-cameron",
     initials: "JC",
     photo: "/images/team/jacob-cameron.jpg",
@@ -121,7 +121,7 @@ const team = [
   {
     name: "Monica Olivares",
     creds: "",
-    role: "Clinical Supervisor",
+    role: "Clinical Operations Director",
     href: "/about/monica-olivares",
     initials: "MO",
     photo: "/images/team/monica-olivares.jpg",
