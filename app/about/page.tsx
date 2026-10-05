@@ -139,16 +139,6 @@ const team = [
       "Integrative and client-centered, Vahan looks past the challenges that bring someone in — and believes healing starts with a genuine therapeutic relationship.",
   },
   {
-    name: "Alanna McMurtrey",
-    creds: "",
-    role: "Lead Case Manager",
-    href: "/about/alanna-mcmurtrey",
-    initials: "AM",
-    photo: "/images/team/alanna-mcmurtrey.jpg",
-    blurb:
-      "Alanna coordinates care through detox and residential treatment, meeting clients where they are and building on the strengths they already have.",
-  },
-  {
     name: "Halie Nall",
     creds: "",
     role: "Case Manager",

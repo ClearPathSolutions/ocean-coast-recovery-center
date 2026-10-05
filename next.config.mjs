@@ -156,6 +156,13 @@ const nextConfig = {
         destination: "/privacy/",
         permanent: true,
       },
+      // Alanna McMurtrey is off the roster; her profile page is retired, so the
+      // URL redirects rather than 404s.
+      {
+        source: "/about/alanna-mcmurtrey",
+        destination: "/about/",
+        permanent: true,
+      },
       // Careers live on ADP Workforce Now; the site has no careers page of its
       // own. Temporary (307) rather than 301 so browsers don't cache it — ADP
       // posting URLs change when the recruitment portal is reconfigured.
