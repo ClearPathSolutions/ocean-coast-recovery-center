@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { team, teamSlug, type TeamMember } from "@/lib/team";
 
 export type Post = {
   slug: string;
@@ -9,6 +10,16 @@ export type Post = {
   excerpt: string;
   readMinutes: number;
   bodyHtml: string;
+  /**
+   * The editorial policy's per-post fields, all optional. People are bio-page
+   * slugs from lib/team.ts (e.g. "riky-hanaumi" for /about/riky-hanaumi/), so
+   * every credited name links to a real bio. A missing value means no line:
+   * there is never a site-wide default author or reviewer.
+   */
+  written_by?: string;
+  reviewed_by?: string;
+  /** YYYY-MM-DD. The reviewer line needs both reviewed_by and this. */
+  last_reviewed?: string;
 };
 
 // Unified card shape for the blog index — covers both local posts and posts
@@ -94,4 +105,45 @@ export function relatedPosts(slug: string, category: string, n = 3): Post[] {
   const sameCat = all.filter((p) => p.category === category);
   const others = all.filter((p) => p.category !== category);
   return [...sameCat, ...others].slice(0, n);
+}
+
+// ---------------------------------------------------------------------------
+// Article byline (editorial policy package: templates/article-byline.html)
+// ---------------------------------------------------------------------------
+
+export type BylinePerson = {
+  name: string;
+  credentials: string | null;
+  /** Bio page, or null when the person has none (Clarion's author_name). */
+  bioPath: string | null;
+};
+
+export type Byline = {
+  author: BylinePerson | null;
+  /** Set only when the post has both a reviewer and a review date. */
+  reviewer: BylinePerson | null;
+  lastReviewed: string | null;
+};
+
+function teamPerson(slug: string, post: string): BylinePerson {
+  const m: TeamMember | undefined = team.find((t) => teamSlug(t) === slug);
+  // Fail the build: a byline naming someone without a bio page is exactly
+  // what the policy promises never to publish.
+  if (!m) throw new Error(`${post}: byline references unknown team slug "${slug}"`);
+  return { name: m.name, credentials: m.creds || null, bioPath: `${m.href}/` };
+}
+
+/** Byline for a local post, from its optional written_by / reviewed_by / last_reviewed. */
+export function getByline(post: Post): Byline {
+  if (post.last_reviewed && !/^\d{4}-\d{2}-\d{2}$/.test(post.last_reviewed)) {
+    throw new Error(`${post.slug}: last_reviewed must be YYYY-MM-DD, got "${post.last_reviewed}"`);
+  }
+  const lastReviewed = post.last_reviewed || null;
+  // Resolved even when undated, so a typo'd slug still fails the build.
+  const reviewer = post.reviewed_by ? teamPerson(post.reviewed_by, post.slug) : null;
+  return {
+    author: post.written_by ? teamPerson(post.written_by, post.slug) : null,
+    reviewer: lastReviewed ? reviewer : null,
+    lastReviewed,
+  };
 }

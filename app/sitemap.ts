@@ -4,6 +4,7 @@ import { getAllPosts } from "@/lib/blog";
 import { getClarionPosts } from "@/lib/clarionBlog";
 import { populations } from "@/lib/populations";
 import { getSubstanceDocs, getInsuranceDocs } from "@/lib/contentPages";
+import { editorialPolicyReady, EDITORIAL_POLICY_PATH } from "@/lib/editorial";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
@@ -89,8 +90,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
+  // Listed only once the policy is signed off and indexable (lib/editorial.ts).
+  const editorialRoutes = editorialPolicyReady
+    ? [
+        {
+          url: absoluteUrl(EDITORIAL_POLICY_PATH),
+          lastModified: now,
+          changeFrequency: "yearly" as const,
+          priority: 0.3,
+        },
+      ]
+    : [];
+
   return [
     ...staticRoutes,
+    ...editorialRoutes,
     ...populationRoutes,
     ...substanceRoutes,
     ...insuranceRoutes,

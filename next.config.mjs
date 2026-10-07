@@ -19,6 +19,7 @@ const RESERVED = new Set([
   'blog',
   'careers',
   'contact',
+  'editorial-policy',
   'insurance',
   'privacy',
   'tour',

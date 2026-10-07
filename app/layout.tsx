@@ -4,6 +4,12 @@ import Script from "next/script";
 import "./globals.css";
 import { site, clarion, callTracking } from "@/lib/site";
 import { aggregate } from "@/lib/reviews";
+import {
+  editorialPolicyReady,
+  EDITORIAL_POLICY_URL,
+  CORRECTIONS_ANCHOR,
+  ORGANIZATION_ID,
+} from "@/lib/editorial";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LocationMap from "@/components/LocationMap";
@@ -105,6 +111,8 @@ export const viewport: Viewport = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
+  // The site's one Organization node; other JSON-LD references it by this id.
+  "@id": ORGANIZATION_ID,
   name: site.name,
   description: site.description,
   url: site.url,
@@ -130,6 +138,14 @@ const jsonLd = {
     reviewCount: String(aggregate.count),
   },
   sameAs: [site.social.instagram, site.social.facebook, site.social.linkedin],
+  // Editorial policy package: merged into this node, never a second one, and
+  // only once the policy is signed off and public (lib/editorial.ts).
+  ...(editorialPolicyReady
+    ? {
+        publishingPrinciples: EDITORIAL_POLICY_URL,
+        correctionsPolicy: `${EDITORIAL_POLICY_URL}#${CORRECTIONS_ANCHOR}`,
+      }
+    : {}),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

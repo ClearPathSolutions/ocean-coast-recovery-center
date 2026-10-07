@@ -107,6 +107,52 @@
   }
 }
 
+/* Article byline (editorial policy package: templates/article-byline.css).
+   Colours follow the surrounding text, so it reads on the dark post hero. */
+.article-byline {
+  margin-top: 1.25rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.article-byline p { margin: 0.15rem 0; }
+.article-byline .byline-meta {
+  color: color-mix(in srgb, currentColor 75%, transparent);
+  font-size: 0.875rem;
+}
+.article-byline a {
+  @apply font-semibold underline decoration-sand-300/70 underline-offset-2 hover:text-sand-200;
+}
+
+/* Editorial policy page (same package CSS). The template's own <article
+   class="editorial-policy"> sits inside .prose-content. Deliberately outside
+   @layer: these classes exist only in content/editorial-policy.html, which
+   Tailwind does not scan, so layered rules would be purged. */
+.editorial-policy ol {
+  @apply mb-6 list-decimal space-y-2 pl-6;
+}
+.editorial-policy ol li {
+  @apply pl-1 leading-relaxed text-navy/75 marker:font-semibold marker:text-ocean-600;
+}
+.editorial-policy strong { @apply font-semibold text-navy; }
+/* The terminology table scrolls inside its wrapper on phones (375px)
+   instead of widening the page. */
+.editorial-policy .table-scroll {
+  @apply mb-6 rounded-2xl border border-ocean-100;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.editorial-policy table { border-collapse: collapse; width: 100%; min-width: 28rem; }
+.editorial-policy th,
+.editorial-policy td {
+  @apply border-b border-ocean-100 text-left text-navy/75;
+  padding: 0.5rem 0.75rem;
+}
+.editorial-policy tbody tr:last-child td { border-bottom: 0; }
+.editorial-policy th { @apply bg-foam font-semibold text-navy; }
+
 /* Scroll reveal (components/Reveal.tsx).
    `data-reveal` is only ever set by JS, and only on elements that were off
    screen the first time the observer looked — so the default, no-JS and

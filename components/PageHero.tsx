@@ -11,6 +11,7 @@ export default function PageHero({
   image,
   crumbs = [],
   align = "left",
+  children,
 }: {
   eyebrow?: string;
   title: string;
@@ -25,6 +26,8 @@ export default function PageHero({
   image?: string;
   crumbs?: Crumb[];
   align?: "left" | "center";
+  /** Rendered directly under the H1 and subtitle (e.g. a post's article byline). */
+  children?: React.ReactNode;
 }) {
   return (
     <section className="relative isolate overflow-hidden bg-navy-dark pt-[120px] lg:pt-[148px]">
@@ -90,6 +93,7 @@ export default function PageHero({
             {subtitle}
           </p>
         )}
+        {children && <div className="w-full max-w-3xl text-white/85">{children}</div>}
       </div>
     </section>
   );

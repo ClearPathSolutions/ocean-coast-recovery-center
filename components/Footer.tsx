@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { site, accreditations } from "@/lib/site";
+import { editorialPolicyServed, EDITORIAL_POLICY_PATH } from "@/lib/editorial";
 import { Phone, Mail, MapPin, Clock, Instagram, Facebook, Linkedin, ArrowRight } from "@/components/icons";
 
 const columns = [
@@ -189,6 +190,13 @@ export default function Footer() {
             <p className="mt-1">
               © {new Date().getFullYear()} {site.name}. All rights reserved. ·{" "}
               <Link href="/privacy" className="hover:text-white/70">Privacy Policy</Link>
+              {/* Withheld from production until signed off (lib/editorial.ts). */}
+              {editorialPolicyServed && (
+                <>
+                  {" "}·{" "}
+                  <Link href={EDITORIAL_POLICY_PATH} className="hover:text-white/70">Editorial Policy</Link>
+                </>
+              )}
             </p>
             <p className="mt-1">
               If you are experiencing a medical emergency, call 911. For 24/7 crisis support, dial 988.

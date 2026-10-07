@@ -4,8 +4,19 @@ import Link from "next/link";
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import CallbackCTA from "@/components/CallbackCTA";
-import { site } from "@/lib/site";
-import { getAllPosts, getPost, coverFor, formatDate, relatedPosts } from "@/lib/blog";
+import { site, absoluteUrl } from "@/lib/site";
+import {
+  getAllPosts,
+  getPost,
+  getByline,
+  coverFor,
+  formatDate,
+  relatedPosts,
+  type Byline,
+  type BylinePerson,
+} from "@/lib/blog";
+import { ORGANIZATION_ID } from "@/lib/editorial";
+import ArticleByline from "@/components/ArticleByline";
 import { getClarionPosts, getClarionPost, estimateReadMinutes, CLARION_CATEGORY } from "@/lib/clarionBlog";
 import { Clock, ArrowRight, Phone, ArrowLeft } from "@/components/icons";
 
@@ -19,6 +30,7 @@ type PostView = {
   cover: string;
   readMinutes: number;
   bodyHtml: string;
+  byline: Byline;
   seo?: { title?: string; description?: string };
 };
 
@@ -34,6 +46,7 @@ async function loadView(slug: string): Promise<PostView | null> {
       cover: coverFor(local.slug),
       readMinutes: local.readMinutes,
       bodyHtml: local.bodyHtml,
+      byline: getByline(local),
     };
   }
   const cp = await getClarionPost(slug);
@@ -49,6 +62,13 @@ async function loadView(slug: string): Promise<PostView | null> {
       cover: cp.coverImageUrl || coverFor(cp.slug),
       readMinutes: estimateReadMinutes(cp.bodyHtml),
       bodyHtml: cp.bodyHtml,
+      // Clarion's author_name is a real attribution but has no bio page here,
+      // and Clarion has no reviewer field, so a Clarion post never shows one.
+      byline: {
+        author: cp.authorName ? { name: cp.authorName, credentials: null, bioPath: null } : null,
+        reviewer: null,
+        lastReviewed: null,
+      },
       seo: cp.seo,
     };
   }
@@ -101,14 +121,41 @@ export default async function BlogPostPage({
 
   const related = relatedPosts(post.slug, post.category);
 
+  // Editorial policy package: schema/clinical-article.jsonld. reviewedBy and
+  // lastReviewed appear only when the post is actually reviewed — never a
+  // default reviewer. Publisher (and author, unless a team member with a bio
+  // page wrote it) reference the site's single Organization node by @id rather
+  // than restating a second Organization.
+  const url = absoluteUrl(`/blog/${post.slug}`);
+  const org = { "@id": ORGANIZATION_ID };
+  const person = (p: BylinePerson) =>
+    p.bioPath
+      ? { "@type": "Person", "@id": `${absoluteUrl(p.bioPath)}#person`, name: p.name, url: absoluteUrl(p.bioPath) }
+      : null;
+  const { reviewer, lastReviewed } = post.byline;
+  const author = post.byline.author && person(post.byline.author);
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    datePublished: post.dateISO,
-    description: post.excerpt,
-    author: { "@type": "Organization", name: site.name },
-    publisher: { "@type": "Organization", name: site.name },
+    "@graph": [
+      {
+        "@type": "MedicalWebPage",
+        "@id": `${url}#webpage`,
+        url,
+        name: post.title,
+        ...(reviewer && lastReviewed ? { lastReviewed, reviewedBy: person(reviewer) } : {}),
+        publisher: org,
+      },
+      {
+        "@type": "BlogPosting",
+        "@id": `${url}#article`,
+        headline: post.title,
+        mainEntityOfPage: { "@id": `${url}#webpage` },
+        datePublished: post.dateISO,
+        description: post.excerpt,
+        author: author ?? org,
+        publisher: org,
+      },
+    ],
   };
 
   return (
@@ -118,7 +165,9 @@ export default async function BlogPostPage({
         title={post.title}
         image={post.cover}
         crumbs={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.category }]}
-      />
+      >
+        <ArticleByline byline={post.byline} />
+      </PageHero>
 
       <article className="bg-white py-16 sm:py-20">
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_320px]">
