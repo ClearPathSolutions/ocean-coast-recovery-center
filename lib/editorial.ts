@@ -34,7 +34,7 @@ export const editorial = {
   phone: "1-949-649-0702",
   phoneTel: site.phoneHref.replace(/^tel:/, ""),
   /** YYYY-MM-DD. Blank in facilities.csv as of 2026-10-07. */
-  lastReviewed: "",
+  lastReviewed: "2026-10-07",
   /** Copy of the CSV's CONTENT_SIGNOFF cell. Blank as of 2026-10-07. */
   contentSignoff: "",
 } as const;
