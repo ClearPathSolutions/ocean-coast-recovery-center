@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import BioPage from "@/components/BioPage";
 
 export const metadata: Metadata = {
-  title: "Halie Nall — Case Manager",
+  title: fitTitle("Halie Nall — Case Manager"),
   description:
     "Meet Halie Nall, Case Manager at Ocean Coast Recovery Center in Costa Mesa, CA.",
 };

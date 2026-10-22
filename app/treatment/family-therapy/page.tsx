@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import { Split, CardGrid } from "@/components/ContentBlocks";
 import ProgramGrid from "@/components/ProgramGrid";
@@ -6,7 +7,7 @@ import InsuranceBand from "@/components/InsuranceBand";
 import CallbackCTA from "@/components/CallbackCTA";
 
 export const metadata: Metadata = {
-  title: "Family Therapy for Addiction in Orange County",
+  title: fitTitle("Family Therapy for Addiction in Orange County"),
   description:
     "Addiction is a family disease. Ocean Coast Recovery's family therapy program helps loved ones heal, set healthy boundaries, and support lasting recovery together.",
 };

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import BioPage from "@/components/BioPage";
 
 export const metadata: Metadata = {
-  title: "Vahan Oknayan, AMFT — Therapist",
+  title: fitTitle("Vahan Oknayan, AMFT — Therapist"),
   description:
     "Meet Vahan Oknayan, AMFT, Therapist at Ocean Coast Recovery Center in Costa Mesa, CA.",
 };

@@ -3,11 +3,11 @@ import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
-import { site } from "@/lib/site";
+import { site, fitTitle } from "@/lib/site";
 import { Phone, Mail, MapPin, Clock } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
+  title: fitTitle("Contact Us"),
   description:
     "Get in touch with Ocean Coast Recovery Center in Costa Mesa, CA. Call, email, or send a confidential message — someone is here to help 24/7.",
 };

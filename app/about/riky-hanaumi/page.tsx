@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import BioPage from "@/components/BioPage";
 
 export const metadata: Metadata = {
-  title: "Riky Hanaumi, LCSW — Clinical Director",
+  title: fitTitle("Riky Hanaumi, LCSW — Clinical Director"),
   description:
     "Meet Riky Hanaumi, LCSW, Clinical Director for Quadrant Health Group's California facilities, with more than 20 years in behavioral health and addiction treatment.",
 };

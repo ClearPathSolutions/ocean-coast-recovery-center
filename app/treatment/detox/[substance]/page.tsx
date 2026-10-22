@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
@@ -27,7 +28,7 @@ export async function generateMetadata({
   const meta = getSubstanceMeta(substance);
   if (!doc || !meta) return {};
   return {
-    title: `${meta.label} in Costa Mesa, CA`,
+    title: fitTitle(`${meta.label} in Costa Mesa, CA`),
     description: doc.metaDescription || doc.heroSubtitle,
   };
 }

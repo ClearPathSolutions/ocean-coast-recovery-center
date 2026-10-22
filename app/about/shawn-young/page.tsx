@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import BioPage from "@/components/BioPage";
 
 export const metadata: Metadata = {
-  title: "Shawn Young — Executive Director",
+  title: fitTitle("Shawn Young — Executive Director"),
   description:
     "Meet Shawn Young, Executive Director for Quadrant Health Group's Southern California treatment facilities, including Ocean Coast Recovery Center.",
 };

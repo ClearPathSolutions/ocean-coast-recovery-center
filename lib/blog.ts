@@ -101,7 +101,14 @@ export function formatDate(iso: string): string {
 }
 
 export function relatedPosts(slug: string, category: string, n = 3): Post[] {
-  const all = getAllPosts().filter((p) => p.slug !== slug);
+  // Rotate from this post's position so each post is linked from the ones just
+  // before it. Always taking the first n left most older posts reachable from
+  // a single internal link (the blog index).
+  const list = getAllPosts();
+  const idx = list.findIndex((p) => p.slug === slug);
+  const all = (idx >= 0 ? [...list.slice(idx + 1), ...list.slice(0, idx)] : list).filter(
+    (p) => p.slug !== slug
+  );
   const sameCat = all.filter((p) => p.category === category);
   const others = all.filter((p) => p.category !== category);
   return [...sameCat, ...others].slice(0, n);

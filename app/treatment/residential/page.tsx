@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import { Split, CardGrid } from "@/components/ContentBlocks";
 import ProgramGrid from "@/components/ProgramGrid";
@@ -8,7 +9,7 @@ import Testimonials from "@/components/Testimonials";
 import CallbackCTA from "@/components/CallbackCTA";
 
 export const metadata: Metadata = {
-  title: "Luxury Residential Inpatient Rehab in Costa Mesa, CA",
+  title: fitTitle("Luxury Residential Inpatient Rehab in Costa Mesa, CA"),
   description:
     "Immersive, 24/7 residential addiction treatment in an intimate six-bed home in Costa Mesa. 30, 60, and 90+ day options with evidence-based, personalized care.",
 };

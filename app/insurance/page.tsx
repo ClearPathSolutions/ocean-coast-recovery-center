@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import Link from "next/link";
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
@@ -9,7 +10,7 @@ import { insuranceMeta } from "@/lib/insuranceMeta";
 import { ArrowRight, ChevronRight, Shield } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "Insurance We Accept",
+  title: fitTitle("Insurance We Accept"),
   description:
     "Ocean Coast Recovery works with most major PPO & POS plans — Blue Cross Blue Shield, Cigna, Aetna, Meritain, Beacon, GEHA, and more. Verify your benefits free.",
 };

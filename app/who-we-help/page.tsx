@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import Link from "next/link";
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
@@ -10,7 +11,7 @@ import { populations } from "@/lib/populations";
 import { ArrowRight } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "Who We Help",
+  title: fitTitle("Who We Help"),
   description:
     "Specialized, population-specific addiction treatment in Costa Mesa, CA — for young adults, college students, professionals, first responders, the LGBTQ+ community, men, and women.",
 };

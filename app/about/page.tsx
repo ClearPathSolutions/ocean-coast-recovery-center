@@ -6,14 +6,14 @@ import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import Testimonials from "@/components/Testimonials";
 import CallbackCTA from "@/components/CallbackCTA";
-import { site } from "@/lib/site";
+import { site, fitTitle } from "@/lib/site";
 import { aggregate } from "@/lib/reviews";
 import { team } from "@/lib/team";
 import { editorialPolicyServed, EDITORIAL_POLICY_PATH } from "@/lib/editorial";
 import { ArrowRight, CheckCircle, HeartHand, Users, Waves, Star } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "About Us — Who We Are",
+  title: fitTitle("About Us — Who We Are"),
   description:
     "Ocean Coast Recovery is an intimate, six-bed drug & alcohol treatment center in Costa Mesa, CA. Meet our caring team and learn what makes us different.",
 };

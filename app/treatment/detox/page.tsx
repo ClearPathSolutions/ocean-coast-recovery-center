@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import { Split, Steps } from "@/components/ContentBlocks";
@@ -12,7 +13,7 @@ import { substanceMeta } from "@/lib/substanceMeta";
 import { ArrowRight } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "Drug & Alcohol Detox Center in Costa Mesa, CA",
+  title: fitTitle("Drug & Alcohol Detox Center in Costa Mesa, CA"),
   description:
     "Safe, medically supervised detox in Costa Mesa with 24/7 clinical monitoring, medication-assisted comfort, and a seamless transition to residential care.",
 };

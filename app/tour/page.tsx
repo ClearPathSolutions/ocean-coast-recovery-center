@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import { Split } from "@/components/ContentBlocks";
 import SectionHeading from "@/components/SectionHeading";
@@ -9,7 +10,7 @@ import Reveal from "@/components/Reveal";
 import { Waves, Bed, Sun } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "Tour Our Facility — Costa Mesa Rehab Environment",
+  title: fitTitle("Tour Our Facility — Costa Mesa Rehab Environment"),
   description:
     "Tour Ocean Coast Recovery — a boutique, six-bed drug & alcohol treatment center in Costa Mesa, CA with private suites, a pool, and a quiet residential setting minutes from the coast.",
 };

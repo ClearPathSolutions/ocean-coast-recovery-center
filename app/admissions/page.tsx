@@ -6,11 +6,11 @@ import Reveal from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
 import FAQ from "@/components/FAQ";
 import CallbackCTA from "@/components/CallbackCTA";
-import { site, insuranceCarriers } from "@/lib/site";
+import { site, insuranceCarriers, fitTitle } from "@/lib/site";
 import { Phone, Shield, Clock, CheckCircle } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "Admissions & Insurance Verification",
+  title: fitTitle("Admissions & Insurance Verification"),
   description:
     "Starting treatment at Ocean Coast Recovery is simple and confidential. Learn how admissions work and verify your insurance benefits for free in minutes.",
 };

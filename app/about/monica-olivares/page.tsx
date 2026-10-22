@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import BioPage from "@/components/BioPage";
 
 export const metadata: Metadata = {
-  title: "Monica Olivares — Clinical Operations Director",
+  title: fitTitle("Monica Olivares — Clinical Operations Director"),
   description:
     "Meet Monica Olivares, CADC II, Clinical Operations Director for Quadrant Health Group's California facilities, with over 11 years in behavioral health.",
 };

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import { Split, CardGrid, Steps } from "@/components/ContentBlocks";
 import ProgramGrid from "@/components/ProgramGrid";
@@ -7,7 +8,7 @@ import InsuranceBand from "@/components/InsuranceBand";
 import CallbackCTA from "@/components/CallbackCTA";
 
 export const metadata: Metadata = {
-  title: "Dual Diagnosis Treatment in Costa Mesa, CA",
+  title: fitTitle("Dual Diagnosis Treatment in Costa Mesa, CA"),
   description:
     "Integrated dual diagnosis care in Costa Mesa treating addiction and co-occurring mental health disorders together — depression, anxiety, PTSD, bipolar, and more.",
 };

@@ -9,7 +9,7 @@ export const site = {
   tagline: "A Fresh Start Is Closer Than You Think",
   description:
     "Top-rated drug & alcohol rehab in Costa Mesa, CA. Intimate, six-bed residential treatment with medical detox, dual diagnosis care, and lifelong aftercare.",
-  url: "https://oceancoastrecovery.com",
+  url: "https://www.oceancoastrecovery.com",
   phone: "(949) 649-0702",
   phoneHref: "tel:+19496490702",
   phoneRaw: "1-949-649-0702",
@@ -78,6 +78,20 @@ export const callTracking = {
 export const analytics = {
   gtmId: "GTM-T5FSQTCL",
 } as const;
+
+/**
+ * Page title for metadata. The root layout's template appends
+ * " | Ocean Coast Recovery Center" (30 chars); when that would push the
+ * rendered <title> past 70 characters the brand is dropped for that page, so
+ * the descriptive part is what search results show. Titles still over 70 on
+ * their own are left as written (editorial fix, not truncation).
+ */
+export function fitTitle(title: string): string | { absolute: string } {
+  if (title.length + ` | ${site.name}`.length <= 70) return title;
+  // Dropping the brand only helps if the result then fits; a title over 70 on
+  // its own keeps the brand rather than also becoming identical to its <h1>.
+  return title.length <= 70 ? { absolute: title } : title;
+}
 
 /**
  * Absolute, slash-canonical URL for a route.

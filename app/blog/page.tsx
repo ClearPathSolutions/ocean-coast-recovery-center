@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import BlogIndex from "@/components/BlogIndex";
 import CallbackCTA from "@/components/CallbackCTA";
@@ -6,7 +7,7 @@ import { getAllPosts, coverFor, type BlogCard } from "@/lib/blog";
 import { getClarionPosts, CLARION_CATEGORY } from "@/lib/clarionBlog";
 
 export const metadata: Metadata = {
-  title: "Blog — Recovery Insights & Resources",
+  title: fitTitle("Blog — Recovery Insights & Resources"),
   description:
     "Expert articles on addiction, recovery, detox, mental health, and family healing from the team at Ocean Coast Recovery Center in Costa Mesa, CA.",
 };

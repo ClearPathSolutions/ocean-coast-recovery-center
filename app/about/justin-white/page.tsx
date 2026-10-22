@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import BioPage from "@/components/BioPage";
 
 export const metadata: Metadata = {
-  title: "Justin White — Program Director",
+  title: fitTitle("Justin White — Program Director"),
   description:
     "Meet Justin White, Registered Addiction Counselor and Program Director for Quadrant Health Group's Southern California facilities.",
 };

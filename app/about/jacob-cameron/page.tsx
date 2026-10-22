@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import BioPage from "@/components/BioPage";
 
 export const metadata: Metadata = {
-  title: "Jacob Cameron — Program Director",
+  title: fitTitle("Jacob Cameron — Program Director"),
   description:
     "Meet Jacob Cameron, SUDCC I, Program Director at Quadrant Health Group, focused on personalized care and a genuine sense of belonging in treatment.",
 };

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
-import { site } from "@/lib/site";
+import { site, fitTitle } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
+  title: fitTitle("Privacy Policy"),
   description: "How Ocean Coast Recovery Center collects, uses, and protects your information.",
   // V0042 cross-ref: this page previously served no robots meta at all, while
   // the rest of the site is index/follow. Portfolio-wide the same page type

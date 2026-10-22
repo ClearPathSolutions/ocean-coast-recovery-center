@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import BioPage from "@/components/BioPage";
 
 export const metadata: Metadata = {
-  title: "Dr. Pamela Tambini — Medical Oversight",
+  title: fitTitle("Dr. Pamela Tambini — Medical Oversight"),
   description:
     "Dr. Pamela Tambini, board-certified in Internal Medicine and Addiction Medicine, provides medical oversight across Quadrant Health Group.",
   // Network-wide staff. This exact bio is published on quadranthealthgroup.com

@@ -139,6 +139,7 @@ export default function Navbar() {
             }`} suppressHydrationWarning
           >
             <Phone className="h-[18px] w-[18px]" />
+            <span className="sr-only">Call us</span>
           </a>
           <button
             onClick={() => setOpen((v) => !v)}

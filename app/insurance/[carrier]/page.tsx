@@ -8,7 +8,7 @@ import SectionHeading from "@/components/SectionHeading";
 import CallbackCTA from "@/components/CallbackCTA";
 import { getInsuranceDocs, getDoc } from "@/lib/contentPages";
 import { insuranceMeta, getInsuranceMeta } from "@/lib/insuranceMeta";
-import { site } from "@/lib/site";
+import { site, fitTitle } from "@/lib/site";
 import { Phone, ChevronRight } from "@/components/icons";
 
 export function generateStaticParams() {
@@ -25,7 +25,7 @@ export async function generateMetadata({
   const meta = getInsuranceMeta(carrier);
   if (!doc || !meta) return {};
   return {
-    title: `${meta.name} Rehab Coverage`,
+    title: fitTitle(`${meta.name} Rehab Coverage`),
     description: doc.metaDescription || `Does ${meta.name} cover rehab? Verify your ${meta.name} benefits for treatment at Ocean Coast Recovery in Costa Mesa, CA.`,
   };
 }

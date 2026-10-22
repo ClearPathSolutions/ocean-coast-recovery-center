@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import { Split, CardGrid } from "@/components/ContentBlocks";
@@ -9,7 +10,7 @@ import CallbackCTA from "@/components/CallbackCTA";
 import { ArrowRight } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "Addiction Treatment Services in Orange County",
+  title: fitTitle("Addiction Treatment Services in Orange County"),
   description:
     "Comprehensive drug & alcohol treatment in Costa Mesa, CA — medical detox, residential inpatient, dual diagnosis, family therapy, and aftercare.",
 };

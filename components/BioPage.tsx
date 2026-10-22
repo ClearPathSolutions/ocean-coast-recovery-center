@@ -4,6 +4,7 @@ import PageHero from "@/components/PageHero";
 import CallbackCTA from "@/components/CallbackCTA";
 import Reveal from "@/components/Reveal";
 import { ArrowLeft } from "@/components/icons";
+import { team } from "@/lib/team";
 
 export default function BioPage({
   name,
@@ -65,6 +66,23 @@ export default function BioPage({
               {paragraphs.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
+            </div>
+            {/* Cross-links between bios, so each bio is reachable from more
+                than the single card on /about. */}
+            <div className="mt-10 border-t border-ocean-100 pt-8">
+              <h2 className="text-lg font-semibold text-navy">Meet the rest of the team</h2>
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                {team
+                  .filter((m) => m.name !== name)
+                  .map((m) => (
+                    <li key={m.href}>
+                      <Link href={m.href} className="text-sm font-semibold text-ocean-600 hover:text-navy">
+                        {m.name}
+                      </Link>
+                      <span className="block text-xs text-navy/50">{m.role}</span>
+                    </li>
+                  ))}
+              </ul>
             </div>
             <Link href="/about#team" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-ocean-600 hover:gap-3">
               <ArrowLeft className="h-4 w-4" /> Back to our team

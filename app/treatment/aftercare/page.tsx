@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import { Split, CardGrid } from "@/components/ContentBlocks";
 import ProgramGrid from "@/components/ProgramGrid";
@@ -7,7 +8,7 @@ import Testimonials from "@/components/Testimonials";
 import CallbackCTA from "@/components/CallbackCTA";
 
 export const metadata: Metadata = {
-  title: "Aftercare & Alumni Program in Orange County",
+  title: fitTitle("Aftercare & Alumni Program in Orange County"),
   description:
     "Recovery doesn't end at discharge. Ocean Coast Recovery's aftercare and alumni program in Orange County provides relapse prevention, connection, and lifelong support.",
 };

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import BioPage from "@/components/BioPage";
 
 export const metadata: Metadata = {
-  title: "BJ Thome — Alumni Coordinator",
+  title: fitTitle("BJ Thome — Alumni Coordinator"),
   description:
     "Meet BJ Thome, Alumni Coordinator for Quadrant Health Group's California facilities, keeping alumni connected to a recovery community long after discharge.",
   // Network-wide alumni staff, exactly like Dr. Tambini: this is the parent's

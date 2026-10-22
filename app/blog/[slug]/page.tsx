@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import CallbackCTA from "@/components/CallbackCTA";
-import { site, absoluteUrl } from "@/lib/site";
+import { site, absoluteUrl, fitTitle } from "@/lib/site";
 import {
   getAllPosts,
   getPost,
@@ -18,6 +18,7 @@ import {
 import { ORGANIZATION_ID } from "@/lib/editorial";
 import ArticleByline from "@/components/ArticleByline";
 import { getClarionPosts, getClarionPost, estimateReadMinutes, CLARION_CATEGORY } from "@/lib/clarionBlog";
+import { cleanClarionHtml } from "@/lib/clarionHtml";
 import { Clock, ArrowRight, Phone, ArrowLeft } from "@/components/icons";
 
 // Normalized shape both local and Clarion posts render through.
@@ -51,6 +52,19 @@ async function loadView(slug: string): Promise<PostView | null> {
   }
   const cp = await getClarionPost(slug);
   if (cp && cp.bodyHtml) {
+    // Posts that exist here (local + Clarion feed), so links to a sister
+    // site's post fall back to /blog/ instead of 404ing.
+    const known = new Set<string>([
+      ...getAllPosts().map((p) => `/blog/${p.slug}`),
+      ...(await getClarionPosts()).map((p) => `/blog/${p.slug}`),
+      `/blog/${cp.slug}`,
+    ]);
+    const bodyHtml = cleanClarionHtml(cp.bodyHtml, {
+      origin: site.url,
+      trailingSlash: true,
+      knownBlogPaths: known,
+      fallbackAlt: cp.title,
+    });
     return {
       slug: cp.slug,
       title: cp.title,
@@ -60,8 +74,8 @@ async function loadView(slug: string): Promise<PostView | null> {
       // Preferred over the local pick — see the note in app/blog/page.tsx. It is
       // authored at 1200x630, which is exactly what the og:image below wants.
       cover: cp.coverImageUrl || coverFor(cp.slug),
-      readMinutes: estimateReadMinutes(cp.bodyHtml),
-      bodyHtml: cp.bodyHtml,
+      readMinutes: estimateReadMinutes(bodyHtml),
+      bodyHtml,
       // Clarion's author_name is a real attribution but has no bio page here,
       // and Clarion has no reviewer field, so a Clarion post never shows one.
       byline: {
@@ -94,8 +108,13 @@ export async function generateMetadata({
   if (!view) return {};
   return {
     // Bare title — the root layout template appends "| {site.name}". Clarion's
-    // seo_meta.title already bakes in the site name, so use the plain title here.
-    title: view.title,
+    // seo_meta.title is the post's purpose-written SEO title (shorter than the
+    // headline, and distinct from the <h1>), but it bakes in the site name, so
+    // strip that and let fitTitle decide whether the brand fits.
+    title: fitTitle(
+      view.seo?.title?.replace(/\s*[|–—-]\s*Ocean Coast Recovery( Center)?\s*$/i, "").trim() ||
+        view.title
+    ),
     description: view.seo?.description ?? view.excerpt,
     openGraph: {
       title: view.seo?.title ?? view.title,

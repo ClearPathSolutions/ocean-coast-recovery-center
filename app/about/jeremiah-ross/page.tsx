@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import BioPage from "@/components/BioPage";
 
 export const metadata: Metadata = {
-  title: "Jeremiah Ross — Nursing Supervisor",
+  title: fitTitle("Jeremiah Ross — Nursing Supervisor"),
   description:
     "Meet Jeremiah Ross, Nursing Supervisor, with more than 10 years of patient care experience in substance use disorder treatment and clinical team leadership.",
 };

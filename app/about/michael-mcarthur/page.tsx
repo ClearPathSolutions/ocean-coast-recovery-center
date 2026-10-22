@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { fitTitle } from "@/lib/site";
 import BioPage from "@/components/BioPage";
 
 export const metadata: Metadata = {
-  title: "Michael McArthur — Nursing Director",
+  title: fitTitle("Michael McArthur — Nursing Director"),
   description:
     "Meet Michael McArthur, Nursing Director for Quadrant Health Group's California facilities, overseeing medical staff and client care operations.",
 };
