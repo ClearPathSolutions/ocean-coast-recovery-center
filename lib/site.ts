@@ -88,6 +88,8 @@ export const analytics = {
  */
 export function fitTitle(title: string): string | { absolute: string } {
   if (title.length + ` | ${site.name}`.length <= 70) return title;
+  // A shorter brand keeps the <title> distinct from the <h1> when it fits.
+  if (title.length + " | Ocean Coast".length <= 70) return { absolute: `${title} | Ocean Coast` };
   // Dropping the brand only helps if the result then fits; a title over 70 on
   // its own keeps the brand rather than also becoming identical to its <h1>.
   return title.length <= 70 ? { absolute: title } : title;
