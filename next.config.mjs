@@ -157,13 +157,6 @@ const nextConfig = {
         destination: "/privacy/",
         permanent: true,
       },
-      // The HIPAA notice briefly lived at its own URL (2026-10-27) before being
-      // folded into the privacy policy page.
-      {
-        source: "/notice-of-privacy-practices",
-        destination: "/privacy/#notice-of-privacy-practices",
-        permanent: true,
-      },
       // Alanna McMurtrey is off the roster; her profile page is retired, so the
       // URL redirects rather than 404s.
       {
