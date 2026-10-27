@@ -181,13 +181,10 @@ export default function Footer() {
           </div>
           <div className="text-center text-xs text-white/45 md:text-right">
             <p>
-              <a
-                href="https://data.chhs.ca.gov/dataset/sud-recovery-treatment-facilities"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white/70"
-              >
-                {site.license}
+              Licensed by the California Department of Health Care Services · {site.license} · Expires{" "}
+              {site.licenseExpires} ·{" "}
+              <a href={site.licenseVerifyUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/70">
+                Verify on DHCS website
               </a>
             </p>
             <p className="mt-1">

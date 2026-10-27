@@ -28,7 +28,13 @@ export const site = {
     linkedin: "https://linkedin.com/company/ocean-coast-recovery",
     handle: "@oceancoastrecovery",
   },
-  license: "DHCS License #300423AP · Expires 8/31/2027",
+  // DHCS BHIN 22-022: license number, expiry, and a link to the DHCS page that
+  // lists both must be shown on the site. The GIS Data Hub table is DHCS's
+  // public register of licensed SUD facilities (number + expiration columns).
+  license: "DHCS License #300423AP",
+  licenseExpires: "8/31/2027",
+  licenseVerifyUrl:
+    "https://gis.dhcs.ca.gov/datasets/CADHCS::sud-recovery-treatment-facilities/explore?showTable=true",
 } as const;
 
 // ----------------------------------------------------------------------------
