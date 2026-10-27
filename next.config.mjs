@@ -25,6 +25,7 @@ const RESERVED = new Set([
   'privacy',
   'privacy-policy',
   'sms-terms',
+  'terms-of-service',
   'tour',
   'treatment',
   'who-we-help',

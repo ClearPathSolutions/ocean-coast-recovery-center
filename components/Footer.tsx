@@ -201,6 +201,8 @@ export default function Footer() {
                   <Link href={EDITORIAL_POLICY_PATH} className="hover:text-white/70">Editorial Policy</Link>
                 </>
               )}
+              {" "}·{" "}
+              <Link href="/terms-of-service/" className="hover:text-white/70">Terms of Service</Link>
             </p>
             <p className="mt-1">
               If you are experiencing a medical emergency, call 911. For 24/7 crisis support, dial 988.
