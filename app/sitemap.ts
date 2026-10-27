@@ -23,7 +23,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/about/jeremiah-ross",
     "/about/monica-olivares",
     "/about/jacob-cameron",
-    "/about/vahan-oknayan",
     "/about/halie-nall",
     "/treatment",
     "/treatment/detox",

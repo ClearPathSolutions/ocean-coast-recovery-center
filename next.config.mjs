@@ -208,6 +208,11 @@ const nextConfig = {
       { source: '/about/elizabeth-wald', destination: '/about/', permanent: true },
       { source: '/about-us/elizabeth-wald', destination: '/about/', permanent: true },
 
+      // Departed staff (removed 2026-10-27). The bio page was indexed and in the
+      // sitemap, so it 301s rather than 404s. Must precede /about-us/:person.
+      { source: '/about/vahan-oknayan', destination: '/about/', permanent: true },
+      { source: '/about-us/vahan-oknayan', destination: '/about/', permanent: true },
+
       // SEO 86e3ptqxw — old WordPress URLs that still 404 after the rebuild (Wayback CDX 2025+,
       // tested against www on 2026-10-26). Same ordering constraint as above: the bio rules must
       // precede /about-us/:person, which would otherwise chain /about-us/x -> /about/x/ -> 404.

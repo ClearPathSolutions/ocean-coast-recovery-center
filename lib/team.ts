@@ -102,16 +102,6 @@ export const team = [
       "CADC II certified, with 11 years across every level of care and 13 years of personal recovery — Monica believes healing can happen alongside joy and humor.",
   },
   {
-    name: "Vahan Oknayan",
-    creds: "AMFT",
-    role: "Therapist",
-    href: "/about/vahan-oknayan",
-    initials: "VO",
-    photo: "/images/team/vahan-oknayan.jpg",
-    blurb:
-      "Integrative and client-centered, Vahan looks past the challenges that bring someone in — and believes healing starts with a genuine therapeutic relationship.",
-  },
-  {
     name: "Halie Nall",
     creds: "",
     role: "Case Manager",
