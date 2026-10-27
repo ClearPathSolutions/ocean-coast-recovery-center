@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import { site, fitTitle } from "@/lib/site";
 
@@ -83,10 +84,14 @@ export default function PrivacyPage() {
             Questions about this policy? Reach us at {site.address.full}, {site.phone}, or{" "}
             <a href={`mailto:${site.email}`}>{site.email}</a>.
           </p>
-          <p className="text-sm text-navy/50">
-            This page is provided for general informational purposes and does not constitute legal
-            advice. Please consult a qualified professional to tailor a privacy policy to your
-            specific compliance needs (including HIPAA where applicable).
+          <h2>Protected Health Information</h2>
+          <p>
+            This policy covers information collected through our website. Health information
+            created or received once you become a patient is protected health information under
+            the Health Insurance Portability and Accountability Act (HIPAA) and, for substance use
+            disorder treatment records, 42 C.F.R. Part 2. How we may use and disclose that
+            information, and your rights to access, amend, and restrict it, are described in our{" "}
+            <Link href="/notice-of-privacy-practices">Notice of Privacy Practices</Link>.
           </p>
         </div>
       </section>
