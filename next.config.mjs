@@ -208,6 +208,22 @@ const nextConfig = {
       { source: '/about/elizabeth-wald', destination: '/about/', permanent: true },
       { source: '/about-us/elizabeth-wald', destination: '/about/', permanent: true },
 
+      // SEO 86e3ptqxw — old WordPress URLs that still 404 after the rebuild (Wayback CDX 2025+,
+      // tested against www on 2026-10-26). Same ordering constraint as above: the bio rules must
+      // precede /about-us/:person, which would otherwise chain /about-us/x -> /about/x/ -> 404.
+      // These three profiles are not on the current roster, so they go to the team page.
+      { source: '/about-us/brooke-rebosio', destination: '/about/', permanent: true },
+      { source: '/about-us/chad-chapman', destination: '/about/', permanent: true },
+      { source: '/about-us/karen-pettit', destination: '/about/', permanent: true },
+      // One WordPress page per substance under /treatment/detoxification/. The site has a single
+      // detox page, which covers all of them.
+      {
+        source: '/treatment/detoxification/:substance(alcohol|benzodiazepines|cocaine|fentanyl|heroin|meth|xanax)',
+        destination: '/treatment/detox/',
+        permanent: true,
+      },
+      { source: '/dual-diagnosis-treatment-florida', destination: '/treatment/dual-diagnosis/', permanent: true },
+
       // Renamed pages
       { source: '/about-us', destination: '/about/', permanent: true },
       { source: '/about-us/:person', destination: '/about/:person/', permanent: true },
