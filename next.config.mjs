@@ -21,7 +21,10 @@ const RESERVED = new Set([
   'contact',
   'editorial-policy',
   'insurance',
+  'notice-of-privacy-practices',
   'privacy',
+  'privacy-policy',
+  'sms-terms',
   'tour',
   'treatment',
   'who-we-help',
@@ -147,14 +150,12 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // Every other site in the network serves its privacy policy at
-      // /privacy-policy; this one is at /privacy (V0100 in the audit workbook).
-      // Anyone following the network's own pattern hit a 404, whose title is the
-      // site default — which is what made it look like the page had the wrong
-      // title rather than not existing.
+      // The privacy policy moved from /privacy to the network-standard
+      // /privacy-policy (legal-pages standardization, 2026-10-27). This used to
+      // run the other way (V0100); /privacy is indexed, so it keeps a 308.
       {
-        source: "/privacy-policy",
-        destination: "/privacy/",
+        source: "/privacy",
+        destination: "/privacy-policy/",
         permanent: true,
       },
       // Alanna McMurtrey is off the roster; her profile page is retired, so the

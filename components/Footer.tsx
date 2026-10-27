@@ -189,9 +189,11 @@ export default function Footer() {
             </p>
             <p className="mt-1">
               © {new Date().getFullYear()} {site.name}. All rights reserved. ·{" "}
-              <Link href="/privacy" className="hover:text-white/70">Privacy Policy</Link>
+              <Link href="/privacy-policy/" className="hover:text-white/70">Privacy Policy</Link>
               {" "}·{" "}
-              <Link href="/notice-of-privacy-practices" className="hover:text-white/70">Notice of Privacy Practices</Link>
+              <Link href="/notice-of-privacy-practices/" className="hover:text-white/70">Notice of Privacy Practices</Link>
+              {" "}·{" "}
+              <Link href="/sms-terms/" className="hover:text-white/70">SMS Terms</Link>
               {/* Withheld from production until signed off (lib/editorial.ts). */}
               {editorialPolicyServed && (
                 <>

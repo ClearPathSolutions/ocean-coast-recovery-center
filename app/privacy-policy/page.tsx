@@ -1,98 +1,170 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
-import { site, fitTitle } from "@/lib/site";
+import { fitTitle } from "@/lib/site";
 
+// Standard network privacy policy (legal-pages package, 2026-10-27). The
+// approved wording is shared across every site; only facility facts differ.
+// Formerly served at /privacy, which now 308s here (next.config.mjs).
 export const metadata: Metadata = {
   title: fitTitle("Privacy Policy"),
-  description: "How Ocean Coast Recovery Center collects, uses, and protects your information.",
-  // V0042 cross-ref: this page previously served no robots meta at all, while
-  // the rest of the site is index/follow. Portfolio-wide the same page type
-  // carried four different treatments; "index, follow" is the majority and
-  // matches every other page here. A privacy policy is a trust signal on a
-  // YMYL site, so it should be indexable.
+  description: "How Ocean Coast Recovery Center collects, uses, discloses, and protects your information.",
+  // A privacy policy is a trust signal on a YMYL site, so it is indexable.
   robots: { index: true, follow: true },
 };
 
-export default function PrivacyPage() {
+export default function PrivacyPolicyPage() {
   return (
     <>
       <PageHero
         title="Privacy Policy"
         image="/images/facility/loft-overlook.jpg"
-        crumbs={[{ label: "Home", href: "/" }, { label: "Privacy" }]}
+        crumbs={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]}
       />
       <section className="bg-white py-16 sm:py-20">
         <div className="container-x prose-content mx-auto max-w-3xl">
-          <p className="text-navy/60">Last updated: {new Date().getFullYear()}</p>
-          <p>
-            Ocean Coast Recovery Center (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) is
-            committed to protecting your privacy. This policy explains how we collect, use, and
-            safeguard information when you visit our website or contact us.
-          </p>
+          <p>Last updated: October 27, 2026</p>
+          <p>Ocean Coast Recovery Center (“we,” “us,” or “our”) respects your privacy and is committed to protecting the personal, health, and other sensitive information you provide to us.</p>
+          <p>This Privacy Policy explains how we collect, use, disclose, and protect information when you visit oceancoastrecovery.com, submit information through our website, contact our admissions team, request information about our services, verify insurance benefits, or otherwise interact with us.</p>
+          <p>By using our website or voluntarily providing information to us, you acknowledge the practices described in this Privacy Policy.</p>
           <h2>Information We Collect</h2>
-          <p>
-            When you submit a form or request a callback, we may collect your name, phone number,
-            email address, and any details you choose to share about your situation.
-          </p>
-          <h2>Third-Party Services on This Site</h2>
-          <p>
-            This website uses a small number of third-party services, each of which may receive
-            limited information about your visit:
-          </p>
+          <p>We may collect information that you voluntarily provide to us through our website, telephone communications, forms, email, or other interactions.</p>
+          <p>This information may include:</p>
           <ul>
-            <li>
-              <strong>Call tracking.</strong> The phone number shown on the site may be swapped for
-              a tracking number so we can tell which pages lead to calls. This records the call and
-              basic visit details such as the page you were on and your approximate location.
-            </li>
-            <li>
-              <strong>Chat and form capture.</strong> Our chat widget and contact forms are handled
-              by a third-party provider that processes the messages and contact details you submit.
-            </li>
-            <li>
-              <strong>Website analytics.</strong> If enabled, we collect standard, non-identifying
-              analytics such as pages visited and device type. We do not use analytics to identify
-              you personally.
-            </li>
-            <li>
-              <strong>Referral source.</strong> Your browser stores, for up to 30 days, how you
-              first arrived at this site — the page you landed on, the site that referred you, and
-              any advertising campaign tags in the link you followed. If you later submit a form,
-              that is sent with it so we can tell which of our listings and adverts help people
-              find care. It contains no health information and is not used to identify you.
-            </li>
+            <li>First and last name</li>
+            <li>Email address</li>
+            <li>Telephone number</li>
+            <li>Contact preferences</li>
+            <li>Insurance provider and insurance-related information</li>
+            <li>Information submitted through contact, admissions, insurance verification, or other website forms</li>
+            <li>Information regarding treatment needs or services being requested</li>
+            <li>Information provided when communicating with our admissions, clinical, or administrative teams</li>
+            <li>Any other information you voluntarily choose to provide</li>
           </ul>
+          <p>Because Ocean Coast Recovery Center provides behavioral health and substance use disorder treatment services, information you provide when seeking treatment may include health-related or otherwise sensitive information.</p>
+          <h2>Information Collected Automatically</h2>
+          <p>When you visit our website, certain information may be collected automatically through cookies, analytics technologies, pixels, server logs, and similar technologies.</p>
+          <p>This information may include:</p>
+          <ul>
+            <li>Internet Protocol (IP) address</li>
+            <li>Browser type</li>
+            <li>Device type</li>
+            <li>Operating system</li>
+            <li>Pages visited</li>
+            <li>Referring website or source</li>
+            <li>Date and time of your visit</li>
+            <li>General geographic information</li>
+            <li>Website interactions and usage information</li>
+          </ul>
+          <p>We may use this information to operate our website, understand how visitors use our website, improve performance and functionality, evaluate marketing efforts, and maintain website security.</p>
           <h2>How We Use Your Information</h2>
+          <p>We may use information collected through our website or provided directly to us to:</p>
           <ul>
-            <li>To respond to your inquiries and provide information about our programs.</li>
-            <li>To verify insurance benefits at your request.</li>
-            <li>To improve our website and services.</li>
+            <li>Respond to questions and requests for information</li>
+            <li>Assist individuals seeking treatment</li>
+            <li>Provide information regarding our programs and services</li>
+            <li>Process admissions inquiries</li>
+            <li>Verify insurance benefits or coverage</li>
+            <li>Coordinate assessments, admissions, appointments, and treatment-related services</li>
+            <li>Communicate with prospective or current patients as permitted by law</li>
+            <li>Provide requested follow-up communications</li>
+            <li>Improve our website and user experience</li>
+            <li>Analyze website traffic and performance</li>
+            <li>Maintain the security and functionality of our website</li>
+            <li>Comply with applicable federal, state, and local laws and regulations</li>
+            <li>Fulfill other purposes for which you provide your information or consent</li>
           </ul>
-          <p>
-            Your information is kept strictly confidential. We do not sell your personal information.
-            Communications about treatment are handled in accordance with applicable healthcare
-            privacy standards.
-          </p>
-          <h2>Your Choices</h2>
-          <p suppressHydrationWarning>
-            You may request that we correct or delete your information at any time by contacting us at{" "}
-            <a href={`mailto:${site.email}`}>{site.email}</a> or {site.phone}.
-          </p>
+          <p>We do not sell patient or prospective patient information for monetary consideration.</p>
+          <h2>Protected Health Information and HIPAA</h2>
+          <p>Certain information collected or maintained by Ocean Coast Recovery Center in connection with treatment, payment, or healthcare operations may constitute Protected Health Information (“PHI”) under the Health Insurance Portability and Accountability Act of 1996 (“HIPAA”) and related regulations.</p>
+          <p>Where HIPAA applies, Ocean Coast Recovery Center uses and discloses PHI only as permitted or required by applicable law.</p>
+          <p>Additional protections may apply to certain substance use disorder treatment records under federal or state law.</p>
+          <p>Information that constitutes PHI is handled in accordance with applicable healthcare privacy and security requirements and our <Link href="/notice-of-privacy-practices/">Notice of Privacy Practices</Link>, as applicable.</p>
+          <p>Information submitted through a general website interaction is not necessarily considered PHI solely because it relates to healthcare. Whether information constitutes PHI and which protections apply depends on the circumstances in which the information is collected, received, maintained, or transmitted.</p>
+          <h2>Disclosure of Information to Third Parties</h2>
+          <p>Ocean Coast Recovery Center will only disclose personal information, health information, or Protected Health Information to third parties as permitted or required by applicable law.</p>
+          <p>We may share information with third parties when reasonably necessary to:</p>
+          <ul>
+            <li>Provide treatment or services requested by an individual</li>
+            <li>Verify insurance benefits or coordinate payment</li>
+            <li>Perform healthcare operations as permitted by law</li>
+            <li>Work with service providers performing services on our behalf</li>
+            <li>Operate, maintain, secure, or improve our website and business systems</li>
+            <li>Comply with applicable laws, regulations, court orders, subpoenas, or other lawful governmental requests</li>
+            <li>Protect the rights, safety, or security of Ocean Coast Recovery Center, our patients, website visitors, employees, or others</li>
+          </ul>
+          <p>Where required, appropriate agreements and safeguards are maintained with service providers that handle protected or sensitive information on our behalf.</p>
+          <p>We do not disclose Protected Health Information except as permitted or required by applicable federal and state law.</p>
+          <p>We do not disclose patient or prospective patient information to third parties for purposes prohibited by applicable law.</p>
+          <h2>Website Security and SSL/TLS Encryption</h2>
+          <p>Ocean Coast Recovery Center takes reasonable measures to protect information submitted through our website.</p>
+          <p>Our website uses Secure Socket Layer/Transport Layer Security (SSL/TLS) encryption technology to help protect information transmitted between your browser and our website.</p>
+          <p>We also maintain reasonable administrative, technical, and physical safeguards designed to protect personal information and Protected Health Information from unauthorized access, use, alteration, loss, or disclosure.</p>
+          <p>However, no website, electronic communication, transmission method, or data storage system can be guaranteed to be completely secure.</p>
+          <p>If you believe sensitive information has been compromised or submitted to us in error, please contact us.</p>
+          <h2>Website Forms</h2>
+          <p>Our website may contain forms that allow visitors to request information, contact our admissions team, verify insurance benefits, or inquire about treatment.</p>
+          <p>Information submitted through these forms is used to respond to your request and facilitate services you have requested.</p>
+          <p>Please do not submit information through a website form unless you are comfortable providing the requested information electronically.</p>
+          <p>Information submitted through our website is transmitted using SSL/TLS encryption where applicable.</p>
+          <h2>Insurance Verification</h2>
+          <p>If you submit insurance information for verification of benefits, we may use the information you provide to determine potential insurance coverage for treatment services.</p>
+          <p>Information may be shared with your insurance provider, authorized verification services, or other parties as reasonably necessary to perform the requested verification and as permitted by applicable law.</p>
+          <p>Verification of insurance benefits does not guarantee coverage, authorization, admission, or payment for treatment.</p>
+          <h2>Cookies and Tracking Technologies</h2>
+          <p>Our website may use cookies and similar technologies to support website functionality, understand website usage, measure performance, and improve our services.</p>
+          <p>These technologies may collect information regarding your browser, device, website interactions, traffic source, and pages visited.</p>
+          <p>We may use third-party analytics or advertising technologies where permitted by applicable law.</p>
+          <p>We do not knowingly use tracking technologies to disclose Protected Health Information to third parties for purposes prohibited by HIPAA or other applicable privacy laws.</p>
+          <p>You may be able to limit or disable cookies through your browser settings. Disabling certain cookies may affect the functionality of portions of our website.</p>
+          <h2>Third-Party Websites and Services</h2>
+          <p>Our website may contain links to websites or services operated by third parties.</p>
+          <p>Ocean Coast Recovery Center is not responsible for the privacy practices, security, content, or policies of independently operated third-party websites.</p>
+          <p>Visiting a third-party website is subject to that third party’s privacy practices and terms. We encourage you to review the privacy policy of any third-party website before providing personal information.</p>
+          <h2>SMS and Text Message Communications</h2>
+          <p>If you voluntarily provide your mobile telephone number and consent to receive text messages from Ocean Coast Recovery Center, we may send SMS communications related to your inquiry, admissions process, appointments, services, care coordination, follow-up communications, or other communications you have requested or authorized.</p>
+          <p>Message frequency may vary. Message and data rates may apply.</p>
+          <p>You may opt out of receiving SMS communications at any time by replying STOP. You may reply HELP for assistance.</p>
+          <p>Consent to receive SMS communications is not a condition of purchasing or receiving treatment or services.</p>
+          <p>Mobile information, including telephone numbers and SMS consent or opt-in data, will not be sold, rented, or shared with third parties or affiliates for their own marketing or promotional purposes. SMS consent and opt-in information will not be shared with third parties for marketing purposes.</p>
+          <p>Information may be shared with service providers that facilitate communications on our behalf when necessary to provide the requested messaging service and subject to appropriate privacy and security requirements.</p>
+          <p>The full terms of our text messaging program are in our <Link href="/sms-terms/">SMS Terms &amp; Conditions</Link>.</p>
+          <h2>Email Communications</h2>
+          <p>If you provide your email address, we may use it to respond to your inquiry or provide communications related to services you have requested.</p>
+          <p>Where applicable, marketing email communications will provide a method to unsubscribe from future marketing messages.</p>
+          <p>Treatment-related, administrative, legal, or other non-marketing communications may still be sent when permitted or required by law.</p>
+          <h2>Data Retention</h2>
+          <p>We may retain information for as long as reasonably necessary to fulfill the purposes for which it was collected and to comply with applicable healthcare, legal, regulatory, contractual, operational, and recordkeeping requirements.</p>
+          <p>Retention periods may vary depending on the nature of the information and applicable legal requirements.</p>
+          <h2>Your Privacy Choices</h2>
+          <p>Depending on the type of information involved and applicable law, you may have certain rights regarding your personal information.</p>
+          <p>These rights may include the ability to request access to or correction of certain information and, where legally available, request deletion or restriction of certain information.</p>
+          <p>Certain healthcare and business records may be retained when required by federal or state law.</p>
+          <p>You may also:</p>
+          <ul>
+            <li>Opt out of SMS messages by replying STOP or by following the opt-out instructions provided</li>
+            <li>Unsubscribe from applicable marketing emails using the unsubscribe instructions provided</li>
+            <li>Adjust browser settings to limit or disable certain cookies</li>
+          </ul>
+          <p>Rights relating specifically to Protected Health Information are described in our <Link href="/notice-of-privacy-practices/">Notice of Privacy Practices</Link>, as applicable.</p>
+          <h2>Children’s Privacy</h2>
+          <p>Our website is not directed toward children under the age of 13, and we do not knowingly collect personal information directly from children under 13 through our website without appropriate authorization.</p>
+          <p>If we become aware that personal information from a child has been collected in a manner inconsistent with applicable law, we will take reasonable steps to appropriately address or remove that information.</p>
+          <h2>Legal Requirements</h2>
+          <p>Ocean Coast Recovery Center complies with applicable federal, state, and local privacy and security requirements governing information collected in connection with our services.</p>
+          <p>We may use or disclose information when required to do so by law or when reasonably necessary to comply with a lawful legal process, regulatory requirement, or governmental request.</p>
+          <p>Nothing in this Privacy Policy is intended to limit rights or protections provided under applicable healthcare privacy laws.</p>
+          <h2>Changes to This Privacy Policy</h2>
+          <p>We may update this Privacy Policy periodically to reflect changes in our practices, technology, services, legal requirements, or regulatory obligations.</p>
+          <p>When changes are made, the updated Privacy Policy will be posted on this page and the “Last Updated” date will be revised.</p>
+          <p>We encourage visitors to periodically review this Privacy Policy.</p>
           <h2>Contact Us</h2>
-          <p suppressHydrationWarning>
-            Questions about this policy? Reach us at {site.address.full}, {site.phone}, or{" "}
-            <a href={`mailto:${site.email}`}>{site.email}</a>.
-          </p>
-          <h2>Protected Health Information</h2>
-          <p>
-            This policy covers information collected through our website. Health information
-            created or received once you become a patient is protected health information under
-            the Health Insurance Portability and Accountability Act (HIPAA) and, for substance use
-            disorder treatment records, 42 C.F.R. Part 2. How we may use and disclose that
-            information, and your rights to access, amend, and restrict it, are described in our{" "}
-            <Link href="/notice-of-privacy-practices">Notice of Privacy Practices</Link>.
-          </p>
+          <p>If you have questions about this Privacy Policy, our privacy practices, or how information submitted through our website is handled, please contact:</p>
+          <p>Ocean Coast Recovery Center<br />
+          1799 Hummingbird Drive, Costa Mesa, CA 92626</p>
+          <p suppressHydrationWarning>Phone: <a href="tel:+19496490702">(949) 649-0702</a><br />
+          Email: <a href="mailto:info@oceancoastrecovery.com">info@oceancoastrecovery.com</a></p>
+          <p>For questions regarding your medical records, Protected Health Information, or rights under applicable healthcare privacy laws, please see our <Link href="/notice-of-privacy-practices/">Notice of Privacy Practices</Link> or contact our Privacy Officer at the details above.</p>
         </div>
       </section>
     </>

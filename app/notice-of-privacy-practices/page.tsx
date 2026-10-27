@@ -8,7 +8,7 @@ import { site, fitTitle } from "@/lib/site";
  *
  * Added 2026-10-27 after LegitScript asked for a policy covering protected
  * health information, medical records and patient rights (Terms §V(e),
- * Certification Standard 10). /privacy covers website data; this page covers
+ * Certification Standard 10). /privacy-policy covers website data; this page covers
  * PHI. Structure follows the HHS model notice:
  * https://www.hhs.gov/hipaa/for-professionals/privacy/guidance/model-notices-privacy-practices/index.html
  *
@@ -47,7 +47,7 @@ export default function NoticeOfPrivacyPracticesPage() {
             (&ldquo;PHI&rdquo;), to give you this notice of our legal duties and privacy practices,
             and to follow the terms of the notice currently in effect. This notice applies to
             all records of your care that we create or maintain. For how we handle information
-            collected through this website, see our <Link href="/privacy">Privacy Policy</Link>.
+            collected through this website, see our <Link href="/privacy-policy/">Privacy Policy</Link>.
           </p>
 
           <h2>Your Rights</h2>
