@@ -81,7 +81,7 @@ export default function BlogIndex({
             href={`/blog/${post.slug}`}
             className="group flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-ocean-100 transition-all hover:-translate-y-1.5 hover:shadow-card"
           >
-            <div className="relative h-44 overflow-hidden">
+            <div className="relative aspect-[1200/630] overflow-hidden">
               <Image
                 src={post.cover}
                 alt=""
