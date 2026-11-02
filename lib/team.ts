@@ -32,6 +32,16 @@ export const team = [
       "Board-certified in Internal Medicine and Addiction Medicine, Dr. Tambini provides medical oversight across the Quadrant Health Group network.",
   },
   {
+    name: "Casey Hyatt",
+    creds: "",
+    role: "Director of Family Services",
+    href: "/about/casey-hyatt",
+    initials: "CH",
+    photo: "/images/team/casey-hyatt.jpg",
+    blurb:
+      "With 15 years in behavioral health and 18 years in recovery, Casey strengthens support for families navigating addiction and mental health across Quadrant Health Group.",
+  },
+  {
     name: "Shawn Young",
     creds: "",
     role: "Executive Director",
