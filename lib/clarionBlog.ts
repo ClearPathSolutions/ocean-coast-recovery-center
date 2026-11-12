@@ -11,6 +11,8 @@ export type ClarionPost = {
   publishedAt: string; // ISO 8601
   bodyHtml?: string; // only present from the single-post endpoint
   seo?: { title?: string; description?: string };
+  /** Clarion's medically_reviewed_by* fields, null where Clarion left them blank. */
+  reviewer: { name: string | null; credentials: string | null; url: string | null };
 };
 
 // Category label applied to every Clarion post in the blog index filter bar.
@@ -124,7 +126,10 @@ export function addAnchorTargets(html: string): string {
   return out;
 }
 
-function normalize(p: unknown): ClarionPost | null {
+const str = (v: unknown): string | null =>
+  typeof v === "string" && v.trim() ? v.trim() : null;
+
+export function normalize(p: unknown): ClarionPost | null {
   const o = p as Record<string, unknown>;
   if (!o || typeof o.slug !== "string" || typeof o.title !== "string") return null;
   const seo = o.seo_meta as { title?: string; description?: string } | undefined;
@@ -142,6 +147,12 @@ function normalize(p: unknown): ClarionPost | null {
         ? addAnchorTargets(sanitizeRemoteHtml(o.body_html))
         : undefined,
     seo: seo ? { title: seo.title, description: seo.description } : undefined,
+    // Kept raw; the post page fills blanks from the site default reviewer.
+    reviewer: {
+      name: str(o.medically_reviewed_by),
+      credentials: str(o.medically_reviewed_by_credentials),
+      url: str(o.medically_reviewed_by_url),
+    },
   };
 }
 

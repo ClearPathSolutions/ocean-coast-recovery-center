@@ -14,11 +14,16 @@ function formatReviewDate(iso: string): string {
 
 function PersonName({ person, rel }: { person: BylinePerson; rel?: string }) {
   const label = person.credentials ? `${person.name}, ${person.credentials}` : person.name;
-  // Names link to a bio page when one exists; Clarion authors have none.
+  // Names link to a bio page when one exists (same tab); an off-site profile
+  // opens in a new tab; Clarion authors have neither.
   return person.bioPath ? (
     <Link href={person.bioPath} rel={rel}>
       {label}
     </Link>
+  ) : person.externalUrl ? (
+    <a href={person.externalUrl} target="_blank" rel={[rel, "noopener noreferrer"].filter(Boolean).join(" ")}>
+      {label}
+    </a>
   ) : (
     <>{label}</>
   );
@@ -26,9 +31,11 @@ function PersonName({ person, rel }: { person: BylinePerson; rel?: string }) {
 
 /**
  * Article byline, from the editorial policy package's templates/article-byline.html.
- * Sits directly under the post's H1. Each line renders only when its data
- * exists — no invented author and never a default reviewer; getByline() has
- * already dropped a reviewer that has no review date. The "Updated" item is
+ * Sits directly under the post's H1. The author line renders only when the post
+ * names one. The medical reviewer always renders: the client overrode the
+ * package's "no default reviewer" rule, so a post without its own reviewer gets
+ * the site default (DEFAULT_REVIEWER in lib/blog.ts), with or without a review
+ * date. "Last reviewed" shows only when there is a real date. The "Updated" item is
  * omitted because posts carry no modified date (the publish date is shown in
  * the article's meta row).
  */
@@ -48,7 +55,7 @@ export default function ArticleByline({ byline }: { byline: Byline }) {
     ),
   ].filter(Boolean);
 
-  if (!author && meta.length === 0) return null;
+  if (!author && !reviewer && meta.length === 0) return null;
 
   return (
     <div className="article-byline">
@@ -59,7 +66,7 @@ export default function ArticleByline({ byline }: { byline: Byline }) {
       )}
       {reviewer && (
         <p className="byline-line">
-          Clinically reviewed by <PersonName person={reviewer} />
+          Medically reviewed by <PersonName person={reviewer} />
         </p>
       )}
       {meta.length > 0 && (

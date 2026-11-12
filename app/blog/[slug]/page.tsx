@@ -12,6 +12,7 @@ import {
   coverFor,
   formatDate,
   relatedPosts,
+  resolveReviewer,
   type Byline,
   type BylinePerson,
 } from "@/lib/blog";
@@ -59,7 +60,13 @@ async function loadView(slug: string): Promise<PostView | null> {
       ...(await getClarionPosts()).map((p) => `/blog/${p.slug}`),
       `/blog/${cp.slug}`,
     ]);
-    const bodyHtml = cleanClarionHtml(cp.bodyHtml, {
+    // The byline below always names the reviewer, so a "Medically reviewed by"
+    // paragraph inside the Clarion body would show it twice. Drop that line.
+    const body = cp.bodyHtml.replace(
+      /<p\b[^>]*>(?:\s|<[^>]+>|&nbsp;)*medically\s+reviewed\s+by\b[\s\S]*?<\/p>/gi,
+      ""
+    );
+    const bodyHtml = cleanClarionHtml(body, {
       origin: site.url,
       trailingSlash: true,
       knownBlogPaths: known,
@@ -76,11 +83,12 @@ async function loadView(slug: string): Promise<PostView | null> {
       cover: cp.coverImageUrl || coverFor(cp.slug),
       readMinutes: estimateReadMinutes(bodyHtml),
       bodyHtml,
-      // Clarion's author_name is a real attribution but has no bio page here,
-      // and Clarion has no reviewer field, so a Clarion post never shows one.
+      // Clarion's author_name is a real attribution but has no bio page here.
+      // The reviewer is Clarion's medically_reviewed_by* fields, each blank one
+      // filled from the site default (Dr. Tambini), so every post has one.
       byline: {
         author: cp.authorName ? { name: cp.authorName, credentials: null, bioPath: null } : null,
-        reviewer: null,
+        reviewer: resolveReviewer(cp.reviewer),
         lastReviewed: null,
       },
       seo: cp.seo,
@@ -140,9 +148,10 @@ export default async function BlogPostPage({
 
   const related = relatedPosts(post.slug, post.category);
 
-  // Editorial policy package: schema/clinical-article.jsonld. reviewedBy and
-  // lastReviewed appear only when the post is actually reviewed — never a
-  // default reviewer. Publisher (and author, unless a team member with a bio
+  // Editorial policy package: schema/clinical-article.jsonld. reviewedBy is
+  // always emitted (the client overrode the package's "no default reviewer"
+  // rule; every post falls back to Dr. Tambini), lastReviewed only when the
+  // post has a real review date. Publisher (and author, unless a team member with a bio
   // page wrote it) reference the site's single Organization node by @id rather
   // than restating a second Organization.
   const url = absoluteUrl(`/blog/${post.slug}`);
@@ -152,6 +161,19 @@ export default async function BlogPostPage({
       ? { "@type": "Person", "@id": `${absoluteUrl(p.bioPath)}#person`, name: p.name, url: absoluteUrl(p.bioPath) }
       : null;
   const { reviewer, lastReviewed } = post.byline;
+  const reviewerUrl = reviewer
+    ? reviewer.bioPath
+      ? absoluteUrl(reviewer.bioPath)
+      : reviewer.externalUrl ?? null
+    : null;
+  const reviewedBy = reviewer
+    ? {
+        "@type": "Person",
+        ...(reviewerUrl ? { "@id": `${reviewerUrl}#person`, url: reviewerUrl } : {}),
+        name: reviewer.name,
+        honorificSuffix: reviewer.credentials ?? undefined,
+      }
+    : null;
   const author = post.byline.author && person(post.byline.author);
   const jsonLd = {
     "@context": "https://schema.org",
@@ -161,7 +183,8 @@ export default async function BlogPostPage({
         "@id": `${url}#webpage`,
         url,
         name: post.title,
-        ...(reviewer && lastReviewed ? { lastReviewed, reviewedBy: person(reviewer) } : {}),
+        ...(reviewedBy ? { reviewedBy } : {}),
+        ...(reviewedBy && lastReviewed ? { lastReviewed } : {}),
         publisher: org,
       },
       {
