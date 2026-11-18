@@ -12,10 +12,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     "",
     "/about",
-    // Bio pages, in the order the /about team grid lists them. Pamela Tambini,
-    // BJ Thome and Casey Hyatt are omitted: their bios canonicalise to
+    // Bio pages, in the order the /about team grid lists them. BJ Thome and
+    // Casey Hyatt are omitted: their bios canonicalise to
     // quadranthealthgroup.com, and a sitemap URL whose canonical points
-    // elsewhere is reported as an incorrect sitemap page.
+    // elsewhere is reported as an incorrect sitemap page. Pamela Tambini is
+    // self-canonical: she is the medical reviewer every blog post links to.
+    "/about/pamela-tambini",
     "/about/shawn-young",
     "/about/michael-mcarthur",
     "/about/riky-hanaumi",

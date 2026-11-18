@@ -6,12 +6,9 @@ export const metadata: Metadata = {
   title: fitTitle("Dr. Pamela Tambini — Medical Oversight"),
   description:
     "Dr. Pamela Tambini, board-certified in Internal Medicine and Addiction Medicine, provides medical oversight across Quadrant Health Group.",
-  // Network-wide staff. This exact bio is published on quadranthealthgroup.com
-  // and on every other Quadrant facility site, so the page points at the parent
-  // rather than competing with it as a near-duplicate.
-  alternates: {
-    canonical: "https://www.quadranthealthgroup.com/team/pamela-tambini/",
-  },
+  // Self-canonical (inherited from the root layout), not the parent site's bio:
+  // every blog post's medical-reviewer byline links here, so this page has to
+  // be indexable on this domain for the reviewer signal to stay on-site.
 };
 
 export default function PamelaTambiniPage() {
