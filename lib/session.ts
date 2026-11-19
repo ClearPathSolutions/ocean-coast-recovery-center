@@ -19,6 +19,8 @@
 // ever be staler than the source.
 // ============================================================================
 
+import { latestReferrer, rememberReferrer } from "./latest-referrer";
+
 declare global {
   interface Window {
     __ctm?: { config?: { sid?: string; aid?: string | number } };
@@ -188,6 +190,7 @@ function externalReferrer(): string | null {
  */
 export function recordPageview(): void {
   if (!isBrowser()) return;
+  rememberReferrer();
 
   const now = Date.now();
   const live = liveCampaign();
@@ -318,7 +321,7 @@ export function leadAttribution(): Attribution {
   return {
     page_url: clip(location.href, MAX_URL_LEN),
     landing_page_url: s?.landingPageUrl ?? clip(location.href, MAX_URL_LEN),
-    referrer: s?.referrer ?? externalReferrer(),
+    referrer: latestReferrer() ?? s?.referrer ?? externalReferrer(),
     utm: hasUtm ? utm : null,
     // Google reports the click as wbraid/gbraid when gclid is unavailable;
     // downstream consumers read one field, so fold the fallback in here.
