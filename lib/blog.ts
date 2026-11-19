@@ -33,6 +33,8 @@ export type BlogCard = {
   category: string;
   excerpt: string;
   cover: string;
+  /** Alt text for `cover`: the Clarion author's, else the post title. Never empty. */
+  coverAlt: string;
   readMinutes?: number; // optional: Clarion feed items have no body to measure
 };
 

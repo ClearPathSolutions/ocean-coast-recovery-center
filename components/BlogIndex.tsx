@@ -84,7 +84,7 @@ export default function BlogIndex({
             <div className="relative aspect-[1200/630] overflow-hidden">
               <Image
                 src={post.cover}
-                alt=""
+                alt={post.coverAlt}
                 fill
                 sizes="(max-width: 640px) 100vw, 33vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"

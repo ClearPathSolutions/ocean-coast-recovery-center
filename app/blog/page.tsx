@@ -28,6 +28,7 @@ export default async function BlogPage() {
       category: p.category,
       excerpt: p.excerpt,
       cover: coverFor(p.slug),
+      coverAlt: p.title,
       readMinutes: p.readMinutes,
     });
   }
@@ -46,6 +47,7 @@ export default async function BlogPage() {
       // stock this silently reintroduces it — the check is editorial, not
       // something the code can make for itself.
       cover: p.coverImageUrl || coverFor(p.slug),
+      coverAlt: p.coverImageAlt || p.title,
     });
   }
 
