@@ -1,4 +1,4 @@
-import { clarion } from "@/lib/site";
+import { clarion, site } from "@/lib/site";
 
 // Posts pulled from Clarion's public feed. Fetched server-side so they merge
 // into the same server-rendered grid as the local posts (crawlable + sortable).
@@ -7,6 +7,8 @@ export type ClarionPost = {
   title: string;
   excerpt: string;
   coverImageUrl: string;
+  /** The author's alt text for the cover; "" when none was written (callers fall back to the title). */
+  coverImageAlt: string;
   authorName: string;
   publishedAt: string; // ISO 8601
   bodyHtml?: string; // only present from the single-post endpoint
@@ -17,6 +19,29 @@ export type ClarionPost = {
 
 // Category label applied to every Clarion post in the blog index filter bar.
 export const CLARION_CATEGORY = "Recovery";
+
+/**
+ * Blog images on this site's own domain. Clarion hands out
+ * `https://api.clarionlabs.ai/blog/public/image/<key>` (or, once it is told this
+ * site proxies images, `https://www.oceancoastrecovery.com/blog-images/<key>`);
+ * both become `/blog-images/<key>`, which next.config.mjs rewrites to Clarion's
+ * bytes route. The address a visitor, Google Images or a social card sees is
+ * this site's; the bytes are the same, with no redirect.
+ */
+const IMAGE_PATH = "/blog-images";
+const CLARION_IMAGE = `${clarion.api}/blog/public/image/`;
+const OWN_IMAGE = new RegExp(
+  `^https://(?:www\\.)?${new URL(site.url).hostname.replace(/^www\./, "").replace(/\./g, "\\.")}(?=${IMAGE_PATH}/)`,
+);
+
+export function onSiteImage(src: string): string {
+  if (src.startsWith(CLARION_IMAGE)) return `${IMAGE_PATH}/${src.slice(CLARION_IMAGE.length)}`;
+  return src.replace(OWN_IMAGE, "");
+}
+
+function onSiteImages(html: string): string {
+  return html.split(CLARION_IMAGE).join(`${IMAGE_PATH}/`);
+}
 
 const REVALIDATE = 3600; // re-fetch at most hourly (ISR)
 
@@ -137,14 +162,15 @@ export function normalize(p: unknown): ClarionPost | null {
     slug: o.slug,
     title: o.title,
     excerpt: typeof o.excerpt === "string" ? o.excerpt : "",
-    coverImageUrl: typeof o.cover_image_url === "string" ? o.cover_image_url : "",
+    coverImageUrl: typeof o.cover_image_url === "string" ? onSiteImage(o.cover_image_url) : "",
+    coverImageAlt: str(o.cover_image_alt) ?? "",
     authorName: typeof o.author_name === "string" ? o.author_name : "",
     publishedAt: typeof o.published_at === "string" ? o.published_at : "",
     // Sanitise first (drop anything executable), then reattach the in-page
     // anchor targets Clarion links to but never emits.
     bodyHtml:
       typeof o.body_html === "string"
-        ? addAnchorTargets(sanitizeRemoteHtml(o.body_html))
+        ? addAnchorTargets(sanitizeRemoteHtml(onSiteImages(o.body_html)))
         : undefined,
     seo: seo ? { title: seo.title, description: seo.description } : undefined,
     // Kept raw; the post page fills blanks from the site default reviewer.

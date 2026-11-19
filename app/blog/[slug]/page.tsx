@@ -30,6 +30,7 @@ type PostView = {
   excerpt: string;
   dateISO: string;
   cover: string;
+  coverAlt: string;
   readMinutes: number;
   bodyHtml: string;
   byline: Byline;
@@ -46,6 +47,7 @@ async function loadView(slug: string): Promise<PostView | null> {
       excerpt: local.excerpt,
       dateISO: local.date,
       cover: coverFor(local.slug),
+      coverAlt: local.title,
       readMinutes: local.readMinutes,
       bodyHtml: local.bodyHtml,
       byline: getByline(local),
@@ -81,6 +83,7 @@ async function loadView(slug: string): Promise<PostView | null> {
       // Preferred over the local pick — see the note in app/blog/page.tsx. It is
       // authored at 1200x630, which is exactly what the og:image below wants.
       cover: cp.coverImageUrl || coverFor(cp.slug),
+      coverAlt: cp.coverImageAlt || cp.title,
       readMinutes: estimateReadMinutes(bodyHtml),
       bodyHtml,
       // Clarion's author_name is a real attribution but has no bio page here.
@@ -206,6 +209,7 @@ export default async function BlogPostPage({
         eyebrow={post.category}
         title={post.title}
         image={post.cover}
+        imageAlt={post.coverAlt}
         crumbs={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.category }]}
       >
         <ArticleByline byline={post.byline} />
@@ -256,7 +260,7 @@ export default async function BlogPostPage({
                   {related.map((r) => (
                     <Link key={r.slug} href={`/blog/${r.slug}`} className="group flex gap-3">
                       <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-xl">
-                        <Image src={coverFor(r.slug)} alt="" fill sizes="80px" className="object-cover" />
+                        <Image src={coverFor(r.slug)} alt={r.title} fill sizes="80px" className="object-cover" />
                       </div>
                       <span className="text-sm font-medium leading-snug text-navy group-hover:text-ocean-600">
                         {r.title}

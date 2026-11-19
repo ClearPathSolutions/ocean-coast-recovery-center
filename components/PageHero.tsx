@@ -9,6 +9,7 @@ export default function PageHero({
   title,
   subtitle,
   image,
+  imageAlt = "",
   crumbs = [],
   align = "left",
   children,
@@ -24,6 +25,8 @@ export default function PageHero({
    * photo that misrepresents the facility.
    */
   image?: string;
+  /** Alt for `image`. Left empty (decorative) everywhere except a blog post's cover. */
+  imageAlt?: string;
   crumbs?: Crumb[];
   align?: "left" | "center";
   /** Rendered directly under the H1 and subtitle (e.g. a post's article byline). */
@@ -38,7 +41,7 @@ export default function PageHero({
               LCP element on every page that uses a hero image. */}
           <Image
             src={image}
-            alt=""
+            alt={imageAlt}
             fill
             priority
             fetchPriority="high"
