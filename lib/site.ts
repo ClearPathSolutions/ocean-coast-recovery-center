@@ -196,10 +196,12 @@ export const accreditations = [
   {
     // VIS-1624 — the DHCS seal shipped in the repo unreferenced, and the licence
     // number was plain text. The link points at California's public provider
-    // register so the licence can actually be checked.
+    // register so the licence can actually be checked: DHCS's GIS table, the
+    // same one the footer's licence line uses (the old CHHS open-data link answers 403).
+    // Look up DHCS License #300423AP in that table.
     name: "California DHCS",
     label: "Licensed Provider",
     img: "/images/logos/dhcs-accredited.webp",
-    href: "https://data.chhs.ca.gov/dataset/sud-recovery-treatment-facilities",
+    href: site.licenseVerifyUrl,
   },
 ];
